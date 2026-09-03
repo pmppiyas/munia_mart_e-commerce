@@ -2,8 +2,7 @@ import * as React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Home, ChevronRight, LayoutGrid } from 'lucide-react';
-import mockData from '@/data/mockData.json';
-import { Category } from '@/types/category';
+import { getCategoriesFromDb } from '@/services/categoryService';
 import { CategoryCard } from '@/components/home/CategoryCard';
 
 export const metadata: Metadata = {
@@ -11,8 +10,8 @@ export const metadata: Metadata = {
   description: 'Explore all shopping departments and categories at MUNIAMART.',
 };
 
-export default function AllCategoriesPage() {
-  const categories = mockData.categories as Category[];
+export default async function AllCategoriesPage() {
+  const categories = await getCategoriesFromDb();
 
   return (
     <div className="py-6 sm:py-8 lg:py-10 bg-background min-h-screen">

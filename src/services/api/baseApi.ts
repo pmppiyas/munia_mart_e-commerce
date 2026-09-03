@@ -9,6 +9,6 @@ export const baseApi = createApi({
     baseUrl: API_BASE_URL,
     credentials: 'include',
   }),
-  tagTypes: ['Auth', 'Customer', 'Cart', 'Wishlist', 'Order'],
+  tagTypes: ['Auth', 'Customer', 'Cart', 'Wishlist', 'Order', 'Category', 'Product'],
   endpoints: () => ({}),
 });

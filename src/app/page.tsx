@@ -7,12 +7,12 @@ import { NewArrivals } from '@/components/home/NewArrivals';
 import { BestSelling } from '@/components/home/BestSelling';
 import { WhyChooseUs } from '@/components/home/WhyChooseUs';
 import { HomeNewsletter } from '@/components/home/HomeNewsletter';
+import { getCategoriesFromDb } from '@/services/categoryService';
 import { Product, HeroSlide, PromoBanner as PromoBannerType, TrustFeature } from '@/types/product';
-import { Category } from '@/types/category';
 
-export default function HomePage() {
+export default async function HomePage() {
+  const categories = await getCategoriesFromDb();
   const heroSlides = mockData.heroSlides as HeroSlide[];
-  const categories = mockData.categories as Category[];
   const products = mockData.products as unknown as Product[];
   const promoBanner = mockData.promoBanner as PromoBannerType;
   const whyChooseUs = mockData.whyChooseUs as TrustFeature[];

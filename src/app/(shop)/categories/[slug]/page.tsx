@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ChevronRight, Home } from 'lucide-react';
+import { getCategoryBySlugFromDb } from '@/services/categoryService';
 import mockData from '@/data/mockData.json';
-import { Category } from '@/types/category';
 import { Product } from '@/types/product';
 import { CategoryPageContent } from './CategoryPageContent';
 
@@ -12,20 +12,9 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-function getCategoryBySlugOrId(slugOrId: string): Category | undefined {
-  const allCategories = mockData.categories as Category[];
-  const decoded = decodeURIComponent(slugOrId).toLowerCase();
-
-  return allCategories.find(
-    (c) =>
-      c.slug.toLowerCase() === decoded ||
-      c.id.toLowerCase() === decoded
-  );
-}
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const category = getCategoryBySlugOrId(slug);
+  const category = await getCategoryBySlugFromDb(slug);
 
   if (!category) {
     return {
@@ -49,7 +38,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function CategoryDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const category = getCategoryBySlugOrId(slug);
+  const category = await getCategoryBySlugFromDb(slug);
 
   if (!category) {
     notFound();
@@ -59,7 +48,7 @@ export default async function CategoryDetailPage({ params }: PageProps) {
   const categoryProducts = allProducts.filter(
     (p) =>
       p.categoryId === category.id ||
-      p.category?.slug.toLowerCase() === category.slug.toLowerCase()
+      p.category?.slug?.toLowerCase() === category.slug.toLowerCase()
   );
 
   return (

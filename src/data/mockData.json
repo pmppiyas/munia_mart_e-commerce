@@ -189,7 +189,45 @@
       "itemCount": 240,
       "imageUrl": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=600&auto=format&fit=crop",
       "createdAt": "2026-01-01T00:00:00.000Z",
-      "updatedAt": "2026-01-01T00:00:00.000Z"
+      "updatedAt": "2026-01-01T00:00:00.000Z",
+      "children": [
+        {
+          "id": "sub_skin",
+          "name": "Skincare",
+          "slug": "skincare",
+          "parentId": "cat_cl04beautyhealth",
+          "icon": "Sparkles",
+          "itemCount": 90,
+          "imageUrl": "https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=400&auto=format&fit=crop"
+        },
+        {
+          "id": "sub_hair",
+          "name": "Haircare",
+          "slug": "haircare",
+          "parentId": "cat_cl04beautyhealth",
+          "icon": "Scissors",
+          "itemCount": 60,
+          "imageUrl": "https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?q=80&w=400&auto=format&fit=crop"
+        },
+        {
+          "id": "sub_frag",
+          "name": "Fragrance",
+          "slug": "fragrance",
+          "parentId": "cat_cl04beautyhealth",
+          "icon": "Heart",
+          "itemCount": 45,
+          "imageUrl": "https://images.unsplash.com/photo-1547887537-6158d64c35b3?q=80&w=400&auto=format&fit=crop"
+        },
+        {
+          "id": "sub_make",
+          "name": "Makeup",
+          "slug": "makeup",
+          "parentId": "cat_cl04beautyhealth",
+          "icon": "Palette",
+          "itemCount": 45,
+          "imageUrl": "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=400&auto=format&fit=crop"
+        }
+      ]
     },
     {
       "id": "cat_cl05sports",
@@ -201,7 +239,45 @@
       "itemCount": 190,
       "imageUrl": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=600&auto=format&fit=crop",
       "createdAt": "2026-01-01T00:00:00.000Z",
-      "updatedAt": "2026-01-01T00:00:00.000Z"
+      "updatedAt": "2026-01-01T00:00:00.000Z",
+      "children": [
+        {
+          "id": "sub_work",
+          "name": "Workout Gear",
+          "slug": "workout-gear",
+          "parentId": "cat_cl05sports",
+          "icon": "Dumbbell",
+          "itemCount": 65,
+          "imageUrl": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=400&auto=format&fit=crop"
+        },
+        {
+          "id": "sub_run",
+          "name": "Running Shoes",
+          "slug": "running-shoes",
+          "parentId": "cat_cl05sports",
+          "icon": "Footprints",
+          "itemCount": 55,
+          "imageUrl": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=400&auto=format&fit=crop"
+        },
+        {
+          "id": "sub_yoga",
+          "name": "Yoga & Pilates",
+          "slug": "yoga-pilates",
+          "parentId": "cat_cl05sports",
+          "icon": "Heart",
+          "itemCount": 40,
+          "imageUrl": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=400&auto=format&fit=crop"
+        },
+        {
+          "id": "sub_fitacc",
+          "name": "Fitness Accessories",
+          "slug": "fitness-accessories",
+          "parentId": "cat_cl05sports",
+          "icon": "Watch",
+          "itemCount": 30,
+          "imageUrl": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=400&auto=format&fit=crop"
+        }
+      ]
     },
     {
       "id": "cat_cl06groceries",
@@ -213,7 +289,45 @@
       "itemCount": 540,
       "imageUrl": "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=600&auto=format&fit=crop",
       "createdAt": "2026-01-01T00:00:00.000Z",
-      "updatedAt": "2026-01-01T00:00:00.000Z"
+      "updatedAt": "2026-01-01T00:00:00.000Z",
+      "children": [
+        {
+          "id": "sub_fresh",
+          "name": "Fresh Produce",
+          "slug": "fresh-produce",
+          "parentId": "cat_cl06groceries",
+          "icon": "Apple",
+          "itemCount": 180,
+          "imageUrl": "https://images.unsplash.com/photo-1610832958506-aa56368176cf?q=80&w=400&auto=format&fit=crop"
+        },
+        {
+          "id": "sub_dairy",
+          "name": "Dairy & Eggs",
+          "slug": "dairy-eggs",
+          "parentId": "cat_cl06groceries",
+          "icon": "Egg",
+          "itemCount": 110,
+          "imageUrl": "https://images.unsplash.com/photo-1550583724-b2692b85b150?q=80&w=400&auto=format&fit=crop"
+        },
+        {
+          "id": "sub_bev",
+          "name": "Beverages",
+          "slug": "beverages",
+          "parentId": "cat_cl06groceries",
+          "icon": "Coffee",
+          "itemCount": 120,
+          "imageUrl": "https://images.unsplash.com/photo-1544145945-f90425340c7e?q=80&w=400&auto=format&fit=crop"
+        },
+        {
+          "id": "sub_snack",
+          "name": "Snacks & Pantry",
+          "slug": "snacks-pantry",
+          "parentId": "cat_cl06groceries",
+          "icon": "Cookie",
+          "itemCount": 130,
+          "imageUrl": "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?q=80&w=400&auto=format&fit=crop"
+        }
+      ]
     }
   ],
   "products": [

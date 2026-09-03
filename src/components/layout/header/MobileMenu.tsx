@@ -4,6 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import { Menu, X, Phone, Mail, ChevronRight, LogIn } from 'lucide-react';
 import { siteConfig } from '@/config/site';
+import { useGetAllCategoriesQuery } from '@/services/api/categoryApi';
 import { Logo } from './Logo';
 import { SearchBar } from './SearchBar';
 import { cn } from '@/lib/utils';
@@ -20,6 +21,23 @@ export function MobileMenu({ className }: MobileMenuProps) {
   const [expandedCategory, setExpandedCategory] = React.useState<string | null>(
     null
   );
+
+  // Fetch live categories from database
+  const { data: categoriesRes } = useGetAllCategoriesQuery();
+  const dbCategories = categoriesRes?.data;
+
+  const categoriesList = React.useMemo(() => {
+    if (Array.isArray(dbCategories) && dbCategories.length > 0) {
+      return dbCategories.map((c) => ({
+        id: c.id,
+        name: c.name,
+        slug: c.slug,
+        icon: c.icon || 'LayoutGrid',
+        subcategories: (c.children || []).map((ch) => ch.name),
+      }));
+    }
+    return siteConfig.categories;
+  }, [dbCategories]);
 
   React.useEffect(() => {
     if (isOpen) {
@@ -113,7 +131,7 @@ export function MobileMenu({ className }: MobileMenuProps) {
         <div className="flex-1 overflow-y-auto px-4 py-2">
           {activeTab === 'categories' ? (
             <div className="space-y-1.5">
-              {siteConfig.categories.map((cat) => {
+              {categoriesList.map((cat) => {
                 const isExpanded = expandedCategory === cat.slug;
                 return (
                   <div
