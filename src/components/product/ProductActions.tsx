@@ -4,6 +4,10 @@ import * as React from 'react';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { toast } from 'sonner';
 import { Product } from '@/types/product';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { addToCart } from '@/features/cart/cartSlice';
+import { toggleWishlist } from '@/features/wishlist/wishlistSlice';
+import { selectIsInWishlist } from '@/features/wishlist/wishlistSelectors';
 import { formatPrice, cn } from '@/lib/utils';
 
 interface ProductActionsProps {
@@ -21,20 +25,36 @@ export function ProductActions({
   variant = 'card',
   className,
 }: ProductActionsProps) {
-  const [isWishlisted, setIsWishlisted] = React.useState(false);
+  const dispatch = useAppDispatch();
+  const isWishlisted = useAppSelector((state) => selectIsInWishlist(state, product.id));
   const isOutOfStock = product.stock <= 0;
 
   const handleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsWishlisted((prev) => !prev);
     if (onToggleWishlist) {
       onToggleWishlist(product);
     } else {
+      dispatch(
+        toggleWishlist({
+          productId: product.id,
+          name: product.name,
+          slug: product.slug,
+          sku: product.sku,
+          price: product.price,
+          originalPrice: product.originalPrice,
+          photoUrl: product.photoUrl,
+          category: product.category?.name,
+          brand: product.brand,
+          stock: product.stock,
+          rating: product.rating,
+          reviewsCount: product.reviewsCount,
+        })
+      );
       if (!isWishlisted) {
-        toast.success(`Added "${product.name}" to wishlist!`);
+        toast.success(`Added "${product.name}" to your wishlist!`);
       } else {
-        toast.info(`Removed "${product.name}" from wishlist.`);
+        toast.info(`Removed "${product.name}" from your wishlist.`);
       }
     }
   };
@@ -45,8 +65,23 @@ export function ProductActions({
     if (onAddToCart) {
       onAddToCart(product);
     } else {
-      toast.success(`Added to cart!`, {
-        description: `${product.name} - ${formatPrice(product.price)}`,
+      dispatch(
+        addToCart({
+          productId: product.id,
+          name: product.name,
+          slug: product.slug,
+          sku: product.sku,
+          price: product.price,
+          originalPrice: product.originalPrice,
+          photoUrl: product.photoUrl,
+          category: product.category?.name,
+          brand: product.brand,
+          stock: product.stock,
+          quantity: 1,
+        })
+      );
+      toast.success(`Added "${product.name}" to cart!`, {
+        description: `Price: ${formatPrice(product.price)}`,
       });
     }
   };

@@ -12,6 +12,8 @@ import { CartButton } from './CartButton';
 import { UserMenu } from './UserMenu';
 import { MobileMenu } from './MobileMenu';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
+import { useAppSelector } from '@/store/hooks';
+import { selectWishlistTotalCount } from '@/features/wishlist/wishlistSelectors';
 
 interface HeaderProps {
   cartCount?: number;
@@ -26,12 +28,15 @@ interface HeaderProps {
 }
 
 export function Header({
-  cartCount = 0,
-  cartTotal = 0,
-  wishlistCount = 0,
+  cartCount,
+  cartTotal,
+  wishlistCount,
   user = null,
   onLogout,
 }: HeaderProps) {
+  const reduxWishlistCount = useAppSelector(selectWishlistTotalCount);
+  const displayWishlistCount = wishlistCount !== undefined ? wishlistCount : reduxWishlistCount;
+
   return (
     <header className="sticky top-0 z-40 w-full bg-background shadow-xs">
       {/* Top utility announcement bar */}
@@ -62,12 +67,12 @@ export function Header({
             <Link
               href="/wishlist"
               className="group relative flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-card text-foreground shadow-xs transition-all hover:border-primary hover:text-primary active:scale-95 cursor-pointer"
-              aria-label={`Wishlist with ${wishlistCount} items`}
+              aria-label={`Wishlist with ${displayWishlistCount} items`}
             >
               <Heart className="h-4 w-4 transition-transform group-hover:scale-110" />
-              {wishlistCount > 0 && (
+              {displayWishlistCount > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold text-destructive-foreground shadow-xs">
-                  {wishlistCount}
+                  {displayWishlistCount > 99 ? '99+' : displayWishlistCount}
                 </span>
               )}
             </Link>

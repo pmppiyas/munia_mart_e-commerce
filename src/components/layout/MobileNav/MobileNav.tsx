@@ -5,6 +5,9 @@ import { usePathname } from 'next/navigation';
 import { Home, LayoutGrid, Search, Heart, ShoppingBag, User } from 'lucide-react';
 import { MobileNavItem } from './MobileNavItem';
 import { MobileSearch } from './MobileSearch';
+import { useAppSelector } from '@/store/hooks';
+import { selectCartTotalQuantity } from '@/features/cart/cartSelectors';
+import { selectWishlistTotalCount } from '@/features/wishlist/wishlistSelectors';
 
 interface MobileNavProps {
   cartCount?: number;
@@ -12,9 +15,13 @@ interface MobileNavProps {
   user?: object | null;
 }
 
-export function MobileNav({ cartCount = 0, wishlistCount = 0, user = null }: MobileNavProps) {
+export function MobileNav({ cartCount, wishlistCount, user = null }: MobileNavProps) {
   const pathname = usePathname();
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
+  const reduxCartCount = useAppSelector(selectCartTotalQuantity);
+  const reduxWishlistCount = useAppSelector(selectWishlistTotalCount);
+  const displayCartCount = cartCount !== undefined ? cartCount : reduxCartCount;
+  const displayWishlistCount = wishlistCount !== undefined ? wishlistCount : reduxWishlistCount;
 
   return (
     <>
@@ -56,7 +63,7 @@ export function MobileNav({ cartCount = 0, wishlistCount = 0, user = null }: Mob
             href="/wishlist"
             icon={Heart}
             isActive={pathname === '/wishlist'}
-            badge={wishlistCount}
+            badge={displayWishlistCount}
           />
 
           <MobileNavItem
@@ -64,7 +71,7 @@ export function MobileNav({ cartCount = 0, wishlistCount = 0, user = null }: Mob
             href="/cart"
             icon={ShoppingBag}
             isActive={pathname === '/cart'}
-            badge={cartCount}
+            badge={displayCartCount}
           />
 
           <MobileNavItem

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { siteConfig } from '@/config/site';
 import { ThemeProvider } from '@/components/common/ThemeProvider';
+import { StoreProvider } from '@/providers/StoreProvider';
 import { Header } from '@/components/layout/header/Header';
 import { Footer } from '@/components/layout/Footer/Footer';
 import { MobileNav } from '@/components/layout/MobileNav/MobileNav';
@@ -54,11 +55,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          <main className="flex-1 flex flex-col">{children}</main>
-          <Footer />
-          <MobileNav />
-          <Toaster position="top-right" richColors />
+          <StoreProvider>
+            <Header />
+            <main className="flex-1 flex flex-col">{children}</main>
+            <Footer />
+            <MobileNav />
+            <Toaster position="top-right" richColors />
+          </StoreProvider>
         </ThemeProvider>
       </body>
     </html>

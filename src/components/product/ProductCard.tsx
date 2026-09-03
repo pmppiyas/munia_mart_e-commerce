@@ -8,6 +8,9 @@ import { ProductImage } from './ProductImage';
 import { ProductPrice } from './ProductPrice';
 import { ProductRating } from './ProductRating';
 import { ProductActions } from './ProductActions';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { toggleWishlist } from '@/features/wishlist/wishlistSlice';
+import { selectIsInWishlist } from '@/features/wishlist/wishlistSelectors';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 
@@ -26,19 +29,35 @@ export function ProductCard({
   onAddToCart,
   onToggleWishlist,
 }: ProductCardProps) {
-  const [isWishlisted, setIsWishlisted] = React.useState(false);
+  const dispatch = useAppDispatch();
+  const isWishlisted = useAppSelector((state) => selectIsInWishlist(state, product.id));
 
   const handleWishlistClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsWishlisted((prev) => !prev);
     if (onToggleWishlist) {
       onToggleWishlist(product);
     } else {
+      dispatch(
+        toggleWishlist({
+          productId: product.id,
+          name: product.name,
+          slug: product.slug,
+          sku: product.sku,
+          price: product.price,
+          originalPrice: product.originalPrice,
+          photoUrl: product.photoUrl,
+          category: product.category?.name,
+          brand: product.brand,
+          stock: product.stock,
+          rating: product.rating,
+          reviewsCount: product.reviewsCount,
+        })
+      );
       if (!isWishlisted) {
-        toast.success(`Added "${product.name}" to wishlist!`);
+        toast.success(`Added "${product.name}" to your wishlist!`);
       } else {
-        toast.info(`Removed "${product.name}" from wishlist.`);
+        toast.info(`Removed "${product.name}" from your wishlist.`);
       }
     }
   };
