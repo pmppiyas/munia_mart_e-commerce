@@ -108,11 +108,18 @@
   "products": [
     {
       "id": "prod_cl01sonywh",
+      "slug": "sony-wh-1000xm5",
       "name": "Sony WH-1000XM5 Wireless Noise Cancelling Headphones",
       "sku": "SKU-SNY-WH1005",
       "brand": "Sony",
-      "description": "Industry leading noise cancellation with two processors and 8 microphones. Ultra comfortable lightweight design with soft fit leather.",
+      "description": "Industry leading noise cancellation with two processors and 8 microphones. Ultra comfortable lightweight design with soft fit leather and up to 30 hours of battery life with quick charging.",
       "photoUrl": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&auto=format&fit=crop",
+      "images": [
+        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1484704849700-f032a568e944?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1583394838336-acd977736f90?q=80&w=800&auto=format&fit=crop"
+      ],
       "price": 348.00,
       "originalPrice": 399.99,
       "discountPercent": 13,
@@ -129,16 +136,75 @@
       "isFeatured": true,
       "isNew": false,
       "isBestSeller": true,
+      "features": [
+        "Industry-leading active noise cancellation with Auto NC Optimizer",
+        "Magnificent sound engineered with High-Resolution Audio support",
+        "Crystal clear hands-free calling with 4 beamforming microphones",
+        "Up to 30-hour battery life with quick 3-minute charging for 3 hours playback",
+        "Multipoint Bluetooth connection allows pairing with two devices simultaneously"
+      ],
+      "specifications": {
+        "Brand": "Sony",
+        "Model": "WH-1000XM5",
+        "Type": "Over-Ear Wireless",
+        "Connectivity": "Bluetooth 5.2, 3.5mm Aux",
+        "Battery Life": "Up to 30 Hours (ANC On)",
+        "Weight": "250 grams",
+        "Noise Cancellation": "Active (Auto NC Optimizer)",
+        "Warranty": "1 Year Manufacturer Official"
+      },
+      "variants": [
+        { "id": "v-black", "type": "color", "name": "Black", "value": "#000000", "inStock": true },
+        { "id": "v-silver", "type": "color", "name": "Platinum Silver", "value": "#D1D5DB", "inStock": true },
+        { "id": "v-blue", "type": "color", "name": "Midnight Blue", "value": "#1E3A8A", "inStock": true }
+      ],
+      "reviews": [
+        {
+          "id": "rev-1",
+          "author": "Marcus Vance",
+          "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=120&auto=format&fit=crop",
+          "rating": 5,
+          "date": "2026-02-14",
+          "title": "Unbelievable noise cancelling & acoustic depth",
+          "comment": "These are hands-down the best travel and work headphones I've ever owned. The noise cancelling removes all subway drone and office chatter effortlessly. Battery easily lasts the whole work week.",
+          "verifiedPurchase": true
+        },
+        {
+          "id": "rev-2",
+          "author": "Sarah Jenkins",
+          "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=120&auto=format&fit=crop",
+          "rating": 5,
+          "date": "2026-02-02",
+          "title": "Super lightweight and comfortable for long sessions",
+          "comment": "I wear these 7-8 hours a day for meetings and coding. Unlike previous models, these don't put any pressure on the crown of the head. Soundstage is crisp and immersive.",
+          "verifiedPurchase": true
+        },
+        {
+          "id": "rev-3",
+          "author": "David Chen",
+          "rating": 4,
+          "date": "2026-01-28",
+          "title": "Great sound, wish the case folded smaller",
+          "comment": "Sound quality and call clarity are a solid 10/10. The only minor gripe is the case is slightly larger than the XM4 because the earcups rotate flat but don't fold inward.",
+          "verifiedPurchase": true
+        }
+      ],
       "createdAt": "2026-01-10T00:00:00.000Z",
       "updatedAt": "2026-01-10T00:00:00.000Z"
     },
     {
       "id": "prod_cl02applewatch",
+      "slug": "apple-watch-series-9",
       "name": "Apple Watch Series 9 GPS 45mm Midnight Aluminum",
       "sku": "SKU-APL-WTHS9",
       "brand": "Apple",
-      "description": "Smarter, brighter, and mightier. Powered by the S9 SiP with Double Tap gesture control and Carbon Neutral combinations.",
+      "description": "Smarter, brighter, and mightier. Powered by the S9 SiP with Double Tap gesture control, precision blood oxygen monitoring, and Carbon Neutral combinations.",
       "photoUrl": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop",
+      "images": [
+        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?q=80&w=800&auto=format&fit=crop"
+      ],
       "price": 389.00,
       "originalPrice": 429.00,
       "discountPercent": 9,
@@ -155,16 +221,53 @@
       "isFeatured": true,
       "isNew": true,
       "isBestSeller": true,
+      "features": [
+        "Powerful S9 SiP chip with 4-core Neural Engine",
+        "Magical Double Tap gesture control without touching the screen",
+        "Up to 2000 nits Always-On Retina OLED display",
+        "Advanced ECG, blood oxygen, and temperature tracking",
+        "50m water resistant and swimproof"
+      ],
+      "specifications": {
+        "Brand": "Apple",
+        "Case Size": "45mm",
+        "Material": "100% Recycled Aluminum",
+        "Display": "Always-On Retina (2000 nits)",
+        "Water Resistance": "50 meters (ISO 22810)",
+        "Battery": "Up to 18 hours (36 hours Low Power)",
+        "Warranty": "1 Year Apple Limited"
+      },
+      "variants": [
+        { "id": "v-midnight", "type": "color", "name": "Midnight", "value": "#1E293B", "inStock": true },
+        { "id": "v-starlight", "type": "color", "name": "Starlight", "value": "#F1F5F9", "inStock": true },
+        { "id": "v-silver", "type": "color", "name": "Silver", "value": "#E2E8F0", "inStock": true }
+      ],
+      "reviews": [
+        {
+          "id": "rev-w1",
+          "author": "Jessica Taylor",
+          "rating": 5,
+          "date": "2026-02-18",
+          "title": "The double tap gesture is surprisingly useful",
+          "comment": "I use the double tap feature constantly when carrying groceries or cooking. Screen is blazing bright outdoors under direct sunlight.",
+          "verifiedPurchase": true
+        }
+      ],
       "createdAt": "2026-01-12T00:00:00.000Z",
       "updatedAt": "2026-01-12T00:00:00.000Z"
     },
     {
       "id": "prod_cl03leatherbackpack",
+      "slug": "heritage-leather-backpack",
       "name": "Heritage Full-Grain Leather Commuter Backpack",
       "sku": "SKU-BAG-LTH01",
       "brand": "Heritage",
       "description": "Handcrafted with full-grain Italian leather, padded 16-inch laptop compartment, water-resistant lining, and solid brass hardware.",
       "photoUrl": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop",
+      "images": [
+        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=800&auto=format&fit=crop"
+      ],
       "price": 149.00,
       "originalPrice": 199.00,
       "discountPercent": 25,
@@ -181,16 +284,51 @@
       "isFeatured": true,
       "isNew": false,
       "isBestSeller": false,
+      "features": [
+        "100% Full-grain vegetable-tanned Italian leather",
+        "Dedicated padded compartment fits laptops up to 16 inches",
+        "Ergonomic padded shoulder straps with breathable mesh back panel",
+        "Weatherproof YKK antique brass zippers"
+      ],
+      "specifications": {
+        "Brand": "Heritage",
+        "Material": "Full-Grain Leather",
+        "Capacity": "22 Liters",
+        "Laptop Fit": "Up to 16-inch MacBook Pro",
+        "Dimensions": "45 x 30 x 15 cm",
+        "Warranty": "Lifetime Craftsmanship Warranty"
+      },
+      "variants": [
+        { "id": "v-tan", "type": "color", "name": "Cognac Tan", "value": "#92400E", "inStock": true },
+        { "id": "v-brown", "type": "color", "name": "Dark Espresso", "value": "#451A03", "inStock": true },
+        { "id": "v-black", "type": "color", "name": "Matte Black", "value": "#18181B", "inStock": true }
+      ],
+      "reviews": [
+        {
+          "id": "rev-b1",
+          "author": "Liam Gallagher",
+          "rating": 5,
+          "date": "2026-01-20",
+          "title": "Smells amazing, patina develops beautifully",
+          "comment": "Have been using this for daily commuting for a month. Extremely sturdy leather and fits my 16 inch laptop with charger and notebook comfortably.",
+          "verifiedPurchase": true
+        }
+      ],
       "createdAt": "2026-01-15T00:00:00.000Z",
       "updatedAt": "2026-01-15T00:00:00.000Z"
     },
     {
       "id": "prod_cl04running",
+      "slug": "nike-air-zoom-pegasus-40",
       "name": "Nike Air Zoom Pegasus 40 Performance Running Shoes",
       "sku": "SKU-NKE-PG40",
       "brand": "Nike",
       "description": "A springy ride for any run with responsive React technology and two Zoom Air units for energetic toe-offs.",
       "photoUrl": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop",
+      "images": [
+        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=800&auto=format&fit=crop"
+      ],
       "price": 129.99,
       "originalPrice": 160.00,
       "discountPercent": 19,
@@ -207,16 +345,54 @@
       "isFeatured": true,
       "isNew": false,
       "isBestSeller": true,
+      "features": [
+        "Dual Zoom Air units at forefoot and heel for responsive energy return",
+        "Nike React foam midsole for smooth, cushioned ride",
+        "Engineered single-layer mesh upper for optimal breathability",
+        "Waffle-inspired rubber outsole delivers high-durability traction"
+      ],
+      "specifications": {
+        "Brand": "Nike",
+        "Model": "Pegasus 40",
+        "Surface": "Road / Track Running",
+        "Drop": "10 mm",
+        "Cushioning": "Medium / Responsive",
+        "Weight": "288g (Men's Size 10)"
+      },
+      "variants": [
+        { "id": "v-red", "type": "color", "name": "University Red", "value": "#DC2626", "inStock": true },
+        { "id": "v-black", "type": "color", "name": "Black / White", "value": "#18181B", "inStock": true },
+        { "id": "v-blue", "type": "color", "name": "Racer Blue", "value": "#2563EB", "inStock": true },
+        { "id": "s-8", "type": "size", "name": "US 8", "value": "8", "inStock": true },
+        { "id": "s-9", "type": "size", "name": "US 9", "value": "9", "inStock": true },
+        { "id": "s-10", "type": "size", "name": "US 10", "value": "10", "inStock": true },
+        { "id": "s-11", "type": "size", "name": "US 11", "value": "11", "inStock": true }
+      ],
+      "reviews": [
+        {
+          "id": "rev-p1",
+          "author": "Alex Rivera",
+          "rating": 5,
+          "date": "2026-02-11",
+          "title": "My go-to daily trainer for marathon prep",
+          "comment": "Clocked over 200 miles on these shoes already and the cushion hasn't compressed. True to size with great arch support.",
+          "verifiedPurchase": true
+        }
+      ],
       "createdAt": "2026-01-08T00:00:00.000Z",
       "updatedAt": "2026-01-08T00:00:00.000Z"
     },
     {
       "id": "prod_cl05macbook",
+      "slug": "macbook-air-15-m3",
       "name": "Apple MacBook Air 15-inch M3 Chip 16GB / 512GB",
       "sku": "SKU-APL-MBA15",
       "brand": "Apple",
       "description": "Incredibly thin and fast. Liquid Retina display, MagSafe 3 charging, 18-hour battery life, and high-performance neural engine.",
       "photoUrl": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=800&auto=format&fit=crop",
+      "images": [
+        "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=800&auto=format&fit=crop"
+      ],
       "price": 1499.00,
       "originalPrice": 1699.00,
       "discountPercent": 12,
@@ -238,11 +414,15 @@
     },
     {
       "id": "prod_cl06sunglasses",
+      "slug": "rayban-aviator-polarized",
       "name": "Ray-Ban Classic Polarized Aviator Sunglasses",
       "sku": "SKU-RAY-AV01",
       "brand": "Ray-Ban",
       "description": "Timeless icon with crystal polarized lenses providing 100% UV protection and glare elimination with ultra durable gold-tone frame.",
       "photoUrl": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?q=80&w=800&auto=format&fit=crop",
+      "images": [
+        "https://images.unsplash.com/photo-1572635196237-14b3f281503f?q=80&w=800&auto=format&fit=crop"
+      ],
       "price": 168.00,
       "originalPrice": 210.00,
       "discountPercent": 20,
@@ -264,11 +444,15 @@
     },
     {
       "id": "prod_cl07speaker",
+      "slug": "marshall-stanmore-iii",
       "name": "Marshall Stanmore III Bluetooth Wireless Speaker",
       "sku": "SKU-MSH-ST3",
       "brand": "Marshall",
       "description": "Re-engineered for a wider soundstage. Signature vintage rock design with room-filling Marshall stereo sound and Bluetooth 5.2.",
       "photoUrl": "https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=800&auto=format&fit=crop",
+      "images": [
+        "https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=800&auto=format&fit=crop"
+      ],
       "price": 379.99,
       "originalPrice": 420.00,
       "discountPercent": 10,
@@ -290,11 +474,15 @@
     },
     {
       "id": "prod_cl08ceramicmug",
+      "slug": "artisan-ceramic-mug-set",
       "name": "Artisan Stoneware Ceramic Coffee Mug 4-Piece Set",
       "sku": "SKU-HOM-MUG4",
       "brand": "Artisan",
       "description": "Hand-glazed artisan stoneware with earthy tones. Microwave and dishwasher safe, featuring ergonomic handle design.",
       "photoUrl": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=800&auto=format&fit=crop",
+      "images": [
+        "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=800&auto=format&fit=crop"
+      ],
       "price": 34.50,
       "originalPrice": 45.00,
       "discountPercent": 23,
@@ -316,11 +504,15 @@
     },
     {
       "id": "prod_cl09coffee",
+      "slug": "delonghi-dedica-deluxe",
       "name": "De'Longhi Dedica Deluxe Espresso & Cappuccino Machine",
       "sku": "SKU-HOM-DLG01",
       "brand": "De'Longhi",
       "description": "Sleek compact 15-bar pump espresso maker with manual milk frother for barista quality lattes and cappuccinos at home.",
       "photoUrl": "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?q=80&w=800&auto=format&fit=crop",
+      "images": [
+        "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?q=80&w=800&auto=format&fit=crop"
+      ],
       "price": 299.95,
       "originalPrice": 349.95,
       "discountPercent": 14,
@@ -342,11 +534,15 @@
     },
     {
       "id": "prod_cl10camera",
+      "slug": "fujifilm-xt5-camera",
       "name": "Fujifilm X-T5 Mirrorless Camera Body (Silver)",
       "sku": "SKU-CAM-FUJI5",
       "brand": "Fujifilm",
       "description": "40.2MP X-Trans CMOS 5 HR sensor, 5-axis in-body image stabilization, and legendary film simulation modes in a retro dial body.",
       "photoUrl": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=800&auto=format&fit=crop",
+      "images": [
+        "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=800&auto=format&fit=crop"
+      ],
       "price": 1699.00,
       "originalPrice": 1799.00,
       "discountPercent": 6,
@@ -368,11 +564,15 @@
     },
     {
       "id": "prod_cl11nikehoodie",
+      "slug": "nike-sportswear-club-fleece-hoodie",
       "name": "Nike Sportswear Club Fleece Pullover Hoodie",
       "sku": "SKU-NKE-CLBF01",
       "brand": "Nike",
       "description": "Soft brushed-back fleece fabric with ribbed cuffs and adjustable drawstring hood. Standard fit for a relaxed, easy feel.",
       "photoUrl": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=800&auto=format&fit=crop",
+      "images": [
+        "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=800&auto=format&fit=crop"
+      ],
       "price": 65.00,
       "originalPrice": 75.00,
       "discountPercent": 13,
@@ -394,11 +594,15 @@
     },
     {
       "id": "prod_cl12airpods",
+      "slug": "apple-airpods-pro-2",
       "name": "Apple AirPods Pro (2nd Generation) USB-C",
       "sku": "SKU-APL-APP2",
       "brand": "Apple",
       "description": "Up to 2x more Active Noise Cancellation. Transparency mode and Personalized Spatial Audio with dynamic head tracking.",
       "photoUrl": "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?q=80&w=800&auto=format&fit=crop",
+      "images": [
+        "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?q=80&w=800&auto=format&fit=crop"
+      ],
       "price": 249.00,
       "originalPrice": 279.00,
       "discountPercent": 11,
@@ -420,11 +624,15 @@
     },
     {
       "id": "prod_cl13smartbottle",
+      "slug": "ember-temperature-control-smart-mug-2",
       "name": "Ember Temperature Control Smart Mug 2 (14 oz)",
       "sku": "SKU-EMB-SM2",
       "brand": "Ember",
       "description": "Keep your hot drink at your exact preferred drinking temperature for up to 80 minutes on a single charge or all day on coaster.",
       "photoUrl": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=800&auto=format&fit=crop",
+      "images": [
+        "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=800&auto=format&fit=crop"
+      ],
       "price": 149.95,
       "originalPrice": 179.95,
       "discountPercent": 17,
@@ -446,11 +654,15 @@
     },
     {
       "id": "prod_cl14yogamat",
+      "slug": "lululemon-reversible-yoga-mat-5mm",
       "name": "Lululemon 5mm Reversible Natural Rubber Yoga Mat",
       "sku": "SKU-LLM-YM5",
       "brand": "Lululemon",
       "description": "Designed for yoga and floor workouts with textured grip on both sides and natural antimicrobial rubber base.",
       "photoUrl": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=800&auto=format&fit=crop",
+      "images": [
+        "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=800&auto=format&fit=crop"
+      ],
       "price": 88.00,
       "originalPrice": 98.00,
       "discountPercent": 10,

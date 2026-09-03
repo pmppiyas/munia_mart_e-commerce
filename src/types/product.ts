@@ -5,12 +5,34 @@ export enum ProductStatus {
   INACTIVE = 'INACTIVE',
 }
 
+export interface ProductVariant {
+  id: string;
+  type: 'color' | 'size' | 'storage' | 'style';
+  name: string;
+  value: string;
+  inStock?: boolean;
+  priceDelta?: number;
+}
+
+export interface ProductReview {
+  id: string;
+  author: string;
+  avatar?: string;
+  rating: number;
+  date: string;
+  title?: string;
+  comment: string;
+  verifiedPurchase?: boolean;
+}
+
 export interface Product {
   id: string;
+  slug?: string;
   name: string;
   sku: string;
   description?: string | null;
   photoUrl?: string | null;
+  images?: string[];
   price: number;
   stock: number;
   status: ProductStatus | 'ACTIVE' | 'INACTIVE';
@@ -28,6 +50,12 @@ export interface Product {
   isNew?: boolean;
   isBestSeller?: boolean;
   discountPercent?: number;
+
+  // Detail specifications & rich content
+  features?: string[];
+  specifications?: Record<string, string>;
+  variants?: ProductVariant[];
+  reviews?: ProductReview[];
 }
 
 export type ProductSortOption =
