@@ -4,10 +4,8 @@ import * as React from 'react';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { toast } from 'sonner';
 import { Product } from '@/types/product';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { addToCart } from '@/features/cart/cartSlice';
-import { toggleWishlist } from '@/features/wishlist/wishlistSlice';
-import { selectIsInWishlist } from '@/features/wishlist/wishlistSelectors';
+import { useCart } from '@/hooks/useCart';
+import { useWishlist } from '@/hooks/useWishlist';
 import { formatPrice, cn } from '@/lib/utils';
 
 interface ProductActionsProps {
@@ -25,32 +23,33 @@ export function ProductActions({
   variant = 'card',
   className,
 }: ProductActionsProps) {
-  const dispatch = useAppDispatch();
-  const isWishlisted = useAppSelector((state) => selectIsInWishlist(state, product.id));
+  const { addItem } = useCart();
+  const { isInWishlist, toggleItem } = useWishlist();
+
+  const isWishlisted = isInWishlist(product.id);
   const isOutOfStock = product.stock <= 0;
 
-  const handleWishlist = (e: React.MouseEvent) => {
+  const handleWishlist = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     if (onToggleWishlist) {
       onToggleWishlist(product);
     } else {
-      dispatch(
-        toggleWishlist({
-          productId: product.id,
-          name: product.name,
-          slug: product.slug,
-          sku: product.sku,
-          price: product.price,
-          originalPrice: product.originalPrice,
-          photoUrl: product.photoUrl,
-          category: product.category?.name,
-          brand: product.brand,
-          stock: product.stock,
-          rating: product.rating,
-          reviewsCount: product.reviewsCount,
-        })
-      );
+      await toggleItem({
+        productId: product.id,
+        name: product.name,
+        slug: product.slug,
+        sku: product.sku,
+        price: product.price,
+        originalPrice: product.originalPrice,
+        photoUrl: product.photoUrl,
+        category: product.category?.name,
+        brand: product.brand,
+        stock: product.stock,
+        rating: product.rating,
+        reviewsCount: product.reviewsCount,
+      });
+
       if (!isWishlisted) {
         toast.success(`Added "${product.name}" to your wishlist!`);
       } else {
@@ -59,27 +58,26 @@ export function ProductActions({
     }
   };
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     if (onAddToCart) {
       onAddToCart(product);
     } else {
-      dispatch(
-        addToCart({
-          productId: product.id,
-          name: product.name,
-          slug: product.slug,
-          sku: product.sku,
-          price: product.price,
-          originalPrice: product.originalPrice,
-          photoUrl: product.photoUrl,
-          category: product.category?.name,
-          brand: product.brand,
-          stock: product.stock,
-          quantity: 1,
-        })
-      );
+      await addItem({
+        productId: product.id,
+        name: product.name,
+        slug: product.slug,
+        sku: product.sku,
+        price: product.price,
+        originalPrice: product.originalPrice,
+        photoUrl: product.photoUrl,
+        category: product.category?.name,
+        brand: product.brand,
+        stock: product.stock,
+        quantity: 1,
+      });
+
       toast.success(`Added "${product.name}" to cart!`, {
         description: `Price: ${formatPrice(product.price)}`,
       });

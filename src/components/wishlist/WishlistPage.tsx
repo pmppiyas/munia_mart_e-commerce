@@ -3,10 +3,8 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { Home, ChevronRight, ShoppingBag, Trash2, ArrowLeft } from 'lucide-react';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { selectWishlistItems, selectWishlistTotalCount } from '@/features/wishlist/wishlistSelectors';
-import { clearWishlist } from '@/features/wishlist/wishlistSlice';
-import { addToCart } from '@/features/cart/cartSlice';
+import { useCart } from '@/hooks/useCart';
+import { useWishlist } from '@/hooks/useWishlist';
 import { WishlistItem } from './WishlistItem';
 import { EmptyWishlist } from './EmptyWishlist';
 import { toast } from 'sonner';
@@ -17,40 +15,37 @@ interface WishlistPageProps {
 }
 
 export function WishlistPage({ className }: WishlistPageProps) {
-  const dispatch = useAppDispatch();
-  const items = useAppSelector(selectWishlistItems);
-  const totalCount = useAppSelector(selectWishlistTotalCount);
+  const { items, totalCount, clearAll } = useWishlist();
+  const { addItem } = useCart();
 
-  const handleClearWishlist = () => {
-    dispatch(clearWishlist());
+  const handleClearWishlist = async () => {
+    await clearAll();
     toast.info('Your wishlist has been cleared.');
   };
 
-  const handleMoveAllToCart = () => {
+  const handleMoveAllToCart = async () => {
     let inStockCount = 0;
-    items.forEach((item) => {
+    for (const item of items) {
       if (item.stock > 0) {
-        dispatch(
-          addToCart({
-            productId: item.productId,
-            name: item.name,
-            slug: item.slug,
-            sku: item.sku,
-            price: item.price,
-            originalPrice: item.originalPrice,
-            photoUrl: item.photoUrl,
-            category: item.category,
-            brand: item.brand,
-            stock: item.stock,
-            quantity: 1,
-          })
-        );
+        await addItem({
+          productId: item.productId,
+          name: item.name,
+          slug: item.slug,
+          sku: item.sku,
+          price: item.price,
+          originalPrice: item.originalPrice,
+          photoUrl: item.photoUrl,
+          category: item.category,
+          brand: item.brand,
+          stock: item.stock,
+          quantity: 1,
+        });
         inStockCount++;
       }
-    });
+    }
 
     if (inStockCount > 0) {
-      dispatch(clearWishlist());
+      await clearAll();
       toast.success(`Moved ${inStockCount} item(s) to your cart!`);
     } else {
       toast.error('No items in your wishlist are currently in stock.');

@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, isAnyOf } from '@reduxjs/toolkit';
 import { WishlistItem, WishlistState } from '@/types/wishlist';
+import { wishlistApi } from '@/services/api/wishlistApi';
 
 const initialState: WishlistState = {
   items: [],
@@ -60,6 +61,47 @@ export const wishlistSlice = createSlice({
         state.items = action.payload.items;
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(
+        isAnyOf(
+          wishlistApi.endpoints.getWishlist.matchFulfilled,
+          wishlistApi.endpoints.addToWishlist.matchFulfilled,
+          wishlistApi.endpoints.removeFromWishlist.matchFulfilled
+        ),
+        (state, action) => {
+          if (action.payload?.data?.items) {
+            state.items = action.payload.data.items.map((it) => ({
+              id: it.id,
+              productId: it.productId,
+              name: it.product.name,
+              sku: it.product.sku,
+              price: Number(it.product.price),
+              stock: it.product.stock,
+              photoUrl: it.product.photoUrl,
+              addedAt: it.createdAt,
+            }));
+          }
+        }
+      )
+      .addMatcher(wishlistApi.endpoints.toggleWishlist.matchFulfilled, (state, action) => {
+        if (action.payload?.data?.wishlist?.items) {
+          state.items = action.payload.data.wishlist.items.map((it) => ({
+            id: it.id,
+            productId: it.productId,
+            name: it.product.name,
+            sku: it.product.sku,
+            price: Number(it.product.price),
+            stock: it.product.stock,
+            photoUrl: it.product.photoUrl,
+            addedAt: it.createdAt,
+          }));
+        }
+      })
+      .addMatcher(wishlistApi.endpoints.clearWishlist.matchFulfilled, (state) => {
+        state.items = [];
+      });
   },
 });
 

@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, isAnyOf } from '@reduxjs/toolkit';
 import { CartItem, CartState } from '@/types/cart';
+import { cartApi } from '@/services/api/cartApi';
 
 function generateCartItemId(
   productId: string,
@@ -105,6 +106,36 @@ export const cartSlice = createSlice({
         state.coupon = action.payload.coupon || null;
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(
+        isAnyOf(
+          cartApi.endpoints.getCart.matchFulfilled,
+          cartApi.endpoints.addToCart.matchFulfilled,
+          cartApi.endpoints.updateCartItemQuantity.matchFulfilled,
+          cartApi.endpoints.removeCartItem.matchFulfilled
+        ),
+        (state, action) => {
+          if (action.payload?.data?.items) {
+            state.items = action.payload.data.items.map((it) => ({
+              id: it.id,
+              productId: it.productId,
+              name: it.product.name,
+              sku: it.product.sku,
+              price: Number(it.product.price),
+              quantity: it.quantity,
+              stock: it.product.stock,
+              photoUrl: it.product.photoUrl,
+              selectedVariants: (it.selectedVariants as Record<string, string>) || undefined,
+            }));
+          }
+        }
+      )
+      .addMatcher(cartApi.endpoints.clearCart.matchFulfilled, (state) => {
+        state.items = [];
+        state.coupon = null;
+      });
   },
 });
 

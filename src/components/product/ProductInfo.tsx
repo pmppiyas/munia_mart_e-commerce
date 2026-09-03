@@ -18,10 +18,8 @@ import { ProductPrice } from './ProductPrice';
 import { ProductRating } from './ProductRating';
 import { ProductVariants } from './ProductVariants';
 import { QuantitySelector } from './QuantitySelector';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { addToCart } from '@/features/cart/cartSlice';
-import { toggleWishlist } from '@/features/wishlist/wishlistSlice';
-import { selectIsInWishlist } from '@/features/wishlist/wishlistSelectors';
+import { useCart } from '@/hooks/useCart';
+import { useWishlist } from '@/hooks/useWishlist';
 import { formatPrice, cn } from '@/lib/utils';
 
 interface ProductInfoProps {
@@ -40,8 +38,9 @@ export function ProductInfo({
   className,
 }: ProductInfoProps) {
   const router = useRouter();
-  const dispatch = useAppDispatch();
-  const isWishlisted = useAppSelector((state) => selectIsInWishlist(state, product.id));
+  const { addItem } = useCart();
+  const { isInWishlist, toggleItem } = useWishlist();
+  const isWishlisted = isInWishlist(product.id);
   const [quantity, setQuantity] = React.useState(1);
   const [selectedVariants, setSelectedVariants] = React.useState<Record<string, string>>({});
 
@@ -54,54 +53,50 @@ export function ProductInfo({
     }));
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (isOutOfStock) return;
     if (onAddToCart) {
       onAddToCart(product, quantity, selectedVariants);
     } else {
-      dispatch(
-        addToCart({
-          productId: product.id,
-          name: product.name,
-          slug: product.slug,
-          sku: product.sku,
-          price: product.price,
-          originalPrice: product.originalPrice,
-          photoUrl: product.photoUrl,
-          category: product.category?.name,
-          brand: product.brand,
-          stock: product.stock,
-          quantity,
-          selectedVariants,
-        })
-      );
+      await addItem({
+        productId: product.id,
+        name: product.name,
+        slug: product.slug,
+        sku: product.sku,
+        price: product.price,
+        originalPrice: product.originalPrice,
+        photoUrl: product.photoUrl,
+        category: product.category?.name,
+        brand: product.brand,
+        stock: product.stock,
+        quantity,
+        selectedVariants,
+      });
       toast.success(`Added ${quantity} item(s) to your cart!`, {
         description: `${product.name} - ${formatPrice(product.price * quantity)}`,
       });
     }
   };
 
-  const handleBuyNow = () => {
+  const handleBuyNow = async () => {
     if (isOutOfStock) return;
     if (onBuyNow) {
       onBuyNow(product, quantity, selectedVariants);
     } else {
-      dispatch(
-        addToCart({
-          productId: product.id,
-          name: product.name,
-          slug: product.slug,
-          sku: product.sku,
-          price: product.price,
-          originalPrice: product.originalPrice,
-          photoUrl: product.photoUrl,
-          category: product.category?.name,
-          brand: product.brand,
-          stock: product.stock,
-          quantity,
-          selectedVariants,
-        })
-      );
+      await addItem({
+        productId: product.id,
+        name: product.name,
+        slug: product.slug,
+        sku: product.sku,
+        price: product.price,
+        originalPrice: product.originalPrice,
+        photoUrl: product.photoUrl,
+        category: product.category?.name,
+        brand: product.brand,
+        stock: product.stock,
+        quantity,
+        selectedVariants,
+      });
       toast.success('Proceeding to checkout...', {
         description: `${quantity}x ${product.name}`,
       });
@@ -109,26 +104,24 @@ export function ProductInfo({
     }
   };
 
-  const handleToggleWishlist = () => {
+  const handleToggleWishlist = async () => {
     if (onToggleWishlist) {
       onToggleWishlist(product);
     } else {
-      dispatch(
-        toggleWishlist({
-          productId: product.id,
-          name: product.name,
-          slug: product.slug,
-          sku: product.sku,
-          price: product.price,
-          originalPrice: product.originalPrice,
-          photoUrl: product.photoUrl,
-          category: product.category?.name,
-          brand: product.brand,
-          stock: product.stock,
-          rating: product.rating,
-          reviewsCount: product.reviewsCount,
-        })
-      );
+      await toggleItem({
+        productId: product.id,
+        name: product.name,
+        slug: product.slug,
+        sku: product.sku,
+        price: product.price,
+        originalPrice: product.originalPrice,
+        photoUrl: product.photoUrl,
+        category: product.category?.name,
+        brand: product.brand,
+        stock: product.stock,
+        rating: product.rating,
+        reviewsCount: product.reviewsCount,
+      });
       if (!isWishlisted) {
         toast.success(`Added "${product.name}" to your wishlist!`);
       } else {

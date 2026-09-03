@@ -6,6 +6,7 @@ import { store } from '@/store';
 import { hydrateCart } from '@/features/cart/cartSlice';
 import { hydrateWishlist } from '@/features/wishlist/wishlistSlice';
 import { AuthInitializer } from './AuthInitializer';
+import { CartWishlistSync } from './CartWishlistSync';
 
 const CART_STORAGE_KEY = 'muniamart_cart';
 const WISHLIST_STORAGE_KEY = 'muniamart_wishlist';
@@ -68,6 +69,7 @@ export function StoreProvider({ children }: StoreProviderProps) {
     <Provider store={store}>
       <StorePersistenceInitializer>
         <AuthInitializer />
+        <CartWishlistSync />
         {children}
       </StorePersistenceInitializer>
     </Provider>

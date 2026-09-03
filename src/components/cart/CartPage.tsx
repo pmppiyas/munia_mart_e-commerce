@@ -3,9 +3,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { Home, ChevronRight, ArrowLeft, Trash2 } from 'lucide-react';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { selectCartItems, selectCartTotalQuantity } from '@/features/cart/cartSelectors';
-import { clearCart } from '@/features/cart/cartSlice';
+import { useCart } from '@/hooks/useCart';
 import { CartItem } from './CartItem';
 import { CartSummary } from './CartSummary';
 import { CartCoupon } from './CartCoupon';
@@ -18,12 +16,10 @@ interface CartPageProps {
 }
 
 export function CartPage({ className }: CartPageProps) {
-  const dispatch = useAppDispatch();
-  const items = useAppSelector(selectCartItems);
-  const totalQuantity = useAppSelector(selectCartTotalQuantity);
+  const { items, totalQuantity, clearAll } = useCart();
 
-  const handleClearCart = () => {
-    dispatch(clearCart());
+  const handleClearCart = async () => {
+    await clearAll();
     toast.info('Your shopping cart has been cleared.');
   };
 

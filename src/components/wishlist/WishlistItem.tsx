@@ -5,9 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ShoppingBag, Trash2, Star, Package } from 'lucide-react';
 import { WishlistItem as WishlistItemType } from '@/types/wishlist';
-import { useAppDispatch } from '@/store/hooks';
-import { addToCart } from '@/features/cart/cartSlice';
-import { removeFromWishlist } from '@/features/wishlist/wishlistSlice';
+import { useCart } from '@/hooks/useCart';
+import { useWishlist } from '@/hooks/useWishlist';
 import { formatPrice, cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -17,33 +16,32 @@ interface WishlistItemProps {
 }
 
 export function WishlistItem({ item, className }: WishlistItemProps) {
-  const dispatch = useAppDispatch();
+  const { addItem } = useCart();
+  const { removeItem } = useWishlist();
   const productHref = item.slug ? `/products/${item.slug}` : `/products/${item.productId}`;
   const isOutOfStock = item.stock <= 0;
 
-  const handleMoveToCart = () => {
+  const handleMoveToCart = async () => {
     if (isOutOfStock) return;
-    dispatch(
-      addToCart({
-        productId: item.productId,
-        name: item.name,
-        slug: item.slug,
-        sku: item.sku,
-        price: item.price,
-        originalPrice: item.originalPrice,
-        photoUrl: item.photoUrl,
-        category: item.category,
-        brand: item.brand,
-        stock: item.stock,
-        quantity: 1,
-      })
-    );
-    dispatch(removeFromWishlist(item.productId));
+    await addItem({
+      productId: item.productId,
+      name: item.name,
+      slug: item.slug,
+      sku: item.sku,
+      price: item.price,
+      originalPrice: item.originalPrice,
+      photoUrl: item.photoUrl,
+      category: item.category,
+      brand: item.brand,
+      stock: item.stock,
+      quantity: 1,
+    });
+    await removeItem(item.productId);
     toast.success(`Moved "${item.name}" to your cart!`);
   };
 
-  const handleRemove = () => {
-    dispatch(removeFromWishlist(item.productId));
+  const handleRemove = async () => {
+    await removeItem(item.productId);
     toast.info(`Removed "${item.name}" from your wishlist.`);
   };
 
