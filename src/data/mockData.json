@@ -1,0 +1,396 @@
+{
+  "heroSlides": [
+    {
+      "id": "slide-1",
+      "badge": "NEW DROP 2026",
+      "tagline": "LIMITED TIME OFFER",
+      "title": "Next-Gen Pro Audio & Noise Cancelling",
+      "subtitle": "Immerse yourself in studio-grade acoustic clarity with all-day ergonomic comfort.",
+      "discountText": "Save Up to 40% OFF",
+      "buttonText": "Shop Headphones",
+      "buttonLink": "/categories/electronics",
+      "imageUrl": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop",
+      "bgGradient": "from-blue-600/10 via-primary/5 to-transparent"
+    },
+    {
+      "id": "slide-2",
+      "badge": "SUMMER FASHION",
+      "tagline": "EXCLUSIVE ARRIVALS",
+      "title": "Minimalist Streetwear & Luxury Essentials",
+      "subtitle": "Crafted from 100% sustainable organic cotton and premium breathable materials.",
+      "discountText": "Flat 30% OFF Today",
+      "buttonText": "Explore Collection",
+      "buttonLink": "/categories/fashion",
+      "imageUrl": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1000&auto=format&fit=crop",
+      "bgGradient": "from-amber-500/10 via-orange-500/5 to-transparent"
+    },
+    {
+      "id": "slide-3",
+      "badge": "SMART LIVING",
+      "tagline": "FLAGSHIP DEVICES",
+      "title": "Titanium Smartwatch Ultra Edition",
+      "subtitle": "Precision biometric health tracking, sapphire glass display, and 14-day battery life.",
+      "discountText": "From $199 with Free Strap",
+      "buttonText": "Order Now",
+      "buttonLink": "/categories/electronics",
+      "imageUrl": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000&auto=format&fit=crop",
+      "bgGradient": "from-emerald-500/10 via-teal-500/5 to-transparent"
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat_cl01electronics",
+      "name": "Electronics & Gadgets",
+      "slug": "electronics",
+      "parentId": null,
+      "icon": "Smartphone",
+      "itemCount": 420,
+      "imageUrl": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=600&auto=format&fit=crop",
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "cat_cl02fashion",
+      "name": "Fashion & Apparel",
+      "slug": "fashion",
+      "parentId": null,
+      "icon": "Shirt",
+      "itemCount": 850,
+      "imageUrl": "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=600&auto=format&fit=crop",
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "cat_cl03homeliving",
+      "name": "Home & Living",
+      "slug": "home-living",
+      "parentId": null,
+      "icon": "Home",
+      "itemCount": 310,
+      "imageUrl": "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=600&auto=format&fit=crop",
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "cat_cl04beautyhealth",
+      "name": "Beauty & Wellness",
+      "slug": "beauty-health",
+      "parentId": null,
+      "icon": "Sparkles",
+      "itemCount": 240,
+      "imageUrl": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=600&auto=format&fit=crop",
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "cat_cl05sports",
+      "name": "Sports & Fitness",
+      "slug": "sports-fitness",
+      "parentId": null,
+      "icon": "Dumbbell",
+      "itemCount": 190,
+      "imageUrl": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=600&auto=format&fit=crop",
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "cat_cl06groceries",
+      "name": "Daily Groceries",
+      "slug": "groceries",
+      "parentId": null,
+      "icon": "ShoppingBasket",
+      "itemCount": 540,
+      "imageUrl": "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=600&auto=format&fit=crop",
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "updatedAt": "2026-01-01T00:00:00.000Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "prod_cl01sonywh",
+      "name": "Sony WH-1000XM5 Wireless Noise Cancelling Headphones",
+      "sku": "SKU-SNY-WH1005",
+      "description": "Industry leading noise cancellation with two processors and 8 microphones. Ultra comfortable lightweight design with soft fit leather.",
+      "photoUrl": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&auto=format&fit=crop",
+      "price": 348.00,
+      "originalPrice": 399.99,
+      "discountPercent": 13,
+      "stock": 25,
+      "status": "ACTIVE",
+      "rating": 4.9,
+      "reviewsCount": 384,
+      "categoryId": "cat_cl01electronics",
+      "category": {
+        "id": "cat_cl01electronics",
+        "name": "Electronics & Gadgets",
+        "slug": "electronics"
+      },
+      "isFeatured": true,
+      "isNew": false,
+      "isBestSeller": true,
+      "createdAt": "2026-01-10T00:00:00.000Z",
+      "updatedAt": "2026-01-10T00:00:00.000Z"
+    },
+    {
+      "id": "prod_cl02applewatch",
+      "name": "Apple Watch Series 9 GPS 45mm Midnight Aluminum",
+      "sku": "SKU-APL-WTHS9",
+      "description": "Smarter, brighter, and mightier. Powered by the S9 SiP with Double Tap gesture control and Carbon Neutral combinations.",
+      "photoUrl": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop",
+      "price": 389.00,
+      "originalPrice": 429.00,
+      "discountPercent": 9,
+      "stock": 18,
+      "status": "ACTIVE",
+      "rating": 4.8,
+      "reviewsCount": 215,
+      "categoryId": "cat_cl01electronics",
+      "category": {
+        "id": "cat_cl01electronics",
+        "name": "Electronics & Gadgets",
+        "slug": "electronics"
+      },
+      "isFeatured": true,
+      "isNew": true,
+      "isBestSeller": true,
+      "createdAt": "2026-01-12T00:00:00.000Z",
+      "updatedAt": "2026-01-12T00:00:00.000Z"
+    },
+    {
+      "id": "prod_cl03leatherbackpack",
+      "name": "Heritage Full-Grain Leather Commuter Backpack",
+      "sku": "SKU-BAG-LTH01",
+      "description": "Handcrafted with full-grain Italian leather, padded 16-inch laptop compartment, water-resistant lining, and solid brass hardware.",
+      "photoUrl": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop",
+      "price": 149.00,
+      "originalPrice": 199.00,
+      "discountPercent": 25,
+      "stock": 12,
+      "status": "ACTIVE",
+      "rating": 4.7,
+      "reviewsCount": 94,
+      "categoryId": "cat_cl02fashion",
+      "category": {
+        "id": "cat_cl02fashion",
+        "name": "Fashion & Apparel",
+        "slug": "fashion"
+      },
+      "isFeatured": true,
+      "isNew": false,
+      "isBestSeller": false,
+      "createdAt": "2026-01-15T00:00:00.000Z",
+      "updatedAt": "2026-01-15T00:00:00.000Z"
+    },
+    {
+      "id": "prod_cl04running",
+      "name": "Nike Air Zoom Pegasus 40 Performance Running Shoes",
+      "sku": "SKU-NKE-PG40",
+      "description": "A springy ride for any run with responsive React technology and two Zoom Air units for energetic toe-offs.",
+      "photoUrl": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop",
+      "price": 129.99,
+      "originalPrice": 160.00,
+      "discountPercent": 19,
+      "stock": 30,
+      "status": "ACTIVE",
+      "rating": 4.9,
+      "reviewsCount": 512,
+      "categoryId": "cat_cl05sports",
+      "category": {
+        "id": "cat_cl05sports",
+        "name": "Sports & Fitness",
+        "slug": "sports-fitness"
+      },
+      "isFeatured": true,
+      "isNew": false,
+      "isBestSeller": true,
+      "createdAt": "2026-01-08T00:00:00.000Z",
+      "updatedAt": "2026-01-08T00:00:00.000Z"
+    },
+    {
+      "id": "prod_cl05macbook",
+      "name": "Apple MacBook Air 15-inch M3 Chip 16GB / 512GB",
+      "sku": "SKU-APL-MBA15",
+      "description": "Incredibly thin and fast. Liquid Retina display, MagSafe 3 charging, 18-hour battery life, and high-performance neural engine.",
+      "photoUrl": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=800&auto=format&fit=crop",
+      "price": 1499.00,
+      "originalPrice": 1699.00,
+      "discountPercent": 12,
+      "stock": 8,
+      "status": "ACTIVE",
+      "rating": 5.0,
+      "reviewsCount": 168,
+      "categoryId": "cat_cl01electronics",
+      "category": {
+        "id": "cat_cl01electronics",
+        "name": "Electronics & Gadgets",
+        "slug": "electronics"
+      },
+      "isFeatured": false,
+      "isNew": true,
+      "isBestSeller": true,
+      "createdAt": "2026-01-20T00:00:00.000Z",
+      "updatedAt": "2026-01-20T00:00:00.000Z"
+    },
+    {
+      "id": "prod_cl06sunglasses",
+      "name": "Ray-Ban Classic Polarized Aviator Sunglasses",
+      "sku": "SKU-RAY-AV01",
+      "description": "Timeless icon with crystal polarized lenses providing 100% UV protection and glare elimination with ultra durable gold-tone frame.",
+      "photoUrl": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?q=80&w=800&auto=format&fit=crop",
+      "price": 168.00,
+      "originalPrice": 210.00,
+      "discountPercent": 20,
+      "stock": 42,
+      "status": "ACTIVE",
+      "rating": 4.8,
+      "reviewsCount": 147,
+      "categoryId": "cat_cl02fashion",
+      "category": {
+        "id": "cat_cl02fashion",
+        "name": "Fashion & Apparel",
+        "slug": "fashion"
+      },
+      "isFeatured": false,
+      "isNew": true,
+      "isBestSeller": false,
+      "createdAt": "2026-01-22T00:00:00.000Z",
+      "updatedAt": "2026-01-22T00:00:00.000Z"
+    },
+    {
+      "id": "prod_cl07speaker",
+      "name": "Marshall Stanmore III Bluetooth Wireless Speaker",
+      "sku": "SKU-MSH-ST3",
+      "description": "Re-engineered for a wider soundstage. Signature vintage rock design with room-filling Marshall stereo sound and Bluetooth 5.2.",
+      "photoUrl": "https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=800&auto=format&fit=crop",
+      "price": 379.99,
+      "originalPrice": 420.00,
+      "discountPercent": 10,
+      "stock": 14,
+      "status": "ACTIVE",
+      "rating": 4.9,
+      "reviewsCount": 89,
+      "categoryId": "cat_cl01electronics",
+      "category": {
+        "id": "cat_cl01electronics",
+        "name": "Electronics & Gadgets",
+        "slug": "electronics"
+      },
+      "isFeatured": false,
+      "isNew": true,
+      "isBestSeller": false,
+      "createdAt": "2026-01-24T00:00:00.000Z",
+      "updatedAt": "2026-01-24T00:00:00.000Z"
+    },
+    {
+      "id": "prod_cl08ceramicmug",
+      "name": "Artisan Stoneware Ceramic Coffee Mug 4-Piece Set",
+      "sku": "SKU-HOM-MUG4",
+      "description": "Hand-glazed artisan stoneware with earthy tones. Microwave and dishwasher safe, featuring ergonomic handle design.",
+      "photoUrl": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=800&auto=format&fit=crop",
+      "price": 34.50,
+      "originalPrice": 45.00,
+      "discountPercent": 23,
+      "stock": 60,
+      "status": "ACTIVE",
+      "rating": 4.6,
+      "reviewsCount": 73,
+      "categoryId": "cat_cl03homeliving",
+      "category": {
+        "id": "cat_cl03homeliving",
+        "name": "Home & Living",
+        "slug": "home-living"
+      },
+      "isFeatured": false,
+      "isNew": false,
+      "isBestSeller": true,
+      "createdAt": "2026-01-05T00:00:00.000Z",
+      "updatedAt": "2026-01-05T00:00:00.000Z"
+    },
+    {
+      "id": "prod_cl09coffee",
+      "name": "De'Longhi Dedica Deluxe Espresso & Cappuccino Machine",
+      "sku": "SKU-HOM-DLG01",
+      "description": "Sleek compact 15-bar pump espresso maker with manual milk frother for barista quality lattes and cappuccinos at home.",
+      "photoUrl": "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?q=80&w=800&auto=format&fit=crop",
+      "price": 299.95,
+      "originalPrice": 349.95,
+      "discountPercent": 14,
+      "stock": 16,
+      "status": "ACTIVE",
+      "rating": 4.8,
+      "reviewsCount": 310,
+      "categoryId": "cat_cl03homeliving",
+      "category": {
+        "id": "cat_cl03homeliving",
+        "name": "Home & Living",
+        "slug": "home-living"
+      },
+      "isFeatured": true,
+      "isNew": false,
+      "isBestSeller": true,
+      "createdAt": "2026-01-04T00:00:00.000Z",
+      "updatedAt": "2026-01-04T00:00:00.000Z"
+    },
+    {
+      "id": "prod_cl10camera",
+      "name": "Fujifilm X-T5 Mirrorless Camera Body (Silver)",
+      "sku": "SKU-CAM-FUJI5",
+      "description": "40.2MP X-Trans CMOS 5 HR sensor, 5-axis in-body image stabilization, and legendary film simulation modes in a retro dial body.",
+      "photoUrl": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=800&auto=format&fit=crop",
+      "price": 1699.00,
+      "originalPrice": 1799.00,
+      "discountPercent": 6,
+      "stock": 5,
+      "status": "ACTIVE",
+      "rating": 4.9,
+      "reviewsCount": 82,
+      "categoryId": "cat_cl01electronics",
+      "category": {
+        "id": "cat_cl01electronics",
+        "name": "Electronics & Gadgets",
+        "slug": "electronics"
+      },
+      "isFeatured": false,
+      "isNew": true,
+      "isBestSeller": false,
+      "createdAt": "2026-01-25T00:00:00.000Z",
+      "updatedAt": "2026-01-25T00:00:00.000Z"
+    }
+  ],
+  "promoBanner": {
+    "id": "banner-main",
+    "badge": "LIMITED FLASH SALE",
+    "title": "Upgrade Your Workspace with Premium Smart Gadgets",
+    "subtitle": "Discover productivity boosters, ergonomic accessories, and 4K displays at unprecedented prices.",
+    "discountText": "UP TO 50% OFF",
+    "buttonText": "Shop The Flash Sale",
+    "buttonLink": "/products?sale=true",
+    "imageUrl": "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=1000&auto=format&fit=crop"
+  },
+  "whyChooseUs": [
+    {
+      "id": "why-1",
+      "title": "Fast & Free Shipping",
+      "description": "Enjoy free express delivery on all orders over $50 with real-time GPS tracking.",
+      "icon": "Truck"
+    },
+    {
+      "id": "why-2",
+      "title": "100% Genuine Products",
+      "description": "Every item is certified original directly from verified brand manufacturers.",
+      "icon": "ShieldCheck"
+    },
+    {
+      "id": "why-3",
+      "title": "30-Day Hassle-Free Returns",
+      "description": "Not satisfied with your item? Get a full refund or instant replacement with zero questions.",
+      "icon": "RefreshCw"
+    },
+    {
+      "id": "why-4",
+      "title": "24/7 Dedicated Support",
+      "description": "Our support champions are always online via live chat, phone, and email to assist you.",
+      "icon": "Headphones"
+    }
+  ]
+}
