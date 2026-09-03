@@ -42,39 +42,148 @@
       "id": "cat_cl01electronics",
       "name": "Electronics & Gadgets",
       "slug": "electronics",
+      "description": "Explore high-performance laptops, pro audio headphones, smart wearables, and cutting-edge optical gear engineered for everyday productivity.",
       "parentId": null,
       "icon": "Smartphone",
       "itemCount": 420,
       "imageUrl": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=600&auto=format&fit=crop",
       "createdAt": "2026-01-01T00:00:00.000Z",
-      "updatedAt": "2026-01-01T00:00:00.000Z"
+      "updatedAt": "2026-01-01T00:00:00.000Z",
+      "children": [
+        {
+          "id": "sub_mob",
+          "name": "Mobile",
+          "slug": "mobile",
+          "parentId": "cat_cl01electronics",
+          "icon": "Smartphone",
+          "itemCount": 140,
+          "imageUrl": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=400&auto=format&fit=crop"
+        },
+        {
+          "id": "sub_lap",
+          "name": "Laptop",
+          "slug": "laptop",
+          "parentId": "cat_cl01electronics",
+          "icon": "Laptop",
+          "itemCount": 95,
+          "imageUrl": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=400&auto=format&fit=crop"
+        },
+        {
+          "id": "sub_cam",
+          "name": "Camera",
+          "slug": "camera",
+          "parentId": "cat_cl01electronics",
+          "icon": "Camera",
+          "itemCount": 65,
+          "imageUrl": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=400&auto=format&fit=crop"
+        },
+        {
+          "id": "sub_acc",
+          "name": "Accessories",
+          "slug": "accessories",
+          "parentId": "cat_cl01electronics",
+          "icon": "Headphones",
+          "itemCount": 120,
+          "imageUrl": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=400&auto=format&fit=crop"
+        }
+      ]
     },
     {
       "id": "cat_cl02fashion",
       "name": "Fashion & Apparel",
       "slug": "fashion",
+      "description": "Premium apparel crafted from sustainable organic textiles, luxury leather accessories, and everyday minimalist streetwear.",
       "parentId": null,
       "icon": "Shirt",
       "itemCount": 850,
       "imageUrl": "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=600&auto=format&fit=crop",
       "createdAt": "2026-01-01T00:00:00.000Z",
-      "updatedAt": "2026-01-01T00:00:00.000Z"
+      "updatedAt": "2026-01-01T00:00:00.000Z",
+      "children": [
+        {
+          "id": "sub_mcl",
+          "name": "Men's Clothing",
+          "slug": "mens-clothing",
+          "parentId": "cat_cl02fashion",
+          "icon": "Shirt",
+          "itemCount": 320,
+          "imageUrl": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=400&auto=format&fit=crop"
+        },
+        {
+          "id": "sub_foot",
+          "name": "Footwear",
+          "slug": "footwear",
+          "parentId": "cat_cl02fashion",
+          "icon": "Footprints",
+          "itemCount": 210,
+          "imageUrl": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=400&auto=format&fit=crop"
+        },
+        {
+          "id": "sub_bag",
+          "name": "Bags & Luggage",
+          "slug": "bags",
+          "parentId": "cat_cl02fashion",
+          "icon": "Briefcase",
+          "itemCount": 160,
+          "imageUrl": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=400&auto=format&fit=crop"
+        },
+        {
+          "id": "sub_eye",
+          "name": "Eyewear",
+          "slug": "eyewear",
+          "parentId": "cat_cl02fashion",
+          "icon": "Glasses",
+          "itemCount": 80,
+          "imageUrl": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?q=80&w=400&auto=format&fit=crop"
+        }
+      ]
     },
     {
       "id": "cat_cl03homeliving",
       "name": "Home & Living",
       "slug": "home-living",
+      "description": "Curated modern home essentials, barista espresso setups, artisan ceramic stoneware, and comfortable furniture.",
       "parentId": null,
       "icon": "Home",
       "itemCount": 310,
       "imageUrl": "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=600&auto=format&fit=crop",
       "createdAt": "2026-01-01T00:00:00.000Z",
-      "updatedAt": "2026-01-01T00:00:00.000Z"
+      "updatedAt": "2026-01-01T00:00:00.000Z",
+      "children": [
+        {
+          "id": "sub_coffee",
+          "name": "Coffee Equipment",
+          "slug": "coffee-equipment",
+          "parentId": "cat_cl03homeliving",
+          "icon": "Coffee",
+          "itemCount": 75,
+          "imageUrl": "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?q=80&w=400&auto=format&fit=crop"
+        },
+        {
+          "id": "sub_mugs",
+          "name": "Mugs & Cups",
+          "slug": "mugs-cups",
+          "parentId": "cat_cl03homeliving",
+          "icon": "CupSoda",
+          "itemCount": 85,
+          "imageUrl": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=400&auto=format&fit=crop"
+        },
+        {
+          "id": "sub_decor",
+          "name": "Decor & Lighting",
+          "slug": "decor-lighting",
+          "parentId": "cat_cl03homeliving",
+          "icon": "Lamp",
+          "itemCount": 150,
+          "imageUrl": "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=400&auto=format&fit=crop"
+        }
+      ]
     },
     {
       "id": "cat_cl04beautyhealth",
       "name": "Beauty & Wellness",
       "slug": "beauty-health",
+      "description": "Dermatologist-tested skincare routines, clean organic cosmetics, and rejuvenating personal wellness treatments.",
       "parentId": null,
       "icon": "Sparkles",
       "itemCount": 240,
@@ -86,6 +195,7 @@
       "id": "cat_cl05sports",
       "name": "Sports & Fitness",
       "slug": "sports-fitness",
+      "description": "High-durability workout gear, performance running shoes, yoga mats, and recovery wellness equipment.",
       "parentId": null,
       "icon": "Dumbbell",
       "itemCount": 190,
@@ -97,6 +207,7 @@
       "id": "cat_cl06groceries",
       "name": "Daily Groceries",
       "slug": "groceries",
+      "description": "Farm-fresh organic fruits, vegetables, pantry provisions, and dairy products delivered straight to your doorstep.",
       "parentId": null,
       "icon": "ShoppingBasket",
       "itemCount": 540,
@@ -128,6 +239,7 @@
       "rating": 4.9,
       "reviewsCount": 384,
       "categoryId": "cat_cl01electronics",
+      "subcategorySlug": "accessories",
       "category": {
         "id": "cat_cl01electronics",
         "name": "Electronics & Gadgets",
@@ -213,6 +325,7 @@
       "rating": 4.8,
       "reviewsCount": 215,
       "categoryId": "cat_cl01electronics",
+      "subcategorySlug": "mobile",
       "category": {
         "id": "cat_cl01electronics",
         "name": "Electronics & Gadgets",
@@ -276,6 +389,7 @@
       "rating": 4.7,
       "reviewsCount": 94,
       "categoryId": "cat_cl02fashion",
+      "subcategorySlug": "bags",
       "category": {
         "id": "cat_cl02fashion",
         "name": "Fashion & Apparel",
@@ -337,6 +451,7 @@
       "rating": 4.9,
       "reviewsCount": 512,
       "categoryId": "cat_cl05sports",
+      "subcategorySlug": "footwear",
       "category": {
         "id": "cat_cl05sports",
         "name": "Sports & Fitness",
@@ -401,6 +516,7 @@
       "rating": 5.0,
       "reviewsCount": 168,
       "categoryId": "cat_cl01electronics",
+      "subcategorySlug": "laptop",
       "category": {
         "id": "cat_cl01electronics",
         "name": "Electronics & Gadgets",
@@ -431,6 +547,7 @@
       "rating": 4.8,
       "reviewsCount": 147,
       "categoryId": "cat_cl02fashion",
+      "subcategorySlug": "eyewear",
       "category": {
         "id": "cat_cl02fashion",
         "name": "Fashion & Apparel",
@@ -461,6 +578,7 @@
       "rating": 4.9,
       "reviewsCount": 89,
       "categoryId": "cat_cl01electronics",
+      "subcategorySlug": "accessories",
       "category": {
         "id": "cat_cl01electronics",
         "name": "Electronics & Gadgets",
@@ -491,6 +609,7 @@
       "rating": 4.6,
       "reviewsCount": 73,
       "categoryId": "cat_cl03homeliving",
+      "subcategorySlug": "mugs-cups",
       "category": {
         "id": "cat_cl03homeliving",
         "name": "Home & Living",
@@ -521,6 +640,7 @@
       "rating": 4.8,
       "reviewsCount": 310,
       "categoryId": "cat_cl03homeliving",
+      "subcategorySlug": "coffee-equipment",
       "category": {
         "id": "cat_cl03homeliving",
         "name": "Home & Living",
@@ -551,6 +671,7 @@
       "rating": 4.9,
       "reviewsCount": 82,
       "categoryId": "cat_cl01electronics",
+      "subcategorySlug": "camera",
       "category": {
         "id": "cat_cl01electronics",
         "name": "Electronics & Gadgets",
@@ -581,6 +702,7 @@
       "rating": 4.7,
       "reviewsCount": 189,
       "categoryId": "cat_cl02fashion",
+      "subcategorySlug": "mens-clothing",
       "category": {
         "id": "cat_cl02fashion",
         "name": "Fashion & Apparel",
@@ -611,6 +733,7 @@
       "rating": 4.9,
       "reviewsCount": 420,
       "categoryId": "cat_cl01electronics",
+      "subcategorySlug": "accessories",
       "category": {
         "id": "cat_cl01electronics",
         "name": "Electronics & Gadgets",
@@ -641,6 +764,7 @@
       "rating": 4.5,
       "reviewsCount": 64,
       "categoryId": "cat_cl03homeliving",
+      "subcategorySlug": "mugs-cups",
       "category": {
         "id": "cat_cl03homeliving",
         "name": "Home & Living",
@@ -671,6 +795,7 @@
       "rating": 4.8,
       "reviewsCount": 112,
       "categoryId": "cat_cl05sports",
+      "subcategorySlug": "accessories",
       "category": {
         "id": "cat_cl05sports",
         "name": "Sports & Fitness",

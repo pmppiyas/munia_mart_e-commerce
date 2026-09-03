@@ -38,6 +38,8 @@ export interface Product {
   status: ProductStatus | 'ACTIVE' | 'INACTIVE';
   categoryId: string;
   category?: Category;
+  subcategoryId?: string;
+  subcategorySlug?: string;
   createdAt: string;
   updatedAt: string;
 
