@@ -8,6 +8,7 @@ import { MobileSearch } from './MobileSearch';
 import { useAppSelector } from '@/store/hooks';
 import { selectCartTotalQuantity } from '@/features/cart/cartSelectors';
 import { selectWishlistTotalCount } from '@/features/wishlist/wishlistSelectors';
+import { selectCurrentUser } from '@/features/auth/authSelectors';
 
 interface MobileNavProps {
   cartCount?: number;
@@ -20,6 +21,8 @@ export function MobileNav({ cartCount, wishlistCount, user = null }: MobileNavPr
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
   const reduxCartCount = useAppSelector(selectCartTotalQuantity);
   const reduxWishlistCount = useAppSelector(selectWishlistTotalCount);
+  const reduxUser = useAppSelector(selectCurrentUser);
+  const activeUser = user !== undefined && user !== null ? user : reduxUser;
   const displayCartCount = cartCount !== undefined ? cartCount : reduxCartCount;
   const displayWishlistCount = wishlistCount !== undefined ? wishlistCount : reduxWishlistCount;
 
@@ -75,8 +78,8 @@ export function MobileNav({ cartCount, wishlistCount, user = null }: MobileNavPr
           />
 
           <MobileNavItem
-            label={user ? 'Account' : 'Profile'}
-            href={user ? '/profile' : '/auth/login'}
+            label={activeUser ? 'Account' : 'Profile'}
+            href={activeUser ? '/profile' : '/auth/login'}
             icon={User}
             isActive={
               pathname.startsWith('/profile') ||

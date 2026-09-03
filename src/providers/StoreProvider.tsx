@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { store } from '@/store';
 import { hydrateCart } from '@/features/cart/cartSlice';
 import { hydrateWishlist } from '@/features/wishlist/wishlistSlice';
+import { AuthInitializer } from './AuthInitializer';
 
 const CART_STORAGE_KEY = 'muniamart_cart';
 const WISHLIST_STORAGE_KEY = 'muniamart_wishlist';
@@ -65,7 +66,10 @@ interface StoreProviderProps {
 export function StoreProvider({ children }: StoreProviderProps) {
   return (
     <Provider store={store}>
-      <StorePersistenceInitializer>{children}</StorePersistenceInitializer>
+      <StorePersistenceInitializer>
+        <AuthInitializer />
+        {children}
+      </StorePersistenceInitializer>
     </Provider>
   );
 }

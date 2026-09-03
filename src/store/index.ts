@@ -1,12 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cartReducer from '@/features/cart/cartSlice';
 import wishlistReducer from '@/features/wishlist/wishlistSlice';
+import authReducer from '@/features/auth/authSlice';
+import { baseApi } from '@/services/api/baseApi';
 
 export const store = configureStore({
   reducer: {
     cart: cartReducer,
     wishlist: wishlistReducer,
+    auth: authReducer,
+    [baseApi.reducerPath]: baseApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(baseApi.middleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 

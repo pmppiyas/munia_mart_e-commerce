@@ -14,6 +14,9 @@ import { MobileMenu } from './MobileMenu';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
 import { useAppSelector } from '@/store/hooks';
 import { selectWishlistTotalCount } from '@/features/wishlist/wishlistSelectors';
+import { selectCurrentUser } from '@/features/auth/authSelectors';
+import { useLogoutMutation } from '@/services/api/authApi';
+import { toast } from 'sonner';
 
 interface HeaderProps {
   cartCount?: number;
@@ -36,6 +39,24 @@ export function Header({
 }: HeaderProps) {
   const reduxWishlistCount = useAppSelector(selectWishlistTotalCount);
   const displayWishlistCount = wishlistCount !== undefined ? wishlistCount : reduxWishlistCount;
+
+  const reduxUser = useAppSelector(selectCurrentUser);
+  const activeUser = user !== undefined && user !== null ? user : reduxUser;
+
+  const [logoutMutation] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    if (onLogout) {
+      onLogout();
+      return;
+    }
+    try {
+      await logoutMutation().unwrap();
+      toast.success('Signed out successfully');
+    } catch {
+      toast.success('Signed out successfully');
+    }
+  };
 
   return (
     <header className="sticky top-0 z-40 w-full bg-background shadow-xs">
@@ -81,7 +102,7 @@ export function Header({
             <CartButton count={cartCount} total={cartTotal} />
 
             {/* User Profile / Auth Menu */}
-            <UserMenu user={user} onLogout={onLogout} />
+            <UserMenu user={activeUser} onLogout={handleLogout} />
           </div>
         </div>
 
