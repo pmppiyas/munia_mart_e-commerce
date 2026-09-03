@@ -20,6 +20,7 @@ export interface Product {
   updatedAt: string;
 
   // UI presentation & marketing fields
+  brand?: string;
   originalPrice?: number;
   rating?: number;
   reviewsCount?: number;
@@ -28,6 +29,25 @@ export interface Product {
   isBestSeller?: boolean;
   discountPercent?: number;
 }
+
+export type ProductSortOption =
+  | 'featured'
+  | 'newest'
+  | 'price-asc'
+  | 'price-desc'
+  | 'rating-desc';
+
+export interface ProductFilterState {
+  search?: string;
+  categories: string[];
+  brands: string[];
+  priceRange: [number, number];
+  minRating: number;
+  inStockOnly: boolean;
+  sortBy: ProductSortOption;
+}
+
+export type ViewMode = 'grid' | 'list';
 
 export interface HeroSlide {
   id: string;

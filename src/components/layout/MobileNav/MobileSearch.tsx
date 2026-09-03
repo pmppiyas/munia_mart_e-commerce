@@ -4,7 +4,6 @@ import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, X, TrendingUp, History } from 'lucide-react';
 import { siteConfig } from '@/config/site';
-import { cn } from '@/lib/utils';
 
 interface MobileSearchProps {
   isOpen: boolean;
