@@ -1,0 +1,48 @@
+export interface CustomerUser {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string | null;
+  photoUrl?: string | null;
+  status: 'ACTIVE' | 'INACTIVE' | 'BLOCKED' | string;
+  createdAt: string;
+  _count?: {
+    orders?: number;
+  };
+}
+
+export interface AuthState {
+  user: CustomerUser | null;
+  isAuthenticated: boolean;
+  status: 'idle' | 'loading' | 'authenticated' | 'unauthenticated';
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface RegisterRequest {
+  name: string;
+  email: string;
+  password: string;
+  phone?: string;
+  photoUrl?: string;
+}
+
+export interface ApiResponse<T> {
+  statusCode: number;
+  success: boolean;
+  message: string;
+  data: T;
+  meta?: {
+    total: number;
+  };
+}
+
+export interface LoginResponseData {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export type RegisterResponseData = CustomerUser;

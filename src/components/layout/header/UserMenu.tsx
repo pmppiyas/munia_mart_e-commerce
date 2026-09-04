@@ -90,7 +90,7 @@ export function UserMenu({ className, user = null, onLogout }: UserMenuProps) {
 
           <div className="py-1">
             <Link
-              href="/profile"
+              href="/profile?tab=info"
               onClick={() => setIsOpen(false)}
               className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-medium text-foreground hover:bg-muted transition-colors"
             >
@@ -98,7 +98,7 @@ export function UserMenu({ className, user = null, onLogout }: UserMenuProps) {
               My Profile
             </Link>
             <Link
-              href="/orders"
+              href="/profile?tab=orders"
               onClick={() => setIsOpen(false)}
               className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-medium text-foreground hover:bg-muted transition-colors"
             >
@@ -114,7 +114,7 @@ export function UserMenu({ className, user = null, onLogout }: UserMenuProps) {
               Wishlist
             </Link>
             <Link
-              href="/addresses"
+              href="/profile?tab=addresses"
               onClick={() => setIsOpen(false)}
               className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-medium text-foreground hover:bg-muted transition-colors"
             >

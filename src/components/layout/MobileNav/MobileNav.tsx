@@ -2,19 +2,21 @@
 
 import * as React from 'react';
 import { usePathname } from 'next/navigation';
-import { Home, LayoutGrid, Search, Heart, ShoppingBag, User } from 'lucide-react';
+import { Home, LayoutGrid, Search, User } from 'lucide-react';
 import { MobileNavItem } from './MobileNavItem';
 import { MobileSearch } from './MobileSearch';
+import { useAppSelector } from '@/store/hooks';
+import { selectCurrentUser } from '@/features/auth/authSelectors';
 
 interface MobileNavProps {
-  cartCount?: number;
-  wishlistCount?: number;
   user?: object | null;
 }
 
-export function MobileNav({ cartCount = 0, wishlistCount = 0, user = null }: MobileNavProps) {
+export function MobileNav({ user = null }: MobileNavProps) {
   const pathname = usePathname();
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
+  const reduxUser = useAppSelector(selectCurrentUser);
+  const activeUser = user !== undefined && user !== null ? user : reduxUser;
 
   return (
     <>
@@ -52,29 +54,13 @@ export function MobileNav({ cartCount = 0, wishlistCount = 0, user = null }: Mob
           </button>
 
           <MobileNavItem
-            label="Wishlist"
-            href="/wishlist"
-            icon={Heart}
-            isActive={pathname === '/wishlist'}
-            badge={wishlistCount}
-          />
-
-          <MobileNavItem
-            label="Cart"
-            href="/cart"
-            icon={ShoppingBag}
-            isActive={pathname === '/cart'}
-            badge={cartCount}
-          />
-
-          <MobileNavItem
-            label={user ? 'Account' : 'Profile'}
-            href={user ? '/profile' : '/auth/login'}
+            label={activeUser ? 'Account' : 'Profile'}
+            href={activeUser ? '/profile' : '/auth/login'}
             icon={User}
             isActive={
-              pathname.startsWith('/profile') ||
-              pathname.startsWith('/orders') ||
-              pathname.startsWith('/auth')
+              pathname === '/profile' ||
+              pathname === '/auth/login' ||
+              pathname === '/auth/register'
             }
           />
         </div>
