@@ -10,6 +10,8 @@ import { Category } from '@/types/category';
 import { ProductFilter } from '@/components/product/ProductFilter';
 import { ProductToolbar } from '@/components/product/ProductToolbar';
 import { ProductGrid } from '@/components/product/ProductGrid';
+import { useGetAllProductsQuery } from '@/services/api/productApi';
+import { useGetAllCategoriesQuery } from '@/services/api/categoryApi';
 import { cn } from '@/lib/utils';
 
 const INITIAL_FILTERS: ProductFilterState = {
@@ -27,8 +29,65 @@ function ProductsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const allCategories = mockData.categories as Category[];
-  const allProducts = mockData.products as unknown as Product[];
+  // Fetch live products and categories from database
+  const { data: dbProductsRes, isLoading: isProductsLoading } = useGetAllProductsQuery();
+  const { data: dbCategoriesRes } = useGetAllCategoriesQuery();
+
+  const allProducts = React.useMemo(() => {
+    if (dbProductsRes?.data && Array.isArray(dbProductsRes.data) && dbProductsRes.data.length > 0) {
+      const mockMap = new Map((mockData.products as any[]).map((p) => [p.id, p]));
+      return dbProductsRes.data.map((dbP: any) => {
+        const mock = mockMap.get(dbP.id) || mockMap.get(dbP.sku) || {};
+        const priceNum = typeof dbP.price === 'string' ? parseFloat(dbP.price) : Number(dbP.price || 0);
+        return {
+          ...mock,
+          id: dbP.id,
+          sku: dbP.sku,
+          name: dbP.name,
+          description: dbP.description ?? mock.description ?? null,
+          photoUrl: dbP.photoUrl || mock.photoUrl || null,
+          images: dbP.photoUrl
+            ? [dbP.photoUrl, ...(mock.images || []).filter((img: string) => img !== dbP.photoUrl)]
+            : mock.images || [],
+          price: priceNum,
+          stock: Number(dbP.stock ?? mock.stock ?? 0),
+          status: dbP.status || 'ACTIVE',
+          categoryId: dbP.categoryId,
+          category: dbP.category || mock.category,
+          subcategoryId: dbP.subcategoryId || mock.subcategoryId,
+          subcategorySlug: dbP.subcategorySlug || mock.subcategorySlug,
+          brand: mock.brand || dbP.brand || 'Muniamart',
+          rating: mock.rating ?? 4.8,
+          reviewsCount: mock.reviewsCount ?? 120,
+          isFeatured: mock.isFeatured ?? true,
+          isNew: mock.isNew ?? false,
+          isBestSeller: mock.isBestSeller ?? false,
+          discountPercent: mock.discountPercent,
+          originalPrice: mock.originalPrice,
+          createdAt: dbP.createdAt || mock.createdAt || new Date().toISOString(),
+          updatedAt: dbP.updatedAt || mock.updatedAt || new Date().toISOString(),
+        } as Product;
+      });
+    }
+    return mockData.products as unknown as Product[];
+  }, [dbProductsRes]);
+
+  const allCategories = React.useMemo(() => {
+    if (dbCategoriesRes?.data && Array.isArray(dbCategoriesRes.data) && dbCategoriesRes.data.length > 0) {
+      const mockCatMap = new Map((mockData.categories as any[]).map((c) => [c.id, c]));
+      return dbCategoriesRes.data.map((dbC: any) => {
+        const mock = mockCatMap.get(dbC.id) || mockData.categories.find((c) => c.slug === dbC.slug);
+        return {
+          ...dbC,
+          icon: dbC.icon || mock?.icon || 'LayoutGrid',
+          imageUrl: dbC.imageUrl || mock?.imageUrl,
+          description: dbC.description || mock?.description,
+          subcategories: (dbC.children || []).map((ch: any) => ch.name),
+        } as unknown as Category;
+      });
+    }
+    return mockData.categories as Category[];
+  }, [dbCategoriesRes]);
 
   // Calculate distinct available brands and counts
   const availableBrands = React.useMemo(() => {

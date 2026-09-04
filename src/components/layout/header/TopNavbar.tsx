@@ -6,13 +6,16 @@ import { Phone, Truck, Globe, ChevronDown, ShieldCheck } from 'lucide-react';
 import { siteConfig } from '@/config/site';
 
 export function TopNavbar() {
-  const [currency, setCurrency] = React.useState('USD');
+  const [currency, setCurrency] = React.useState('BDT');
   const [isCurrencyOpen, setIsCurrencyOpen] = React.useState(false);
   const currencyRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (currencyRef.current && !currencyRef.current.contains(event.target as Node)) {
+      if (
+        currencyRef.current &&
+        !currencyRef.current.contains(event.target as Node)
+      ) {
         setIsCurrencyOpen(false);
       }
     }
@@ -27,7 +30,9 @@ export function TopNavbar() {
         <div className="flex items-center gap-2">
           <span className="flex items-center gap-1.5 font-medium text-zinc-300">
             <Truck className="h-3.5 w-3.5 text-blue-400" />
-            <span className="hidden sm:inline">Free Express Delivery on orders over $50</span>
+            <span className="hidden sm:inline">
+              Free Express Delivery on orders over $50
+            </span>
             <span className="sm:hidden">Free Delivery &gt; $50</span>
           </span>
           <span className="hidden md:inline text-zinc-600">|</span>

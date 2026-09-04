@@ -7,6 +7,7 @@ import { NewArrivals } from '@/components/home/NewArrivals';
 import { BestSelling } from '@/components/home/BestSelling';
 import { WhyChooseUs } from '@/components/home/WhyChooseUs';
 import { getCategoriesFromDb } from '@/services/categoryService';
+import { getProductsFromDb } from '@/services/productService';
 import {
   Product,
   HeroSlide,
@@ -15,9 +16,11 @@ import {
 } from '@/types/product';
 
 export default async function HomePage() {
-  const categories = await getCategoriesFromDb();
+  const [categories, products] = await Promise.all([
+    getCategoriesFromDb(),
+    getProductsFromDb(),
+  ]);
   const heroSlides = mockData.heroSlides as HeroSlide[];
-  const products = mockData.products as unknown as Product[];
   const promoBanner = mockData.promoBanner as PromoBannerType;
   const whyChooseUs = mockData.whyChooseUs as TrustFeature[];
 

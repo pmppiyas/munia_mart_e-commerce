@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ChevronRight, Home } from 'lucide-react';
 import { getCategoryBySlugFromDb } from '@/services/categoryService';
-import mockData from '@/data/mockData.json';
+import { getProductsFromDb } from '@/services/productService';
 import { Product } from '@/types/product';
 import { CategoryPageContent } from './CategoryPageContent';
 
@@ -44,7 +44,7 @@ export default async function CategoryDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const allProducts = mockData.products as unknown as Product[];
+  const allProducts = await getProductsFromDb();
   const categoryProducts = allProducts.filter(
     (p) =>
       p.categoryId === category.id ||

@@ -1,15 +1,6 @@
 import { Category } from '@/types/category';
 import mockData from '@/data/mockData.json';
-
-const getApiBaseUrl = (): string => {
-  if (process.env.NEXT_PUBLIC_API_URL) {
-    return process.env.NEXT_PUBLIC_API_URL;
-  }
-  if (typeof window !== 'undefined' && !window.location.hostname.includes('localhost')) {
-    return '/api/v1';
-  }
-  return 'http://localhost:5000/api/v1';
-};
+import { env } from '@/config/env';
 
 // Compute accurate real product counts per category and subcategory from product catalog
 function getRealCatalogCounts() {
@@ -39,7 +30,7 @@ export async function getCategoriesFromDb(): Promise<Category[]> {
   const { catCountMap, subCountMap } = getRealCatalogCounts();
 
   try {
-    const baseUrl = getApiBaseUrl();
+    const baseUrl = env.API_BASE_URL;
     const res = await fetch(`${baseUrl}/category`, {
       next: { revalidate: 60 },
     });

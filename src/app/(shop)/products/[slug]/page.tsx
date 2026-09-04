@@ -3,32 +3,23 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ChevronRight, Home } from 'lucide-react';
-import mockData from '@/data/mockData.json';
 import { Product } from '@/types/product';
 import { ProductGallery } from '@/components/product/ProductGallery';
 import { ProductInfo } from '@/components/product/ProductInfo';
 import { ProductDetailTabs } from './ProductDetailTabs';
 import { RelatedProducts } from '@/components/product/RelatedProducts';
+import {
+  getProductByIdOrSlugFromDb,
+  getProductsFromDb,
+} from '@/services/productService';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-function getProductBySlugOrId(slugOrId: string): Product | undefined {
-  const allProducts = mockData.products as unknown as Product[];
-  const decoded = decodeURIComponent(slugOrId).toLowerCase();
-
-  return allProducts.find(
-    (p) =>
-      p.slug?.toLowerCase() === decoded ||
-      p.id.toLowerCase() === decoded ||
-      p.sku.toLowerCase() === decoded
-  );
-}
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlugOrId(slug);
+  const product = await getProductByIdOrSlugFromDb(slug);
 
   if (!product) {
     return {
@@ -50,13 +41,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProductDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const product = getProductBySlugOrId(slug);
+  const [product, allProducts] = await Promise.all([
+    getProductByIdOrSlugFromDb(slug),
+    getProductsFromDb(),
+  ]);
 
   if (!product) {
     notFound();
   }
-
-  const allProducts = mockData.products as unknown as Product[];
   const galleryImages =
     product.images && product.images.length > 0
       ? product.images
