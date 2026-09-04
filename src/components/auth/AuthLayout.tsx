@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ShieldCheck } from 'lucide-react';
 import { Logo } from '@/components/layout/header/Logo';
 import { cn } from '@/lib/utils';
 
