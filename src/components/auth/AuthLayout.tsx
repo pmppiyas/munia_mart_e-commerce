@@ -22,22 +22,6 @@ export function AuthLayout({
   return (
     <div className="flex min-h-[calc(100vh-160px)] w-full items-center justify-center py-8 sm:py-12 px-4 sm:px-6 lg:px-8 bg-background">
       <div className={cn('w-full max-w-md space-y-6', className)}>
-        {/* Navigation / Back link */}
-        <div className="flex items-center justify-between">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-primary transition-colors group"
-          >
-            <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
-            <span>Back to Store</span>
-          </Link>
-
-          <div className="flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
-            <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-            <span>SSL 256-bit Secure</span>
-          </div>
-        </div>
-
         {/* Auth Card */}
         <div className="rounded-3xl border border-border bg-card p-6 sm:p-8 shadow-sm transition-all">
           {/* Logo & Header */}
@@ -64,11 +48,17 @@ export function AuthLayout({
         {/* Footer Policy Notes */}
         <p className="text-center text-[11px] text-muted-foreground px-4">
           By continuing, you agree to MuniaMart&apos;s{' '}
-          <Link href="/terms" className="underline underline-offset-2 hover:text-primary">
+          <Link
+            href="/terms"
+            className="underline underline-offset-2 hover:text-primary"
+          >
             Terms of Service
           </Link>{' '}
           and{' '}
-          <Link href="/privacy" className="underline underline-offset-2 hover:text-primary">
+          <Link
+            href="/privacy"
+            className="underline underline-offset-2 hover:text-primary"
+          >
             Privacy Policy
           </Link>
           .

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AuthState, CustomerUser } from './authTypes';
 import { authApi } from '@/services/api/authApi';
+import { customerApi } from '@/services/api/customerApi';
 
 const initialState: AuthState = {
   user: null,
@@ -39,6 +40,9 @@ export const authSlice = createSlice({
         state.user = action.payload.data;
         state.isAuthenticated = true;
         state.status = 'authenticated';
+      })
+      .addMatcher(customerApi.endpoints.updateProfile.matchFulfilled, (state, action) => {
+        state.user = action.payload.data;
       })
       .addMatcher(authApi.endpoints.getMe.matchRejected, (state) => {
         state.user = null;

@@ -215,7 +215,7 @@ function ProductsContent() {
         {/* Main Layout Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Sidebar: Desktop Filters (lg:col-span-3) */}
-          <div className="hidden lg:block lg:col-span-3 rounded-2xl border border-border bg-card p-5 pr-3 shadow-2xs sticky top-[176px] max-h-[calc(100vh-196px)] overflow-y-auto overscroll-contain">
+          <div className="hidden lg:flex lg:flex-col lg:col-span-3 rounded-2xl border border-border bg-card shadow-2xs sticky top-[176px] h-[calc(100vh-196px)] max-h-[calc(100vh-196px)] overflow-hidden">
             <ProductFilter
               categories={categoriesWithRealCounts}
               availableBrands={availableBrands}

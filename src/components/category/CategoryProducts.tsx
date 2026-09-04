@@ -166,32 +166,41 @@ export function CategoryProducts({
   };
 
   const renderFilterSidebar = (isMobile = false) => (
-    <aside className="space-y-6">
-      {/* Header */}
-      <div className="sticky top-0 bg-card z-10 flex items-center justify-between border-b border-border pb-3 pt-0.5">
-        <div className="flex items-center gap-2">
-          <SlidersHorizontal className="h-4 w-4 text-primary" />
-          <h2 className="text-sm font-bold text-foreground">Filter {category.name}</h2>
+    <aside className={cn('flex flex-col', isMobile ? 'space-y-6' : 'h-full')}>
+      {/* Header - Desktop only (mobile drawer already has its own header) */}
+      {!isMobile && (
+        <div className="flex items-center justify-between border-b border-border px-5 py-4 bg-card shrink-0 select-none">
+          <div className="flex items-center gap-2">
+            <SlidersHorizontal className="h-4 w-4 text-primary" />
+            <h2 className="text-sm font-bold text-foreground">Filter {category.name}</h2>
+          </div>
+
+          {hasActiveFilters && (
+            <button
+              type="button"
+              onClick={handleResetFilters}
+              className="flex items-center gap-1 text-xs font-semibold text-primary hover:underline cursor-pointer"
+            >
+              <RotateCcw className="h-3.5 w-3.5" />
+              <span>Reset All</span>
+            </button>
+          )}
         </div>
+      )}
 
-        {hasActiveFilters && (
-          <button
-            type="button"
-            onClick={handleResetFilters}
-            className="flex items-center gap-1 text-xs font-semibold text-primary hover:underline cursor-pointer"
-          >
-            <RotateCcw className="h-3.5 w-3.5" />
-            <span>Reset All</span>
-          </button>
+      {/* Filter Body */}
+      <div
+        className={cn(
+          'space-y-6',
+          !isMobile && 'flex-1 overflow-y-auto overscroll-contain p-5 pr-3'
         )}
-      </div>
-
-      {/* 1. Subcategory Filter if children exist */}
-      {category.children && category.children.length > 0 && (
-        <div className="space-y-2">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-foreground">
-            Subcategories
-          </h3>
+      >
+        {/* 1. Subcategory Filter if children exist */}
+        {category.children && category.children.length > 0 && (
+          <div className="space-y-2">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-foreground">
+              Subcategories
+            </h3>
           <div className="space-y-1 pt-1">
             <button
               type="button"
@@ -283,6 +292,7 @@ export function CategoryProducts({
         minRating={filters.minRating}
         onRatingChange={(minRating) => handleFilterChange({ ...filters, minRating })}
       />
+      </div>
 
       {/* Mobile Drawer Close */}
       {isMobile && (
@@ -304,7 +314,7 @@ export function CategoryProducts({
     <div className={cn('space-y-6', className)}>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Desktop Filter Sidebar (3 cols) */}
-        <div className="hidden lg:block lg:col-span-3 rounded-2xl border border-border bg-card p-5 pr-3 shadow-2xs sticky top-[176px] max-h-[calc(100vh-196px)] overflow-y-auto overscroll-contain">
+        <div className="hidden lg:flex lg:flex-col lg:col-span-3 rounded-2xl border border-border bg-card shadow-2xs sticky top-[176px] h-[calc(100vh-196px)] max-h-[calc(100vh-196px)] overflow-hidden">
           {renderFilterSidebar(false)}
         </div>
 

@@ -68,78 +68,88 @@ export function ProductFilter({
   };
 
   return (
-    <aside className={cn('space-y-6', className)}>
-      {/* Header */}
-      <div className="sticky top-0 bg-card z-10 flex items-center justify-between border-b border-border pb-3 pt-0.5">
-        <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-primary" />
-          <h2 className="text-sm font-bold text-foreground">Filters</h2>
+    <aside className={cn('flex flex-col', isMobileDrawer ? 'space-y-6' : 'h-full', className)}>
+      {/* Header - Desktop only (mobile drawer already has its own header) */}
+      {!isMobileDrawer && (
+        <div className="flex items-center justify-between border-b border-border px-5 py-4 bg-card shrink-0 select-none">
+          <div className="flex items-center gap-2">
+            <Filter className="h-4 w-4 text-primary" />
+            <h2 className="text-sm font-bold text-foreground">Filters</h2>
+          </div>
+
+          {hasActiveFilters && (
+            <button
+              type="button"
+              onClick={onResetFilters}
+              className="flex items-center gap-1 text-xs font-semibold text-primary hover:underline cursor-pointer"
+            >
+              <RotateCcw className="h-3.5 w-3.5" />
+              <span>Reset All</span>
+            </button>
+          )}
         </div>
-
-        {hasActiveFilters && (
-          <button
-            type="button"
-            onClick={onResetFilters}
-            className="flex items-center gap-1 text-xs font-semibold text-primary hover:underline cursor-pointer"
-          >
-            <RotateCcw className="h-3.5 w-3.5" />
-            <span>Reset All</span>
-          </button>
-        )}
-      </div>
-
-      {/* 1. Category Filter */}
-      <CategoryFilter
-        categories={categories}
-        selectedCategories={filters.categories}
-        onToggleCategory={handleToggleCategory}
-      />
-
-      <div className="border-t border-border" />
-
-      {/* 2. Price Filter */}
-      <PriceFilter
-        priceRange={filters.priceRange}
-        onPriceChange={handlePriceChange}
-      />
-
-      <div className="border-t border-border" />
-
-      {/* 3. Brand Filter */}
-      {availableBrands.length > 0 && (
-        <>
-          <BrandFilter
-            availableBrands={availableBrands}
-            selectedBrands={filters.brands}
-            onToggleBrand={handleToggleBrand}
-          />
-          <div className="border-t border-border" />
-        </>
       )}
 
-      {/* 4. Availability Filter */}
-      <div className="space-y-2">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-foreground">
-          Availability
-        </h3>
-        <label className="flex items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-xs font-medium cursor-pointer hover:bg-muted transition-colors">
-          <input
-            type="checkbox"
-            checked={filters.inStockOnly}
-            onChange={handleToggleInStock}
-            className="h-4 w-4 rounded-md border-border text-primary focus:ring-primary/20 accent-blue-600"
-          />
-          <span className="text-foreground">In Stock Only</span>
-        </label>
+      {/* Scrollable Filter Options Body */}
+      <div
+        className={cn(
+          'space-y-6',
+          !isMobileDrawer && 'flex-1 overflow-y-auto overscroll-contain p-5 pr-3'
+        )}
+      >
+        {/* 1. Category Filter */}
+        <CategoryFilter
+          categories={categories}
+          selectedCategories={filters.categories}
+          onToggleCategory={handleToggleCategory}
+        />
+
+        <div className="border-t border-border" />
+
+        {/* 2. Price Filter */}
+        <PriceFilter
+          priceRange={filters.priceRange}
+          onPriceChange={handlePriceChange}
+        />
+
+        <div className="border-t border-border" />
+
+        {/* 3. Brand Filter */}
+        {availableBrands.length > 0 && (
+          <>
+            <BrandFilter
+              availableBrands={availableBrands}
+              selectedBrands={filters.brands}
+              onToggleBrand={handleToggleBrand}
+            />
+            <div className="border-t border-border" />
+          </>
+        )}
+
+        {/* 4. Availability Filter */}
+        <div className="space-y-2">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-foreground">
+            Availability
+          </h3>
+          <label className="flex items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-xs font-medium cursor-pointer hover:bg-muted transition-colors">
+            <input
+              type="checkbox"
+              checked={filters.inStockOnly}
+              onChange={handleToggleInStock}
+              className="h-4 w-4 rounded-md border-border text-primary focus:ring-primary/20 accent-blue-600"
+            />
+            <span className="text-foreground">In Stock Only</span>
+          </label>
+        </div>
+
+        <div className="border-t border-border" />
+
+        {/* 5. Rating Filter */}
+        <RatingFilter
+          minRating={filters.minRating}
+          onRatingChange={handleRatingChange}
+        />
       </div>
-
-      <div className="border-t border-border" />
-
-      {/* 5. Rating Filter */}
-      <RatingFilter
-        minRating={filters.minRating}
-        onRatingChange={handleRatingChange}
-      />
 
       {/* Mobile Apply Button */}
       {isMobileDrawer && onCloseMobileDrawer && (
