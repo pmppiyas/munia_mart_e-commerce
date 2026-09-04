@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { Menu, X, Phone, Mail, ChevronRight, LogIn } from 'lucide-react';
 import { siteConfig } from '@/config/site';
 import { useGetAllCategoriesQuery } from '@/services/api/categoryApi';
@@ -178,30 +179,9 @@ export function MobileMenu({ className }: MobileMenuProps) {
               })}
             </div>
           ) : (
-            <div className="space-y-1.5">
-              {siteConfig.navItems.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-foreground/85 hover:bg-muted hover:text-primary transition-colors"
-                >
-                  <span>{item.label}</span>
-                  {item.badge && (
-                    <span
-                      className={cn(
-                        'rounded-full px-2 py-0.5 text-xs font-semibold',
-                        item.badge === 'Hot'
-                          ? 'bg-destructive/10 text-destructive'
-                          : 'bg-primary/10 text-primary'
-                      )}
-                    >
-                      {item.badge}
-                    </span>
-                  )}
-                </Link>
-              ))}
-            </div>
+            <React.Suspense fallback={<MobileNavLinksFallback onClose={() => setIsOpen(false)} />}>
+              <MobileNavLinks onClose={() => setIsOpen(false)} />
+            </React.Suspense>
           )}
         </div>
 
@@ -234,6 +214,102 @@ export function MobileMenu({ className }: MobileMenuProps) {
           </div>
         </div>
       </aside>
+    </div>
+  );
+}
+
+function MobileNavLinks({ onClose }: { onClose: () => void }) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const isItemActive = (href: string) => {
+    if (href.includes('?')) {
+      const [itemPath, itemQuery] = href.split('?');
+      if (pathname !== itemPath) return false;
+      const targetParams = new URLSearchParams(itemQuery);
+      for (const [key, value] of targetParams.entries()) {
+        if (searchParams.get(key) !== value) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    if (href === '/products') {
+      if (pathname !== '/products') return false;
+      const isDeals = searchParams.get('deal') === 'true';
+      const isNewest = searchParams.get('sort') === 'newest';
+      return !isDeals && !isNewest;
+    }
+
+    if (href === '/') {
+      return pathname === '/';
+    }
+
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
+
+  return (
+    <div className="space-y-1.5">
+      {siteConfig.navItems.map((item) => {
+        const isActive = isItemActive(item.href);
+        return (
+          <Link
+            key={item.label}
+            href={item.href}
+            onClick={onClose}
+            className={cn(
+              'flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium transition-colors',
+              isActive
+                ? 'bg-primary/10 text-primary font-semibold'
+                : 'text-foreground/85 hover:bg-muted hover:text-primary'
+            )}
+          >
+            <span>{item.label}</span>
+            {item.badge && (
+              <span
+                className={cn(
+                  'rounded-full px-2 py-0.5 text-xs font-semibold',
+                  item.badge === 'Hot'
+                    ? 'bg-destructive/10 text-destructive'
+                    : 'bg-primary/10 text-primary'
+                )}
+              >
+                {item.badge}
+              </span>
+            )}
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
+function MobileNavLinksFallback({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="space-y-1.5">
+      {siteConfig.navItems.map((item) => (
+        <Link
+          key={item.label}
+          href={item.href}
+          onClick={onClose}
+          className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-foreground/85 hover:bg-muted hover:text-primary transition-colors"
+        >
+          <span>{item.label}</span>
+          {item.badge && (
+            <span
+              className={cn(
+                'rounded-full px-2 py-0.5 text-xs font-semibold',
+                item.badge === 'Hot'
+                  ? 'bg-destructive/10 text-destructive'
+                  : 'bg-primary/10 text-primary'
+              )}
+            >
+              {item.badge}
+            </span>
+          )}
+        </Link>
+      ))}
     </div>
   );
 }

@@ -62,19 +62,38 @@ function ProductsContent() {
     }));
   }, [allCategories, allProducts]);
 
+  const isDealPage = searchParams.get('deal') === 'true';
+  const sortParam = searchParams.get('sort');
+  const isNewestPage = sortParam === 'newest';
+
   // Initial state derived from searchParams at mount time
   const [filters, setFilters] = React.useState<ProductFilterState>(() => {
     const categoryParam = searchParams.get('category');
     const qParam = searchParams.get('q');
-    const sortParam = searchParams.get('sort') as ProductSortOption | null;
+    const sort = searchParams.get('sort') as ProductSortOption | null;
 
     return {
       ...INITIAL_FILTERS,
       categories: categoryParam ? [categoryParam] : [],
       search: qParam || '',
-      sortBy: sortParam || 'featured',
+      sortBy: sort || 'featured',
     };
   });
+
+  // Re-sync filters when navigation or searchParams change (e.g. clicking Shop vs Deals vs New Arrivals)
+  React.useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    const qParam = searchParams.get('q');
+    const sort = searchParams.get('sort') as ProductSortOption | null;
+
+    setFilters({
+      ...INITIAL_FILTERS,
+      categories: categoryParam ? [categoryParam] : [],
+      search: qParam || '',
+      sortBy: sort || 'featured',
+    });
+    setCurrentPage(1);
+  }, [searchParams]);
 
   const [viewMode, setViewMode] = React.useState<ViewMode>('grid');
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -83,6 +102,15 @@ function ProductsContent() {
   // Filter & Sort Logic
   const filteredProducts = React.useMemo(() => {
     let result = [...allProducts];
+
+    // 0. Deals Only Filter
+    if (isDealPage) {
+      result = result.filter(
+        (p) =>
+          (p.discountPercent !== undefined && p.discountPercent > 0) ||
+          (p.originalPrice !== undefined && p.originalPrice > p.price)
+      );
+    }
 
     // 1. Search Query
     if (filters.search && filters.search.trim()) {
@@ -187,10 +215,31 @@ function ProductsContent() {
           <ChevronRight className="h-3 w-3 text-muted-foreground/60" />
           <Link
             href="/products"
-            className="hover:text-primary transition-colors font-medium text-foreground"
+            className={cn(
+              'hover:text-primary transition-colors font-medium',
+              !isDealPage && !isNewestPage && filters.categories.length === 0
+                ? 'text-foreground font-semibold'
+                : 'text-muted-foreground'
+            )}
           >
             Shop
           </Link>
+          {isDealPage && (
+            <>
+              <ChevronRight className="h-3 w-3 text-muted-foreground/60" />
+              <span className="text-primary font-bold">
+                Deals &amp; Offers
+              </span>
+            </>
+          )}
+          {isNewestPage && !isDealPage && (
+            <>
+              <ChevronRight className="h-3 w-3 text-muted-foreground/60" />
+              <span className="text-primary font-bold">
+                New Arrivals
+              </span>
+            </>
+          )}
           {filters.categories.length === 1 && (
             <>
               <ChevronRight className="h-3 w-3 text-muted-foreground/60" />
@@ -205,10 +254,18 @@ function ProductsContent() {
         {/* Page Header */}
         <div className="border-b border-border pb-5">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-foreground">
-            All Products
+            {isDealPage
+              ? 'Hot Deals & Special Offers'
+              : isNewestPage
+              ? 'New Arrivals'
+              : 'All Products'}
           </h1>
           <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
-            Browse our complete catalog of verified electronics, fashion, and home lifestyle essentials.
+            {isDealPage
+              ? 'Grab limited-time discounts and exclusive promotional offers on premium items.'
+              : isNewestPage
+              ? 'Explore our freshest arrivals, latest releases, and newest product launches.'
+              : 'Browse our complete catalog of verified electronics, fashion, and home lifestyle essentials.'}
           </p>
         </div>
 

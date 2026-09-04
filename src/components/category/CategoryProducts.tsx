@@ -73,9 +73,27 @@ export function CategoryProducts({
 
     // 1. Subcategory filter
     if (selectedSubcategory) {
-      result = result.filter(
-        (p) => p.subcategorySlug === selectedSubcategory
+      const activeChild = category.children?.find(
+        (c) =>
+          c.slug.toLowerCase() === selectedSubcategory.toLowerCase() ||
+          c.name.toLowerCase() === selectedSubcategory.toLowerCase() ||
+          c.id.toLowerCase() === selectedSubcategory.toLowerCase()
       );
+
+      result = result.filter((p) => {
+        if (!p.subcategorySlug && !p.subcategoryId) return false;
+        const pSlug = p.subcategorySlug?.toLowerCase();
+        const targetSlug = selectedSubcategory.toLowerCase();
+        return (
+          pSlug === targetSlug ||
+          p.subcategoryId === selectedSubcategory ||
+          (activeChild && (
+            pSlug === activeChild.slug.toLowerCase() ||
+            pSlug === activeChild.name.toLowerCase().replace(/\s+/g, '-') ||
+            p.subcategoryId === activeChild.id
+          ))
+        );
+      });
     }
 
     // 2. Brands
@@ -218,7 +236,10 @@ export function CategoryProducts({
               </span>
             </button>
             {category.children.map((sub) => {
-              const isSelected = selectedSubcategory === sub.slug;
+              const isSelected =
+                !!selectedSubcategory &&
+                (selectedSubcategory.toLowerCase() === sub.slug.toLowerCase() ||
+                  selectedSubcategory.toLowerCase() === sub.name.toLowerCase());
               const count = subcategoryCounts.get(sub.slug) || 0;
               return (
                 <button

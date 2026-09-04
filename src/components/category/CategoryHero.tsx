@@ -9,12 +9,14 @@ import { cn } from '@/lib/utils';
 interface CategoryHeroProps {
   category: Category;
   totalProducts?: number;
+  activeSubcategory?: Category;
   className?: string;
 }
 
 export function CategoryHero({
   category,
   totalProducts,
+  activeSubcategory,
   className,
 }: CategoryHeroProps) {
   const displayCount = totalProducts ?? category.itemCount ?? 0;
@@ -44,11 +46,17 @@ export function CategoryHero({
 
       {/* Content */}
       <div className="relative z-10 max-w-2xl space-y-3">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 border border-primary/20 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
             <Layers className="h-3.5 w-3.5" />
             <span>Department</span>
           </span>
+
+          {activeSubcategory && (
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/15 border border-primary/30 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
+              <span>{activeSubcategory.name}</span>
+            </span>
+          )}
 
           {displayCount > 0 && (
             <span className="text-xs font-semibold text-muted-foreground">
@@ -59,6 +67,11 @@ export function CategoryHero({
 
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground leading-tight">
           {category.name}
+          {activeSubcategory && (
+            <span className="text-primary font-extrabold text-2xl sm:text-3xl lg:text-4xl ml-2 sm:ml-3">
+              / {activeSubcategory.name}
+            </span>
+          )}
         </h1>
 
         <p className="text-xs sm:text-sm text-foreground/70 leading-relaxed">

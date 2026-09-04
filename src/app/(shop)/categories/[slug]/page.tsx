@@ -54,36 +54,13 @@ export default async function CategoryDetailPage({ params }: PageProps) {
   return (
     <div className="py-6 sm:py-8 lg:py-10 bg-background min-h-screen">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-6">
-        {/* Breadcrumb Navigation */}
-        <nav
-          aria-label="Breadcrumb"
-          className="flex items-center gap-1.5 text-xs text-muted-foreground"
-        >
-          <Link
-            href="/"
-            className="flex items-center gap-1 hover:text-primary transition-colors"
-          >
-            <Home className="h-3.5 w-3.5" />
-            <span>Home</span>
-          </Link>
-          <ChevronRight className="h-3 w-3 text-muted-foreground/60" />
-          <Link
-            href="/categories"
-            className="hover:text-primary transition-colors"
-          >
-            Categories
-          </Link>
-          <ChevronRight className="h-3 w-3 text-muted-foreground/60" />
-          <span className="font-bold text-primary capitalize">
-            {category.name}
-          </span>
-        </nav>
-
-        {/* Category Hero, Subcategories, and Products */}
-        <CategoryPageContent
-          category={category}
-          categoryProducts={categoryProducts}
-        />
+        {/* Category Hero, Subcategories, Products, and dynamic breadcrumb */}
+        <React.Suspense fallback={<div className="min-h-[400px] animate-pulse rounded-3xl bg-muted/40" />}>
+          <CategoryPageContent
+            category={category}
+            categoryProducts={categoryProducts}
+          />
+        </React.Suspense>
       </div>
     </div>
   );

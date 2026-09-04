@@ -84,17 +84,24 @@ export function SubCategoryList({
         </button>
 
         {/* Subcategory Cards */}
-        {subcategories.map((sub) => (
-          <SubCategoryCard
-            key={sub.id}
-            subcategory={sub}
-            itemCount={subcategoryCounts.get(sub.slug) || 0}
-            isSelected={selectedSubcategory === sub.slug}
-            onSelect={(slug) =>
-              onSelectSubcategory(selectedSubcategory === slug ? null : slug)
-            }
-          />
-        ))}
+        {subcategories.map((sub) => {
+          const isSelected =
+            !!selectedSubcategory &&
+            (selectedSubcategory.toLowerCase() === sub.slug.toLowerCase() ||
+              selectedSubcategory.toLowerCase() === sub.name.toLowerCase());
+
+          return (
+            <SubCategoryCard
+              key={sub.id}
+              subcategory={sub}
+              itemCount={subcategoryCounts.get(sub.slug) || 0}
+              isSelected={isSelected}
+              onSelect={(slug) =>
+                onSelectSubcategory(isSelected ? null : slug)
+              }
+            />
+          );
+        })}
       </div>
     </div>
   );
