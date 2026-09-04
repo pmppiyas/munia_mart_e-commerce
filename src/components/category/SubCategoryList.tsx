@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { LayoutGrid } from 'lucide-react';
 import { Category } from '@/types/category';
+import { Product } from '@/types/product';
 import { SubCategoryCard } from './SubCategoryCard';
 import { cn } from '@/lib/utils';
 
@@ -12,6 +13,7 @@ interface SubCategoryListProps {
   onSelectSubcategory: (slug: string | null) => void;
   categoryName: string;
   className?: string;
+  products?: Product[];
 }
 
 export function SubCategoryList({
@@ -20,7 +22,19 @@ export function SubCategoryList({
   onSelectSubcategory,
   categoryName,
   className,
+  products = [],
 }: SubCategoryListProps) {
+  // Real product counts per subcategory
+  const subcategoryCounts = React.useMemo(() => {
+    const map = new Map<string, number>();
+    products.forEach((p) => {
+      if (p.subcategorySlug) {
+        map.set(p.subcategorySlug, (map.get(p.subcategorySlug) || 0) + 1);
+      }
+    });
+    return map;
+  }, [products]);
+
   if (!subcategories || subcategories.length === 0) return null;
 
   return (
@@ -65,7 +79,7 @@ export function SubCategoryList({
             >
               All {categoryName}
             </h3>
-            <p className="text-[11px] text-muted-foreground">Browse all</p>
+            <p className="text-[11px] text-muted-foreground">{products.length} items</p>
           </div>
         </button>
 
@@ -74,6 +88,7 @@ export function SubCategoryList({
           <SubCategoryCard
             key={sub.id}
             subcategory={sub}
+            itemCount={subcategoryCounts.get(sub.slug) || 0}
             isSelected={selectedSubcategory === sub.slug}
             onSelect={(slug) =>
               onSelectSubcategory(selectedSubcategory === slug ? null : slug)

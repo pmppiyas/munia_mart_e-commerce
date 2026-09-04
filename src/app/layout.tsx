@@ -20,21 +20,80 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: `${siteConfig.name} - ${siteConfig.tagline}`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  applicationName: siteConfig.name,
   keywords: [
     'E-Commerce',
     'Online Shopping',
-    'MUNIAMART',
+    'MuniaMart',
     'Electronics',
     'Fashion',
+    'Gadgets',
     'Home & Living',
+    'Beauty & Wellness',
+    'Daily Groceries',
+    'Buy Online Bangladesh',
   ],
-  authors: [{ name: siteConfig.name }],
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
   creator: siteConfig.name,
+  publisher: siteConfig.name,
+  manifest: '/site.webmanifest',
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/og-image.png', type: 'image/png' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: ['/icon.svg'],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '512x512', type: 'image/png' }],
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    title: `${siteConfig.name} - ${siteConfig.tagline}`,
+    description: siteConfig.description,
+    images: [
+      {
+        url: '/og-image.png',
+        width: 512,
+        height: 512,
+        alt: `${siteConfig.name} Logo`,
+        type: 'image/png',
+      },
+      {
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} - ${siteConfig.tagline}`,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${siteConfig.name} - ${siteConfig.tagline}`,
+    description: siteConfig.description,
+    site: '@muniamart',
+    creator: '@muniamart',
+    images: ['/og-image.png', '/twitter-image'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -48,7 +107,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground pb-16 md:pb-0">
+      <body className="min-h-full flex flex-col bg-background text-foreground pb-24 md:pb-0">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

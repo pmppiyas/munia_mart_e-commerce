@@ -22,7 +22,7 @@ export function TopNavbar() {
 
   return (
     <div className="border-b border-border/60 bg-zinc-900 text-zinc-100 dark:bg-black dark:border-zinc-800 text-[11px]">
-      <div className="mx-auto flex h-8 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-8 max-w-7xl items-center justify-between px-3 sm:px-6 lg:px-8">
         {/* Left: Promo */}
         <div className="flex items-center gap-2">
           <span className="flex items-center gap-1.5 font-medium text-zinc-300">

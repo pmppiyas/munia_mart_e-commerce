@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Home, ChevronRight, ShoppingBag, Trash2, ArrowLeft } from 'lucide-react';
 import { useCart } from '@/hooks/useCart';
 import { useWishlist } from '@/hooks/useWishlist';
+import { useMounted } from '@/hooks/useMounted';
 import { WishlistItem } from './WishlistItem';
 import { EmptyWishlist } from './EmptyWishlist';
 import { toast } from 'sonner';
@@ -15,6 +16,7 @@ interface WishlistPageProps {
 }
 
 export function WishlistPage({ className }: WishlistPageProps) {
+  const mounted = useMounted();
   const { items, totalCount, clearAll } = useWishlist();
   const { addItem } = useCart();
 
@@ -51,6 +53,36 @@ export function WishlistPage({ className }: WishlistPageProps) {
       toast.error('No items in your wishlist are currently in stock.');
     }
   };
+
+  if (!mounted) {
+    return (
+      <div className={cn('py-6 sm:py-8 lg:py-10 bg-background min-h-screen', className)}>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-6">
+          <nav
+            aria-label="Breadcrumb"
+            className="flex items-center gap-1.5 text-xs text-muted-foreground"
+          >
+            <Link href="/" className="flex items-center gap-1 hover:text-primary transition-colors">
+              <Home className="h-3.5 w-3.5" />
+              <span>Home</span>
+            </Link>
+            <ChevronRight className="h-3 w-3 text-muted-foreground/60" />
+            <Link href="/products" className="hover:text-primary transition-colors">
+              Shop
+            </Link>
+            <ChevronRight className="h-3 w-3 text-muted-foreground/60" />
+            <span className="font-bold text-foreground">Wishlist</span>
+          </nav>
+
+          <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-border bg-card/40 p-12 text-center min-h-[380px] animate-pulse">
+            <div className="h-12 w-12 rounded-2xl bg-muted" />
+            <div className="mt-4 h-4 w-32 rounded-md bg-muted" />
+            <div className="mt-2 h-3 w-48 rounded-md bg-muted" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (items.length === 0) {
     return (

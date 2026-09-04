@@ -38,21 +38,22 @@ export function PromoBanner({ banner }: PromoBannerProps) {
 
   return (
     <section className="py-8 sm:py-12 bg-background">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-6 sm:p-10 lg:p-12 shadow-sm">
-          {/* Background image & gradient overlay */}
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
+        <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-4 sm:p-10 lg:p-12 shadow-sm group">
+          {/* Background Image Container with High Visibility & Crisp Contrast */}
           <div className="absolute inset-0 z-0">
             <Image
               src={banner.imageUrl}
               alt={banner.title}
               fill
               sizes="100vw"
-              className="object-cover object-center opacity-25 dark:opacity-20"
+              className="object-cover object-right opacity-90 sm:opacity-95 dark:opacity-85 transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-card via-card/90 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-card/95 via-card/60 via-40% to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent sm:hidden" />
           </div>
 
-          {/* Content */}
+          {/* Banner Content */}
           <div className="relative z-10 max-w-2xl space-y-4">
             <div className="flex flex-wrap items-center gap-3">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 px-3 py-1 text-xs font-black uppercase tracking-wider text-amber-600 dark:text-amber-400">
@@ -68,7 +69,7 @@ export function PromoBanner({ banner }: PromoBannerProps) {
               {banner.title}
             </h2>
 
-            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+            <p className="text-xs sm:text-sm text-foreground/70 leading-relaxed max-w-xl">
               {banner.subtitle}
             </p>
 
@@ -86,7 +87,7 @@ export function PromoBanner({ banner }: PromoBannerProps) {
                 ].map((unit) => (
                   <div
                     key={unit.label}
-                    className="flex items-center gap-0.5 rounded-lg border border-border bg-background/80 px-2 py-1 shadow-2xs"
+                    className="flex items-center gap-0.5 rounded-lg border border-border bg-background/90 px-2 py-1 shadow-2xs"
                   >
                     <span className="font-mono text-xs font-bold text-foreground">
                       {String(unit.val).padStart(2, '0')}
@@ -99,10 +100,10 @@ export function PromoBanner({ banner }: PromoBannerProps) {
               </div>
             </div>
 
-            <div className="pt-2">
+            <div className="pt-3">
               <Link
                 href={banner.buttonLink}
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-primary px-6 text-xs font-bold text-primary-foreground shadow-sm hover:bg-primary-hover active:scale-95 transition-all"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-primary px-6 text-xs sm:text-sm font-bold text-primary-foreground shadow-sm hover:bg-primary-hover active:scale-95 transition-all"
               >
                 <span>{banner.buttonText}</span>
                 <ArrowRight className="h-4 w-4" />

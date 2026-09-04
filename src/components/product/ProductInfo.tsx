@@ -265,35 +265,53 @@ export function ProductInfo({
 
         {/* Action Buttons: Add to Cart, Buy Now, Wishlist */}
         <div className="flex flex-col sm:flex-row items-stretch gap-3 pt-2">
-          {/* Add to Cart */}
-          <button
-            type="button"
-            disabled={isOutOfStock}
-            onClick={handleAddToCart}
-            className="flex-1 flex h-12 items-center justify-center gap-2 rounded-xl bg-primary px-6 text-sm font-bold text-primary-foreground shadow-sm hover:bg-primary-hover active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed transition-all cursor-pointer"
-          >
-            <ShoppingBag className="h-4 w-4" />
-            <span>Add to Cart</span>
-          </button>
+          {/* Mobile Row 1: Add to Cart + Wishlist */}
+          <div className="flex items-center gap-3 w-full sm:w-auto sm:flex-1 sm:contents">
+            {/* Add to Cart */}
+            <button
+              type="button"
+              disabled={isOutOfStock}
+              onClick={handleAddToCart}
+              className="flex-1 flex h-12 min-h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-6 text-sm font-bold text-primary-foreground shadow-sm hover:bg-primary-hover active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed transition-all cursor-pointer"
+            >
+              <ShoppingBag className="h-4 w-4" />
+              <span>Add to Cart</span>
+            </button>
 
-          {/* Buy Now */}
+            {/* Wishlist Button (Mobile: beside Add to Cart) */}
+            <button
+              type="button"
+              onClick={handleToggleWishlist}
+              aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+              suppressHydrationWarning
+              className={cn(
+                'sm:hidden flex h-12 min-h-12 w-12 min-w-12 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground shadow-2xs hover:border-primary hover:text-destructive active:scale-95 transition-all cursor-pointer shrink-0',
+                isWishlisted && 'text-destructive bg-destructive/10 border-destructive/20'
+              )}
+            >
+              <Heart className={cn('h-5 w-5', isWishlisted && 'fill-destructive')} />
+            </button>
+          </div>
+
+          {/* Buy Now (Full width & matching h-12 on mobile, flex-1 on desktop) */}
           <button
             type="button"
             disabled={isOutOfStock}
             onClick={handleBuyNow}
-            className="flex-1 flex h-12 items-center justify-center gap-2 rounded-xl bg-amber-500 px-6 text-sm font-bold text-white shadow-sm hover:bg-amber-600 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed transition-all cursor-pointer"
+            className="w-full sm:flex-1 flex h-12 min-h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-amber-500 px-6 text-sm font-bold text-white shadow-sm hover:bg-amber-600 active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed transition-all cursor-pointer"
           >
             <Zap className="h-4 w-4 fill-current" />
             <span>Buy Now</span>
           </button>
 
-          {/* Wishlist Button */}
+          {/* Wishlist Button (Desktop: at end of row) */}
           <button
             type="button"
             onClick={handleToggleWishlist}
             aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+            suppressHydrationWarning
             className={cn(
-              'flex h-12 w-12 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground shadow-2xs hover:border-primary hover:text-destructive active:scale-95 transition-all cursor-pointer shrink-0',
+              'hidden sm:flex h-12 min-h-12 w-12 min-w-12 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground shadow-2xs hover:border-primary hover:text-destructive active:scale-95 transition-all cursor-pointer shrink-0',
               isWishlisted && 'text-destructive bg-destructive/10 border-destructive/20'
             )}
           >

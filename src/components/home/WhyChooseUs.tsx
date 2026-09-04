@@ -21,7 +21,7 @@ export function WhyChooseUs({ features = [] }: WhyChooseUsProps) {
 
   return (
     <section className="py-12 sm:py-16 bg-muted/20 border-y border-border">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
           <span className="inline-block rounded-full bg-primary/10 border border-primary/20 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">

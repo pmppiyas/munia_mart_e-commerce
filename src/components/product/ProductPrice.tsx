@@ -26,8 +26,8 @@ export function ProductPrice({
       original: 'text-xs',
     },
     md: {
-      current: 'text-base font-extrabold',
-      original: 'text-xs',
+      current: 'text-sm sm:text-base font-extrabold',
+      original: 'text-[11px] sm:text-xs',
     },
     lg: {
       current: 'text-xl sm:text-2xl font-black',

@@ -153,7 +153,7 @@ export function ProductCard({
   return (
     <div
       className={cn(
-        'group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border bg-card p-3 shadow-2xs transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:-translate-y-1',
+        'group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-border bg-card p-2.5 sm:p-3 shadow-2xs transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:-translate-y-1',
         className
       )}
     >
@@ -173,6 +173,7 @@ export function ProductCard({
           type="button"
           onClick={handleWishlistClick}
           aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+          suppressHydrationWarning
           className={cn(
             'absolute right-2.5 top-2.5 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-background/90 backdrop-blur-xs text-muted-foreground shadow-xs transition-all hover:scale-110 active:scale-95 cursor-pointer',
             isWishlisted
@@ -189,11 +190,11 @@ export function ProductCard({
       </div>
 
       {/* Content Details */}
-      <div className="mt-3 flex flex-1 flex-col justify-between space-y-2.5">
+      <div className="mt-2 sm:mt-3 flex flex-1 flex-col justify-between space-y-2 sm:space-y-2.5">
         <div>
           {/* Category & Rating */}
-          <div className="flex items-center justify-between gap-1 text-[11px] text-muted-foreground">
-            <span className="truncate font-medium hover:text-primary">
+          <div className="flex items-center justify-between gap-1 text-[10px] sm:text-[11px] text-muted-foreground">
+            <span className="truncate font-medium hover:text-primary max-w-[80px] sm:max-w-none">
               {product.category?.name || product.brand || 'Category'}
             </span>
 
@@ -206,7 +207,7 @@ export function ProductCard({
           {/* Title */}
           <Link
             href={`/products/${product.id}`}
-            className="mt-1 block font-semibold text-foreground hover:text-primary transition-colors text-sm line-clamp-2 leading-snug"
+            className="mt-1 block font-semibold text-foreground hover:text-primary transition-colors text-xs sm:text-sm line-clamp-2 leading-tight sm:leading-snug"
             title={product.name}
           >
             {product.name}

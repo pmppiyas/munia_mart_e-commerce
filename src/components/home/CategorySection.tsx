@@ -15,7 +15,7 @@ export function CategorySection({ categories = [] }: CategorySectionProps) {
 
   return (
     <section className="py-8 sm:py-12 border-b border-border bg-background">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
           <div className="space-y-1">

@@ -106,7 +106,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
         {/* Top 2-Column Hero: Gallery & Info */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Gallery Column (6 cols) */}
-          <div className="lg:col-span-6 sticky top-24">
+          <div className="lg:col-span-6 lg:sticky lg:top-[176px]">
             <ProductGallery
               images={galleryImages}
               productName={product.name}

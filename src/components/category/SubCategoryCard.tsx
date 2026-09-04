@@ -39,6 +39,7 @@ interface SubCategoryCardProps {
   isSelected?: boolean;
   onSelect?: (slug: string) => void;
   className?: string;
+  itemCount?: number;
 }
 
 export function SubCategoryCard({
@@ -46,7 +47,9 @@ export function SubCategoryCard({
   isSelected = false,
   onSelect,
   className,
+  itemCount,
 }: SubCategoryCardProps) {
+  const displayCount = itemCount !== undefined ? itemCount : subcategory.itemCount;
   const IconComponent = (subcategory.icon && iconMap[subcategory.icon]) || Layers;
 
   const handleClick = () => {
@@ -92,9 +95,9 @@ export function SubCategoryCard({
         >
           {subcategory.name}
         </h3>
-        {subcategory.itemCount ? (
+        {displayCount !== undefined ? (
           <p className="text-[11px] text-muted-foreground">
-            {subcategory.itemCount} items
+            {displayCount} items
           </p>
         ) : null}
       </div>

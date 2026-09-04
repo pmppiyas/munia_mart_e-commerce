@@ -28,11 +28,11 @@ export function HeroSection({ slides = [] }: HeroSectionProps) {
 
   return (
     <section className="py-4 sm:py-6 lg:py-8 bg-background">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-stretch">
           {/* Main Hero Slider (8 cols on desktop) */}
-          <div className="lg:col-span-8 relative min-h-[380px] sm:min-h-[440px] lg:min-h-[480px] rounded-3xl border border-border overflow-hidden bg-card flex flex-col justify-between p-6 sm:p-10 lg:p-12 shadow-sm">
-            {/* Background Image with Overlay Gradient */}
+          <div className="lg:col-span-8 relative min-h-[360px] sm:min-h-[440px] lg:min-h-[480px] rounded-3xl border border-border overflow-hidden bg-card flex flex-col justify-between p-4 sm:p-10 lg:p-12 shadow-sm group">
+            {/* Background Image with High Visibility & Crisp Contrast */}
             <div className="absolute inset-0 z-0">
               <Image
                 src={currentSlide.imageUrl}
@@ -40,10 +40,12 @@ export function HeroSection({ slides = [] }: HeroSectionProps) {
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 66vw"
-                className="object-cover object-center opacity-25 dark:opacity-20 transition-all duration-700 scale-105"
+                className="object-cover object-right md:object-center opacity-90 sm:opacity-95 dark:opacity-85 transition-all duration-700 group-hover:scale-105"
               />
               <div className={cn('absolute inset-0 bg-gradient-to-r', currentSlide.bgGradient)} />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+              {/* Tight text contrast gradient: clear white only on left under text, photo completely visible on right */}
+              <div className="absolute inset-0 bg-gradient-to-r from-card/95 via-card/60 via-40% to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent sm:hidden" />
             </div>
 
             {/* Slide Content */}
@@ -62,7 +64,7 @@ export function HeroSection({ slides = [] }: HeroSectionProps) {
                 {currentSlide.title}
               </h1>
 
-              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed line-clamp-3">
+              <p className="text-sm sm:text-base text-foreground/70 leading-relaxed line-clamp-3">
                 {currentSlide.subtitle}
               </p>
 
@@ -131,19 +133,19 @@ export function HeroSection({ slides = [] }: HeroSectionProps) {
           {/* Right Side Promo Cards (4 cols on desktop) */}
           <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-4">
             {/* Promo Card 1 */}
-            <div className="relative flex-1 overflow-hidden rounded-3xl border border-border bg-card p-6 flex flex-col justify-between shadow-2xs group">
+            <div className="relative flex-1 overflow-hidden rounded-3xl border border-border bg-card p-4 sm:p-6 flex flex-col justify-between shadow-2xs group min-h-[180px]">
               <div className="absolute inset-0 z-0">
                 <Image
                   src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=600&auto=format&fit=crop"
                   alt="Smart Gadgets"
                   fill
                   sizes="(max-width: 1024px) 50vw, 33vw"
-                  className="object-cover object-center opacity-20 dark:opacity-15 group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover object-right opacity-85 dark:opacity-80 group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/80 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-card via-card/75 via-50% to-transparent" />
               </div>
 
-              <div className="relative z-10 space-y-2">
+              <div className="relative z-10 space-y-2 max-w-[65%]">
                 <span className="inline-flex items-center gap-1 rounded-md bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
                   <Flame className="h-3 w-3 fill-current" />
                   Weekend Deal
@@ -151,7 +153,7 @@ export function HeroSection({ slides = [] }: HeroSectionProps) {
                 <h3 className="text-lg font-black text-foreground">
                   Smart Audio Devices
                 </h3>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-foreground/70 line-clamp-2">
                   Save up to 45% on true wireless earsets and speakers.
                 </p>
               </div>
@@ -168,19 +170,19 @@ export function HeroSection({ slides = [] }: HeroSectionProps) {
             </div>
 
             {/* Promo Card 2 */}
-            <div className="relative flex-1 overflow-hidden rounded-3xl border border-border bg-card p-6 flex flex-col justify-between shadow-2xs group">
+            <div className="relative flex-1 overflow-hidden rounded-3xl border border-border bg-card p-4 sm:p-6 flex flex-col justify-between shadow-2xs group min-h-[180px]">
               <div className="absolute inset-0 z-0">
                 <Image
                   src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=600&auto=format&fit=crop"
                   alt="Fashion Drops"
                   fill
                   sizes="(max-width: 1024px) 50vw, 33vw"
-                  className="object-cover object-center opacity-20 dark:opacity-15 group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover object-right opacity-85 dark:opacity-80 group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/80 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-card via-card/75 via-50% to-transparent" />
               </div>
 
-              <div className="relative z-10 space-y-2">
+              <div className="relative z-10 space-y-2 max-w-[65%]">
                 <span className="inline-flex items-center gap-1 rounded-md bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                   <ShieldCheck className="h-3 w-3" />
                   Trending Drops
@@ -188,7 +190,7 @@ export function HeroSection({ slides = [] }: HeroSectionProps) {
                 <h3 className="text-lg font-black text-foreground">
                   Luxury Fashion &amp; Leather
                 </h3>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-foreground/70 line-clamp-2">
                   Handcrafted bags, sneakers, and minimalist modern apparel.
                 </p>
               </div>

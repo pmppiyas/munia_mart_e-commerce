@@ -2,29 +2,21 @@
 
 import * as React from 'react';
 import { usePathname } from 'next/navigation';
-import { Home, LayoutGrid, Search, Heart, ShoppingBag, User } from 'lucide-react';
+import { Home, LayoutGrid, Search, User } from 'lucide-react';
 import { MobileNavItem } from './MobileNavItem';
 import { MobileSearch } from './MobileSearch';
 import { useAppSelector } from '@/store/hooks';
-import { selectCartTotalQuantity } from '@/features/cart/cartSelectors';
-import { selectWishlistTotalCount } from '@/features/wishlist/wishlistSelectors';
 import { selectCurrentUser } from '@/features/auth/authSelectors';
 
 interface MobileNavProps {
-  cartCount?: number;
-  wishlistCount?: number;
   user?: object | null;
 }
 
-export function MobileNav({ cartCount, wishlistCount, user = null }: MobileNavProps) {
+export function MobileNav({ user = null }: MobileNavProps) {
   const pathname = usePathname();
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
-  const reduxCartCount = useAppSelector(selectCartTotalQuantity);
-  const reduxWishlistCount = useAppSelector(selectWishlistTotalCount);
   const reduxUser = useAppSelector(selectCurrentUser);
   const activeUser = user !== undefined && user !== null ? user : reduxUser;
-  const displayCartCount = cartCount !== undefined ? cartCount : reduxCartCount;
-  const displayWishlistCount = wishlistCount !== undefined ? wishlistCount : reduxWishlistCount;
 
   return (
     <>
@@ -62,29 +54,13 @@ export function MobileNav({ cartCount, wishlistCount, user = null }: MobileNavPr
           </button>
 
           <MobileNavItem
-            label="Wishlist"
-            href="/wishlist"
-            icon={Heart}
-            isActive={pathname === '/wishlist'}
-            badge={displayWishlistCount}
-          />
-
-          <MobileNavItem
-            label="Cart"
-            href="/cart"
-            icon={ShoppingBag}
-            isActive={pathname === '/cart'}
-            badge={displayCartCount}
-          />
-
-          <MobileNavItem
             label={activeUser ? 'Account' : 'Profile'}
             href={activeUser ? '/profile' : '/auth/login'}
             icon={User}
             isActive={
-              pathname.startsWith('/profile') ||
-              pathname.startsWith('/orders') ||
-              pathname.startsWith('/auth')
+              pathname === '/profile' ||
+              pathname === '/auth/login' ||
+              pathname === '/auth/register'
             }
           />
         </div>

@@ -19,7 +19,7 @@ interface CategoryProductsProps {
   className?: string;
 }
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 30;
 
 export function CategoryProducts({
   category,
@@ -54,6 +54,17 @@ export function CategoryProducts({
     return Array.from(brandMap.entries())
       .map(([name, count]) => ({ name, count }))
       .sort((a, b) => b.count - a.count);
+  }, [initialProducts]);
+
+  // Real product counts per subcategory
+  const subcategoryCounts = React.useMemo(() => {
+    const map = new Map<string, number>();
+    initialProducts.forEach((p) => {
+      if (p.subcategorySlug) {
+        map.set(p.subcategorySlug, (map.get(p.subcategorySlug) || 0) + 1);
+      }
+    });
+    return map;
   }, [initialProducts]);
 
   // Filtering & Sorting Logic
@@ -157,7 +168,7 @@ export function CategoryProducts({
   const renderFilterSidebar = (isMobile = false) => (
     <aside className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-border pb-3">
+      <div className="sticky top-0 bg-card z-10 flex items-center justify-between border-b border-border pb-3 pt-0.5">
         <div className="flex items-center gap-2">
           <SlidersHorizontal className="h-4 w-4 text-primary" />
           <h2 className="text-sm font-bold text-foreground">Filter {category.name}</h2>
@@ -193,9 +204,13 @@ export function CategoryProducts({
               )}
             >
               <span>All in {category.name}</span>
+              <span className="text-[10px] text-muted-foreground font-normal">
+                ({initialProducts.length})
+              </span>
             </button>
             {category.children.map((sub) => {
               const isSelected = selectedSubcategory === sub.slug;
+              const count = subcategoryCounts.get(sub.slug) || 0;
               return (
                 <button
                   key={sub.id}
@@ -212,11 +227,9 @@ export function CategoryProducts({
                   )}
                 >
                   <span>{sub.name}</span>
-                  {sub.itemCount && (
-                    <span className="text-[10px] text-muted-foreground font-normal">
-                      ({sub.itemCount})
-                    </span>
-                  )}
+                  <span className="text-[10px] text-muted-foreground font-normal">
+                    ({count})
+                  </span>
                 </button>
               );
             })}
@@ -291,7 +304,7 @@ export function CategoryProducts({
     <div className={cn('space-y-6', className)}>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Desktop Filter Sidebar (3 cols) */}
-        <div className="hidden lg:block lg:col-span-3 rounded-2xl border border-border bg-card p-5 shadow-2xs sticky top-28">
+        <div className="hidden lg:block lg:col-span-3 rounded-2xl border border-border bg-card p-5 pr-3 shadow-2xs sticky top-[176px] max-h-[calc(100vh-196px)] overflow-y-auto overscroll-contain">
           {renderFilterSidebar(false)}
         </div>
 

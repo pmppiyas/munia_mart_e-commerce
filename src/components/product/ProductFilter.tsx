@@ -70,7 +70,7 @@ export function ProductFilter({
   return (
     <aside className={cn('space-y-6', className)}>
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-border pb-3">
+      <div className="sticky top-0 bg-card z-10 flex items-center justify-between border-b border-border pb-3 pt-0.5">
         <div className="flex items-center gap-2">
           <Filter className="h-4 w-4 text-primary" />
           <h2 className="text-sm font-bold text-foreground">Filters</h2>

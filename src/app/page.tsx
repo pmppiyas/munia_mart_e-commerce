@@ -6,9 +6,13 @@ import { PromoBanner } from '@/components/home/PromoBanner';
 import { NewArrivals } from '@/components/home/NewArrivals';
 import { BestSelling } from '@/components/home/BestSelling';
 import { WhyChooseUs } from '@/components/home/WhyChooseUs';
-import { HomeNewsletter } from '@/components/home/HomeNewsletter';
 import { getCategoriesFromDb } from '@/services/categoryService';
-import { Product, HeroSlide, PromoBanner as PromoBannerType, TrustFeature } from '@/types/product';
+import {
+  Product,
+  HeroSlide,
+  PromoBanner as PromoBannerType,
+  TrustFeature,
+} from '@/types/product';
 
 export default async function HomePage() {
   const categories = await getCategoriesFromDb();
@@ -39,9 +43,6 @@ export default async function HomePage() {
 
       {/* 7. Why Choose Us */}
       <WhyChooseUs features={whyChooseUs} />
-
-      {/* 8. Newsletter */}
-      <HomeNewsletter />
     </div>
   );
 }

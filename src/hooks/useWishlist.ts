@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { useMounted } from './useMounted';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   selectWishlistItems,
@@ -21,8 +22,10 @@ import { WishlistItem } from '@/types/wishlist';
 
 export function useWishlist() {
   const dispatch = useAppDispatch();
+  const mounted = useMounted();
   const items = useAppSelector(selectWishlistItems);
-  const totalCount = useAppSelector(selectWishlistTotalCount);
+  const rawTotalCount = useAppSelector(selectWishlistTotalCount);
+  const totalCount = mounted ? rawTotalCount : 0;
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
 
   const [toggleWishlistApi] = useToggleWishlistMutation();
@@ -31,9 +34,10 @@ export function useWishlist() {
 
   const isInWishlist = React.useCallback(
     (productId: string) => {
+      if (!mounted) return false;
       return items.some((item) => item.productId === productId);
     },
-    [items]
+    [items, mounted]
   );
 
   const toggleItem = React.useCallback(
@@ -85,12 +89,13 @@ export function useWishlist() {
   }, [dispatch, isAuthenticated, clearWishlistApi]);
 
   return {
-    items,
+    items: mounted ? items : [],
     totalCount,
     isAuthenticated,
     isInWishlist,
     toggleItem,
     removeItem,
     clearAll,
+    isMounted: mounted,
   };
 }

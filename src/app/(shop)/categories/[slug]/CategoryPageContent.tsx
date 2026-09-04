@@ -30,6 +30,7 @@ export function CategoryPageContent({
       {category.children && category.children.length > 0 && (
         <SubCategoryList
           subcategories={category.children}
+          products={categoryProducts}
           selectedSubcategory={selectedSubcategory}
           onSelectSubcategory={setSelectedSubcategory}
           categoryName={category.name}

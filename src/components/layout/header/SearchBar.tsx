@@ -119,9 +119,9 @@ export function SearchBar({ className, autoFocus = false, onSearchSubmit }: Sear
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search products, brands and categories..."
+          placeholder="Search products, brands..."
           autoFocus={autoFocus}
-          className="h-11 w-full bg-transparent px-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
+          className="h-10 sm:h-11 w-full bg-transparent px-3 sm:px-4 text-xs sm:text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
         />
         {query && (
           <button

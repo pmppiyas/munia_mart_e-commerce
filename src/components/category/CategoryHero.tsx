@@ -22,23 +22,23 @@ export function CategoryHero({
   return (
     <div
       className={cn(
-        'relative overflow-hidden rounded-3xl border border-border bg-card p-6 sm:p-10 lg:p-12 shadow-sm',
+        'relative overflow-hidden rounded-3xl border border-border bg-card p-6 sm:p-10 lg:p-12 shadow-sm group',
         className
       )}
     >
-      {/* Background Media with Gradient Overlay */}
+      {/* Background Media with High Visibility & Crisp Contrast */}
       {category.imageUrl && (
-        <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 z-0">
           <Image
             src={category.imageUrl}
             alt={category.name}
             fill
             priority
             sizes="100vw"
-            className="object-cover object-center opacity-25 dark:opacity-20 transition-transform duration-700 hover:scale-105"
+            className="object-cover object-right opacity-90 sm:opacity-95 dark:opacity-85 transition-transform duration-700 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-card via-card/90 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-card/95 via-card/60 via-40% to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent sm:hidden" />
         </div>
       )}
 
@@ -61,7 +61,7 @@ export function CategoryHero({
           {category.name}
         </h1>
 
-        <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+        <p className="text-xs sm:text-sm text-foreground/70 leading-relaxed">
           {category.description ||
             `Browse our curated collection of verified ${category.name} products with guaranteed authenticity and fast delivery.`}
         </p>
@@ -69,3 +69,4 @@ export function CategoryHero({
     </div>
   );
 }
+

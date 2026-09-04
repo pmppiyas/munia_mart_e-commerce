@@ -37,7 +37,7 @@ export function ProductSection({
 
   return (
     <section className={cn('py-8 sm:py-12', className)}>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-border pb-4 mb-6">
           <div className="space-y-1">
@@ -76,7 +76,7 @@ export function ProductSection({
         {children ? (
           children
         ) : (
-          <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

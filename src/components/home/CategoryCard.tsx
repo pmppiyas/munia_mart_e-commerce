@@ -57,8 +57,6 @@ export function CategoryCard({ category, className }: CategoryCardProps) {
           </div>
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
-
         {/* Icon Floating Badge */}
         <div className="absolute left-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-lg bg-background/90 backdrop-blur-xs text-primary shadow-xs group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
           <IconComponent className="h-4 w-4" />

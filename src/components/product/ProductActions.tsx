@@ -101,6 +101,7 @@ export function ProductActions({
           type="button"
           onClick={handleWishlist}
           aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+          suppressHydrationWarning
           className={cn(
             'flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground shadow-2xs transition-all hover:border-primary hover:text-destructive active:scale-95 cursor-pointer',
             isWishlisted && 'text-destructive bg-destructive/10 border-destructive/20'
@@ -118,7 +119,7 @@ export function ProductActions({
         type="button"
         disabled={isOutOfStock}
         onClick={handleAddToCart}
-        className="flex h-9 w-full items-center justify-center gap-2 rounded-xl bg-primary px-3 text-xs font-bold text-primary-foreground shadow-xs transition-all hover:bg-primary-hover active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+        className="flex h-8 sm:h-9 w-full items-center justify-center gap-1.5 sm:gap-2 rounded-xl bg-primary px-2 sm:px-3 text-[11px] sm:text-xs font-bold text-primary-foreground shadow-xs transition-all hover:bg-primary-hover active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
       >
         <ShoppingBag className="h-3.5 w-3.5" />
         <span>{isOutOfStock ? 'Out of Stock' : 'Add to Cart'}</span>

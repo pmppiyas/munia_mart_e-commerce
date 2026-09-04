@@ -6,7 +6,7 @@ import { Menu, X, Phone, Mail, ChevronRight, LogIn } from 'lucide-react';
 import { siteConfig } from '@/config/site';
 import { useGetAllCategoriesQuery } from '@/services/api/categoryApi';
 import { Logo } from './Logo';
-import { SearchBar } from './SearchBar';
+import { ThemeToggle } from '@/components/common/ThemeToggle';
 import { cn } from '@/lib/utils';
 
 interface MobileMenuProps {
@@ -56,34 +56,37 @@ export function MobileMenu({ className }: MobileMenuProps) {
 
   return (
     <div className={className}>
-      {/* Hamburger Trigger Button */}
+      {/* Menu Trigger Button */}
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-card text-foreground shadow-xs hover:border-primary hover:text-primary transition-colors cursor-pointer"
-        aria-label="Open mobile navigation menu"
+        className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl border border-border bg-card text-foreground shadow-xs hover:border-primary hover:text-primary active:scale-95 transition-all cursor-pointer"
+        aria-label="Open navigation menu"
       >
-        <Menu className="h-5 w-5" />
+        <Menu className="h-4 w-4 sm:h-5 sm:w-5" />
       </button>
 
       {/* Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200"
           onClick={() => setIsOpen(false)}
         />
       )}
 
-      {/* Slide-over Drawer */}
+      {/* Slide-over Drawer (From Right) */}
       <aside
         className={cn(
-          'fixed inset-y-0 left-0 z-50 flex w-full max-w-xs flex-col bg-background text-foreground shadow-2xl transition-transform duration-300 ease-in-out',
-          isOpen ? 'translate-x-0' : '-translate-x-full'
+          'fixed inset-y-0 right-0 z-50 flex w-full max-w-xs flex-col bg-background text-foreground shadow-2xl transition-transform duration-300 ease-in-out',
+          isOpen ? 'translate-x-0' : 'translate-x-full'
         )}
       >
-        {/* Drawer Header */}
+        {/* Drawer Header: Logo + ThemeToggle */}
         <div className="flex items-center justify-between border-b border-border px-4 py-3.5">
-          <Logo />
+          <div className="flex items-center gap-2.5">
+            <Logo showTagline />
+            <ThemeToggle />
+          </div>
           <button
             type="button"
             onClick={() => setIsOpen(false)}
@@ -94,13 +97,8 @@ export function MobileMenu({ className }: MobileMenuProps) {
           </button>
         </div>
 
-        {/* Mobile Search */}
-        <div className="p-4 border-b border-border">
-          <SearchBar onSearchSubmit={() => setIsOpen(false)} />
-        </div>
-
         {/* Tab Switcher: Categories vs Navigation */}
-        <div className="grid grid-cols-2 border border-border bg-muted p-1 mx-4 my-2 rounded-xl text-xs font-bold">
+        <div className="grid grid-cols-2 border border-border bg-muted p-1 mx-4 my-2.5 rounded-xl text-sm font-semibold">
           <button
             type="button"
             onClick={() => setActiveTab('categories')}
@@ -108,7 +106,7 @@ export function MobileMenu({ className }: MobileMenuProps) {
               'rounded-lg py-2 transition-all cursor-pointer',
               activeTab === 'categories'
                 ? 'bg-card text-primary shadow-xs'
-                : 'text-muted-foreground hover:text-foreground'
+                : 'text-muted-foreground hover:text-foreground/80'
             )}
           >
             Categories
@@ -120,7 +118,7 @@ export function MobileMenu({ className }: MobileMenuProps) {
               'rounded-lg py-2 transition-all cursor-pointer',
               activeTab === 'menu'
                 ? 'bg-card text-primary shadow-xs'
-                : 'text-muted-foreground hover:text-foreground'
+                : 'text-muted-foreground hover:text-foreground/80'
             )}
           >
             Main Menu
@@ -130,18 +128,18 @@ export function MobileMenu({ className }: MobileMenuProps) {
         {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto px-4 py-2">
           {activeTab === 'categories' ? (
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               {categoriesList.map((cat) => {
                 const isExpanded = expandedCategory === cat.slug;
                 return (
                   <div
                     key={cat.id}
-                    className="rounded-xl border border-border bg-card overflow-hidden"
+                    className="rounded-xl border border-border/80 bg-card overflow-hidden"
                   >
                     <button
                       type="button"
                       onClick={() => toggleCategory(cat.slug)}
-                      className="flex w-full items-center justify-between px-3.5 py-3 text-xs font-bold text-foreground hover:text-primary transition-colors cursor-pointer"
+                      className="flex w-full items-center justify-between px-4 py-3.5 text-sm font-medium text-foreground/85 hover:text-primary transition-colors cursor-pointer"
                     >
                       <span>{cat.name}</span>
                       <ChevronRight
@@ -155,11 +153,11 @@ export function MobileMenu({ className }: MobileMenuProps) {
                     </button>
 
                     {isExpanded && (
-                      <div className="border-t border-border bg-muted/40 p-2 space-y-1">
+                      <div className="border-t border-border/80 bg-muted/40 p-2 space-y-1">
                         <Link
                           href={`/categories/${cat.slug}`}
                           onClick={() => setIsOpen(false)}
-                          className="block rounded-lg px-3 py-1.5 text-xs font-semibold text-primary hover:bg-accent"
+                          className="block rounded-lg px-3 py-2 text-sm font-medium text-primary hover:bg-accent"
                         >
                           View All in {cat.name}
                         </Link>
@@ -168,7 +166,7 @@ export function MobileMenu({ className }: MobileMenuProps) {
                             key={sub}
                             href={`/categories/${cat.slug}?sub=${encodeURIComponent(sub)}`}
                             onClick={() => setIsOpen(false)}
-                            className="block rounded-lg px-3 py-1.5 text-xs text-muted-foreground hover:bg-card hover:text-foreground"
+                            className="block rounded-lg px-3 py-2 text-[13px] text-foreground/75 hover:bg-card hover:text-foreground transition-colors"
                           >
                             {sub}
                           </Link>
@@ -180,19 +178,19 @@ export function MobileMenu({ className }: MobileMenuProps) {
               })}
             </div>
           ) : (
-            <div className="space-y-1">
+            <div className="space-y-1.5">
               {siteConfig.navItems.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center justify-between rounded-xl px-3.5 py-2.5 text-xs font-bold text-foreground hover:bg-muted hover:text-primary transition-colors"
+                  className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-foreground/85 hover:bg-muted hover:text-primary transition-colors"
                 >
                   <span>{item.label}</span>
                   {item.badge && (
                     <span
                       className={cn(
-                        'rounded-full px-2 py-0.5 text-[10px] font-extrabold',
+                        'rounded-full px-2 py-0.5 text-xs font-semibold',
                         item.badge === 'Hot'
                           ? 'bg-destructive/10 text-destructive'
                           : 'bg-primary/10 text-primary'
@@ -212,25 +210,25 @@ export function MobileMenu({ className }: MobileMenuProps) {
           <Link
             href="/auth/login"
             onClick={() => setIsOpen(false)}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-2.5 text-xs font-bold text-primary-foreground shadow-sm hover:bg-primary-hover transition-colors"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary-hover transition-colors"
           >
             <LogIn className="h-4 w-4" />
             Sign In / Register
           </Link>
 
-          <div className="space-y-1 text-[11px] text-muted-foreground">
+          <div className="space-y-1.5 text-xs text-muted-foreground">
             <a
               href={`tel:${siteConfig.contact.phone}`}
-              className="flex items-center gap-2 hover:text-primary transition-colors"
+              className="flex items-center gap-2.5 hover:text-primary transition-colors"
             >
-              <Phone className="h-3.5 w-3.5" />
+              <Phone className="h-4 w-4" />
               <span>{siteConfig.contact.phone}</span>
             </a>
             <a
               href={`mailto:${siteConfig.contact.email}`}
-              className="flex items-center gap-2 hover:text-primary transition-colors"
+              className="flex items-center gap-2.5 hover:text-primary transition-colors"
             >
-              <Mail className="h-3.5 w-3.5" />
+              <Mail className="h-4 w-4" />
               <span>{siteConfig.contact.email}</span>
             </a>
           </div>

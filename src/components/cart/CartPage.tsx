@@ -4,6 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import { Home, ChevronRight, ArrowLeft, Trash2 } from 'lucide-react';
 import { useCart } from '@/hooks/useCart';
+import { useMounted } from '@/hooks/useMounted';
 import { CartItem } from './CartItem';
 import { CartSummary } from './CartSummary';
 import { CartCoupon } from './CartCoupon';
@@ -16,12 +17,43 @@ interface CartPageProps {
 }
 
 export function CartPage({ className }: CartPageProps) {
+  const mounted = useMounted();
   const { items, totalQuantity, clearAll } = useCart();
 
   const handleClearCart = async () => {
     await clearAll();
     toast.info('Your shopping cart has been cleared.');
   };
+
+  if (!mounted) {
+    return (
+      <div className={cn('py-6 sm:py-8 lg:py-10 bg-background min-h-screen', className)}>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-6">
+          <nav
+            aria-label="Breadcrumb"
+            className="flex items-center gap-1.5 text-xs text-muted-foreground"
+          >
+            <Link href="/" className="flex items-center gap-1 hover:text-primary transition-colors">
+              <Home className="h-3.5 w-3.5" />
+              <span>Home</span>
+            </Link>
+            <ChevronRight className="h-3 w-3 text-muted-foreground/60" />
+            <Link href="/products" className="hover:text-primary transition-colors">
+              Shop
+            </Link>
+            <ChevronRight className="h-3 w-3 text-muted-foreground/60" />
+            <span className="font-bold text-foreground">Shopping Cart</span>
+          </nav>
+
+          <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-border bg-card/40 p-12 text-center min-h-[380px] animate-pulse">
+            <div className="h-12 w-12 rounded-2xl bg-muted" />
+            <div className="mt-4 h-4 w-32 rounded-md bg-muted" />
+            <div className="mt-2 h-3 w-48 rounded-md bg-muted" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (items.length === 0) {
     return (
@@ -119,7 +151,7 @@ export function CartPage({ className }: CartPageProps) {
           </div>
 
           {/* Right: Coupon & Summary Sticky Sidebar (4 cols) */}
-          <div className="lg:col-span-4 space-y-4 sticky top-24">
+          <div className="lg:col-span-4 space-y-4 lg:sticky lg:top-[176px]">
             <CartCoupon />
             <CartSummary />
           </div>

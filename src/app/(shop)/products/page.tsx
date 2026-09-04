@@ -21,7 +21,7 @@ const INITIAL_FILTERS: ProductFilterState = {
   sortBy: 'featured',
 };
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 30;
 
 function ProductsContent() {
   const searchParams = useSearchParams();
@@ -43,6 +43,24 @@ function ProductsContent() {
       .map(([name, count]) => ({ name, count }))
       .sort((a, b) => b.count - a.count);
   }, [allProducts]);
+
+  // Real product counts per category
+  const categoriesWithRealCounts = React.useMemo(() => {
+    const counts = new Map<string, number>();
+    allProducts.forEach((p) => {
+      if (p.categoryId) {
+        counts.set(p.categoryId, (counts.get(p.categoryId) || 0) + 1);
+      }
+      if (p.category?.slug) {
+        counts.set(p.category.slug, (counts.get(p.category.slug) || 0) + 1);
+      }
+    });
+
+    return allCategories.map((c) => ({
+      ...c,
+      itemCount: counts.get(c.id) || counts.get(c.slug) || 0,
+    }));
+  }, [allCategories, allProducts]);
 
   // Initial state derived from searchParams at mount time
   const [filters, setFilters] = React.useState<ProductFilterState>(() => {
@@ -197,9 +215,9 @@ function ProductsContent() {
         {/* Main Layout Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Sidebar: Desktop Filters (lg:col-span-3) */}
-          <div className="hidden lg:block lg:col-span-3 rounded-2xl border border-border bg-card p-5 shadow-2xs sticky top-28">
+          <div className="hidden lg:block lg:col-span-3 rounded-2xl border border-border bg-card p-5 pr-3 shadow-2xs sticky top-[176px] max-h-[calc(100vh-196px)] overflow-y-auto overscroll-contain">
             <ProductFilter
-              categories={allCategories}
+              categories={categoriesWithRealCounts}
               availableBrands={availableBrands}
               filters={filters}
               onFilterChange={handleFilterChange}
@@ -309,7 +327,7 @@ function ProductsContent() {
             </div>
 
             <ProductFilter
-              categories={allCategories}
+              categories={categoriesWithRealCounts}
               availableBrands={availableBrands}
               filters={filters}
               onFilterChange={handleFilterChange}
