@@ -58,6 +58,8 @@ export function ProductCard({
     }
   };
 
+  const productHref = `/products/${product.slug || product.id}`;
+
   // 1. LIST VIEW MODE
   if (viewMode === 'list') {
     return (
@@ -68,7 +70,11 @@ export function ProductCard({
         )}
       >
         {/* Left: Image Container */}
-        <div className="relative h-44 w-full sm:h-36 sm:w-36 shrink-0 overflow-hidden rounded-xl bg-muted/40">
+        <Link
+          href={productHref}
+          className="relative h-44 w-full sm:h-36 sm:w-36 shrink-0 overflow-hidden rounded-xl bg-muted/40 block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
+          title={product.name}
+        >
           <ProductImage
             src={product.photoUrl}
             alt={product.name}
@@ -78,7 +84,7 @@ export function ProductCard({
             isOutOfStock={product.stock <= 0}
             sizes="(max-width: 640px) 100vw, 150px"
           />
-        </div>
+        </Link>
 
         {/* Center: Info & Metadata */}
         <div className="flex flex-1 flex-col justify-between space-y-2">
@@ -96,7 +102,7 @@ export function ProductCard({
             </div>
 
             <Link
-              href={`/products/${product.id}`}
+              href={productHref}
               className="mt-1 block text-base font-bold text-foreground hover:text-primary transition-colors line-clamp-2"
               title={product.name}
             >
@@ -159,14 +165,20 @@ export function ProductCard({
     >
       {/* Media Image Section */}
       <div className="relative">
-        <ProductImage
-          src={product.photoUrl}
-          alt={product.name}
-          discountPercent={product.discountPercent}
-          isNew={product.isNew}
-          isBestSeller={product.isBestSeller}
-          isOutOfStock={product.stock <= 0}
-        />
+        <Link
+          href={productHref}
+          className="block overflow-hidden rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
+          title={product.name}
+        >
+          <ProductImage
+            src={product.photoUrl}
+            alt={product.name}
+            discountPercent={product.discountPercent}
+            isNew={product.isNew}
+            isBestSeller={product.isBestSeller}
+            isOutOfStock={product.stock <= 0}
+          />
+        </Link>
 
         {/* Quick Wishlist Action Floating Button */}
         <button
@@ -206,7 +218,7 @@ export function ProductCard({
 
           {/* Title */}
           <Link
-            href={`/products/${product.id}`}
+            href={productHref}
             className="mt-1 block font-semibold text-foreground hover:text-primary transition-colors text-xs sm:text-sm line-clamp-2 leading-tight sm:leading-snug"
             title={product.name}
           >

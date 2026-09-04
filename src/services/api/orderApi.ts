@@ -19,6 +19,18 @@ export const orderApi = baseApi.injectEndpoints({
       }),
       providesTags: (_result, _error, id) => [{ type: 'Order', id }],
     }),
+
+    createOrder: builder.mutation<
+      ApiResponse<Order>,
+      { items: { productId: string; quantity: number }[] }
+    >({
+      query: (body) => ({
+        url: '/order',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Order', 'Cart'],
+    }),
   }),
   overrideExisting: false,
 });
@@ -27,4 +39,5 @@ export const {
   useGetMyOrdersQuery,
   useLazyGetMyOrdersQuery,
   useGetOrderByIdQuery,
+  useCreateOrderMutation,
 } = orderApi;

@@ -1,0 +1,331 @@
+'use client';
+
+import * as React from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { ChevronRight, Home, ArrowLeft } from 'lucide-react';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import { useCart } from '@/hooks/useCart';
+import { useAppSelector } from '@/store/hooks';
+import { selectCurrentUser, selectIsAuthenticated } from '@/features/auth/authSelectors';
+import { useCreateOrderMutation } from '@/services/api/orderApi';
+import { useCreatePaymentMutation } from '@/services/api/paymentApi';
+import { CheckoutForm } from './CheckoutForm';
+import { CheckoutOrderSummary } from './CheckoutOrderSummary';
+import { StripePaymentForm } from './StripePaymentForm';
+import {
+  CheckoutFormData,
+  DeliveryMethod,
+  OrderConfirmationData,
+} from '@/features/checkout/checkoutTypes';
+import { env } from '@/config/env';
+import { toast } from 'sonner';
+
+// Initialize Stripe outside of component to avoid re-renders
+const stripePromise = env.STRIPE_PUBLISHABLE_KEY
+  ? loadStripe(env.STRIPE_PUBLISHABLE_KEY)
+  : null;
+
+export function CheckoutPage() {
+  const router = useRouter();
+  const { items, subtotal, coupon, clearAll } = useCart();
+  const user = useAppSelector(selectCurrentUser);
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const [createOrderApi, { isLoading: isCreatingOrder }] = useCreateOrderMutation();
+  const [createPaymentApi, { isLoading: isCreatingPayment }] = useCreatePaymentMutation();
+
+  const [deliveryMethod, setDeliveryMethod] = React.useState<DeliveryMethod>('standard');
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  // Stripe payment modal state
+  const [stripeClientSecret, setStripeClientSecret] = React.useState<string | null>(null);
+  const [pendingOrderId, setPendingOrderId] = React.useState<string | null>(null);
+  const [pendingConfirmation, setPendingConfirmation] = React.useState<OrderConfirmationData | null>(null);
+
+  // Standard fee: free if subtotal >= 50, else $5. Express fee: $10
+  const standardFee = subtotal >= 50 ? 0 : 5;
+  const expressFee = 10;
+  const shippingFee = deliveryMethod === 'express' ? expressFee : standardFee;
+
+  // Coupon discount calculation
+  const discount = React.useMemo(() => {
+    if (!coupon) return 0;
+    if (coupon.discountType === 'percentage') {
+      return (subtotal * coupon.discountValue) / 100;
+    }
+    return Math.min(subtotal, coupon.discountValue);
+  }, [coupon, subtotal]);
+
+  const grandTotal = Math.max(0, subtotal - discount + shippingFee);
+
+  // If cart is empty, redirect back to /cart after hydration
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  React.useEffect(() => {
+    if (mounted && items.length === 0 && !stripeClientSecret) {
+      toast.info('Your cart is empty. Please add items to checkout.');
+      router.push('/cart');
+    }
+  }, [mounted, items.length, router, stripeClientSecret]);
+
+  const buildConfirmationData = (
+    formData: CheckoutFormData,
+    orderId: string
+  ): OrderConfirmationData => ({
+    orderId,
+    customerName: formData.fullName,
+    email: formData.email,
+    phone: formData.phone,
+    streetAddress: formData.streetAddress + (formData.apartment ? `, ${formData.apartment}` : ''),
+    city: formData.city,
+    state: formData.state,
+    postalCode: formData.postalCode,
+    deliveryMethod,
+    paymentMethod: formData.paymentMethod,
+    totalAmount: grandTotal,
+    items: items.map((i) => ({
+      id: i.id,
+      productId: i.productId,
+      name: i.name,
+      price: i.price,
+      quantity: i.quantity,
+      photoUrl: i.photoUrl,
+    })),
+    createdAt: new Date().toISOString(),
+  });
+
+  const saveAndRedirectSuccess = async (confirmationData: OrderConfirmationData) => {
+    try {
+      sessionStorage.setItem('lastOrder', JSON.stringify(confirmationData));
+    } catch {
+      // Ignored if storage full/restricted
+    }
+    await clearAll();
+    toast.success('Order placed successfully!');
+    router.push(`/checkout/success?orderId=${confirmationData.orderId}`);
+  };
+
+  const handleFormSubmit = async (formData: CheckoutFormData) => {
+    if (items.length === 0) {
+      toast.error('Your cart is empty');
+      return;
+    }
+
+    if (!isAuthenticated) {
+      toast.error('Please log in to place an order');
+      router.push('/auth/login');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Step 1: Create order in backend
+      const apiRes = await createOrderApi({
+        items: items.map((item) => ({
+          productId: item.productId,
+          quantity: item.quantity,
+        })),
+      }).unwrap();
+
+      const orderId = apiRes.data?.id;
+      if (!orderId) {
+        throw new Error('Failed to create order - no order ID returned');
+      }
+
+      const confirmationData = buildConfirmationData(formData, orderId);
+
+      // Step 2: Handle payment based on method
+      if (formData.paymentMethod === 'cod') {
+        // COD: No payment processing needed, go directly to success
+        await saveAndRedirectSuccess(confirmationData);
+
+      } else if (formData.paymentMethod === 'card') {
+        // STRIPE: Create payment intent, then show Stripe Elements modal
+        if (!stripePromise) {
+          toast.error('Stripe is not configured. Please contact support.');
+          setIsSubmitting(false);
+          return;
+        }
+
+        const paymentRes = await createPaymentApi({
+          orderId,
+          provider: 'STRIPE',
+        }).unwrap();
+
+        const clientSecret = paymentRes.data?.clientSecret;
+        if (!clientSecret) {
+          throw new Error('Failed to create payment - no client secret returned');
+        }
+
+        // Store state and show Stripe modal
+        setPendingOrderId(orderId);
+        setPendingConfirmation(confirmationData);
+        setStripeClientSecret(clientSecret);
+        // Don't redirect yet — user will complete payment via Stripe Elements
+
+      } else if (formData.paymentMethod === 'bkash') {
+        // BKASH: Create payment, then redirect to bKash URL
+        const paymentRes = await createPaymentApi({
+          orderId,
+          provider: 'BKASH',
+        }).unwrap();
+
+        const bkashURL = paymentRes.data?.clientSecret;
+        if (!bkashURL) {
+          throw new Error('Failed to create bKash payment - no redirect URL returned');
+        }
+
+        // Save confirmation data for when user returns from bKash
+        try {
+          sessionStorage.setItem('lastOrder', JSON.stringify(confirmationData));
+        } catch {
+          // Ignored
+        }
+
+        // Redirect to bKash payment page
+        toast.info('Redirecting to bKash...');
+        window.location.href = bkashURL;
+        return; // Don't set isSubmitting to false — page is navigating away
+      }
+
+    } catch (error: any) {
+      console.error('Order submission error:', error);
+      const msg = error?.data?.message || error?.message || 'Failed to process order. Please try again.';
+      toast.error(msg);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleStripeSuccess = async () => {
+    // Payment confirmed via Stripe — save order and redirect
+    if (pendingConfirmation) {
+      await saveAndRedirectSuccess(pendingConfirmation);
+    }
+    setStripeClientSecret(null);
+    setPendingOrderId(null);
+    setPendingConfirmation(null);
+  };
+
+  const handleStripeCancel = () => {
+    setStripeClientSecret(null);
+    setPendingOrderId(null);
+    setPendingConfirmation(null);
+    toast.info('Payment cancelled. Your order is saved as pending.');
+  };
+
+  if (!mounted || (items.length === 0 && !stripeClientSecret)) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div className="min-h-screen bg-muted/20 py-8 sm:py-12">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Breadcrumb & Navigation */}
+          <nav aria-label="Breadcrumb" className="mb-6 flex items-center justify-between">
+            <ol className="flex items-center space-x-2 text-xs text-muted-foreground">
+              <li>
+                <Link href="/" className="flex items-center gap-1 hover:text-foreground">
+                  <Home className="h-3.5 w-3.5" />
+                  <span>Home</span>
+                </Link>
+              </li>
+              <li>
+                <ChevronRight className="h-3.5 w-3.5" />
+              </li>
+              <li>
+                <Link href="/cart" className="hover:text-foreground">
+                  Cart
+                </Link>
+              </li>
+              <li>
+                <ChevronRight className="h-3.5 w-3.5" />
+              </li>
+              <li className="font-bold text-foreground">Checkout</li>
+            </ol>
+
+            <Link
+              href="/cart"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              <span>Return to Cart</span>
+            </Link>
+          </nav>
+
+          {/* Page Title */}
+          <div className="mb-8">
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
+              Secure Checkout
+            </h1>
+            <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
+              Please fill in your delivery details and choose your preferred payment method.
+            </p>
+          </div>
+
+          {/* 2-Column Grid Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* Main Checkout Form (8 Cols) */}
+            <div className="lg:col-span-7 xl:col-span-8">
+              <CheckoutForm
+                user={user}
+                isAuthenticated={isAuthenticated}
+                standardFee={standardFee}
+                expressFee={expressFee}
+                deliveryMethod={deliveryMethod}
+                onDeliveryMethodChange={setDeliveryMethod}
+                onSubmit={handleFormSubmit}
+                isSubmitting={isSubmitting || isCreatingOrder || isCreatingPayment}
+              />
+            </div>
+
+            {/* Sticky Order Summary Sidebar (4 Cols) */}
+            <div className="lg:col-span-5 xl:col-span-4 sticky top-24">
+              <CheckoutOrderSummary
+                items={items}
+                subtotal={subtotal}
+                discount={discount}
+                shippingFee={shippingFee}
+                grandTotal={grandTotal}
+                coupon={coupon}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Stripe Payment Modal */}
+      {stripeClientSecret && stripePromise && pendingOrderId && (
+        <Elements
+          stripe={stripePromise}
+          options={{
+            clientSecret: stripeClientSecret,
+            appearance: {
+              theme: 'stripe',
+              variables: {
+                borderRadius: '12px',
+                fontFamily: 'inherit',
+              },
+            },
+          }}
+        >
+          <StripePaymentForm
+            orderId={pendingOrderId}
+            onSuccess={handleStripeSuccess}
+            onCancel={handleStripeCancel}
+          />
+        </Elements>
+      )}
+    </>
+  );
+}

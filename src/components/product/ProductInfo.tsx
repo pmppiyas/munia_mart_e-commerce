@@ -20,7 +20,8 @@ import { ProductVariants } from './ProductVariants';
 import { QuantitySelector } from './QuantitySelector';
 import { useCart } from '@/hooks/useCart';
 import { useWishlist } from '@/hooks/useWishlist';
-import { formatPrice, cn } from '@/lib/utils';
+import { useCurrency } from '@/hooks/useCurrency';
+import { cn } from '@/lib/utils';
 
 interface ProductInfoProps {
   product: Product;
@@ -40,6 +41,7 @@ export function ProductInfo({
   const router = useRouter();
   const { addItem } = useCart();
   const { isInWishlist, toggleItem } = useWishlist();
+  const { formatPrice } = useCurrency();
   const isWishlisted = isInWishlist(product.id);
   const [quantity, setQuantity] = React.useState(1);
   const [selectedVariants, setSelectedVariants] = React.useState<Record<string, string>>({});

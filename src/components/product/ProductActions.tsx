@@ -6,7 +6,8 @@ import { toast } from 'sonner';
 import { Product } from '@/types/product';
 import { useCart } from '@/hooks/useCart';
 import { useWishlist } from '@/hooks/useWishlist';
-import { formatPrice, cn } from '@/lib/utils';
+import { useCurrency } from '@/hooks/useCurrency';
+import { cn } from '@/lib/utils';
 
 interface ProductActionsProps {
   product: Product;
@@ -25,6 +26,7 @@ export function ProductActions({
 }: ProductActionsProps) {
   const { addItem } = useCart();
   const { isInWishlist, toggleItem } = useWishlist();
+  const { formatPrice } = useCurrency();
 
   const isWishlisted = isInWishlist(product.id);
   const isOutOfStock = product.stock <= 0;

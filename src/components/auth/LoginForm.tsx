@@ -29,7 +29,8 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('from') || searchParams.get('callbackUrl') || '/';
+  const callbackUrl =
+    searchParams.get('from') || searchParams.get('callbackUrl') || '/';
 
   const [login, { isLoading }] = useLoginMutation();
   const [triggerGetMe] = useLazyGetMeQuery();
@@ -52,8 +53,10 @@ export function LoginForm() {
 
       if (response.success) {
         toast.success(response.message || 'Welcome back to MuniaMart!');
-        // Refresh authenticated profile state
-        await triggerGetMe().unwrap().catch(() => {});
+
+        await triggerGetMe()
+          .unwrap()
+          .catch(() => {});
         router.push(callbackUrl);
         router.refresh();
       } else {
@@ -100,7 +103,10 @@ export function LoginForm() {
           <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground pointer-events-none" />
         </div>
         {errors.email && (
-          <p id="email-error" className="text-xs font-semibold text-destructive">
+          <p
+            id="email-error"
+            className="text-xs font-semibold text-destructive"
+          >
             {errors.email.message}
           </p>
         )}
@@ -137,7 +143,10 @@ export function LoginForm() {
           <Lock className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground pointer-events-none" />
         </div>
         {errors.password && (
-          <p id="password-error" className="text-xs font-semibold text-destructive">
+          <p
+            id="password-error"
+            className="text-xs font-semibold text-destructive"
+          >
             {errors.password.message}
           </p>
         )}

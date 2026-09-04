@@ -7,7 +7,8 @@ import { ShoppingBag, Trash2, Star, Package } from 'lucide-react';
 import { WishlistItem as WishlistItemType } from '@/types/wishlist';
 import { useCart } from '@/hooks/useCart';
 import { useWishlist } from '@/hooks/useWishlist';
-import { formatPrice, cn } from '@/lib/utils';
+import { useCurrency } from '@/hooks/useCurrency';
+import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
 interface WishlistItemProps {
@@ -18,6 +19,7 @@ interface WishlistItemProps {
 export function WishlistItem({ item, className }: WishlistItemProps) {
   const { addItem } = useCart();
   const { removeItem } = useWishlist();
+  const { formatPrice } = useCurrency();
   const productHref = item.slug ? `/products/${item.slug}` : `/products/${item.productId}`;
   const isOutOfStock = item.stock <= 0;
 
@@ -55,26 +57,32 @@ export function WishlistItem({ item, className }: WishlistItemProps) {
       <div>
         {/* Image & Quick Remove */}
         <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-muted/30 mb-3">
-          {item.photoUrl ? (
-            <Image
-              src={item.photoUrl}
-              alt={item.name}
-              fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-              className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
-            />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-              <Package className="h-8 w-8" />
-            </div>
-          )}
+          <Link
+            href={productHref}
+            className="block h-full w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
+            title={item.name}
+          >
+            {item.photoUrl ? (
+              <Image
+                src={item.photoUrl}
+                alt={item.name}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center text-muted-foreground">
+                <Package className="h-8 w-8" />
+              </div>
+            )}
+          </Link>
 
           {/* Remove Button */}
           <button
             type="button"
             onClick={handleRemove}
             aria-label={`Remove ${item.name} from wishlist`}
-            className="absolute top-2.5 right-2.5 flex h-8 w-8 items-center justify-center rounded-full bg-background/80 backdrop-blur-xs text-muted-foreground shadow-xs hover:bg-destructive hover:text-white transition-all cursor-pointer"
+            className="absolute top-2.5 right-2.5 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-background/80 backdrop-blur-xs text-muted-foreground shadow-xs hover:bg-destructive hover:text-white transition-all cursor-pointer"
           >
             <Trash2 className="h-4 w-4" />
           </button>
@@ -143,10 +151,10 @@ export function WishlistItem({ item, className }: WishlistItemProps) {
           type="button"
           disabled={isOutOfStock}
           onClick={handleMoveToCart}
-          className="flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 text-xs font-bold text-primary-foreground shadow-xs hover:bg-primary-hover active:scale-98 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
+          className="flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 text-xs font-bold text-primary-foreground shadow-xs transition-all hover:bg-primary-hover active:scale-98 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           <ShoppingBag className="h-4 w-4" />
-          <span>{isOutOfStock ? 'Out of Stock' : 'Move to Cart'}</span>
+          <span>Move to Cart</span>
         </button>
       </div>
     </div>

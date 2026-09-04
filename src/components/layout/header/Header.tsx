@@ -12,6 +12,7 @@ import { CartButton } from './CartButton';
 import { UserMenu } from './UserMenu';
 import { MobileMenu } from './MobileMenu';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
+import { CurrencySwitcher } from '@/components/common/CurrencySwitcher';
 import { useMounted } from '@/hooks/useMounted';
 import { useAppSelector } from '@/store/hooks';
 import { selectWishlistTotalCount } from '@/features/wishlist/wishlistSelectors';
@@ -86,12 +87,17 @@ export function Header({
           <div className="flex items-center gap-1.5 sm:gap-2.5">
             <OfferButton />
 
-            {/* Light / Black Mode Switcher (desktop/tablet; mobile is in 3-dot menu) */}
+            {/* Currency Switcher (BDT / USD / EUR) on the right */}
+            <div className="hidden sm:block">
+              <CurrencySwitcher variant="header" />
+            </div>
+
+            {/* Light / Dark Mode Switcher */}
             <div className="hidden md:block">
               <ThemeToggle />
             </div>
 
-            {/* Wishlist Button (placed to the left of Cart) */}
+            {/* Wishlist Button */}
             <Link
               href="/wishlist"
               className="group relative flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl border border-border bg-card text-foreground shadow-xs transition-all hover:border-primary hover:text-primary active:scale-95 cursor-pointer"
@@ -108,7 +114,7 @@ export function Header({
             {/* Cart Button */}
             <CartButton count={cartCount} total={cartTotal} />
 
-            {/* User Profile / Auth Menu (desktop/tablet only; mobile has bottom nav) */}
+            {/* User Profile / Auth Menu */}
             <div className="hidden md:block">
               <UserMenu user={activeUser} onLogout={handleLogout} />
             </div>

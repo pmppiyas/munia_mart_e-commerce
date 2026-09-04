@@ -1,7 +1,8 @@
 'use client';
 
 import * as React from 'react';
-import { formatPrice, cn } from '@/lib/utils';
+import { useCurrency } from '@/hooks/useCurrency';
+import { cn } from '@/lib/utils';
 
 interface PriceFilterProps {
   priceRange: [number, number];
@@ -10,20 +11,24 @@ interface PriceFilterProps {
   className?: string;
 }
 
-const PRESET_RANGES: { label: string; range: [number, number] }[] = [
-  { label: 'All Prices', range: [0, 2000] },
-  { label: 'Under $50', range: [0, 50] },
-  { label: '$50 to $150', range: [50, 150] },
-  { label: '$150 to $500', range: [150, 500] },
-  { label: 'Over $500', range: [500, 2000] },
-];
-
 export function PriceFilter({
   priceRange,
   onPriceChange,
   maxLimit = 2000,
   className,
 }: PriceFilterProps) {
+  const { formatPrice, currency } = useCurrency();
+
+  const presetRanges: { label: string; range: [number, number] }[] = React.useMemo(() => {
+    return [
+      { label: 'All Prices', range: [0, maxLimit] },
+      { label: `Under ${formatPrice(50)}`, range: [0, 50] },
+      { label: `${formatPrice(50)} to ${formatPrice(150)}`, range: [50, 150] },
+      { label: `${formatPrice(150)} to ${formatPrice(500)}`, range: [150, 500] },
+      { label: `Over ${formatPrice(500)}`, range: [500, maxLimit] },
+    ];
+  }, [formatPrice, maxLimit]);
+
   const handleApplyInputs = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -47,7 +52,7 @@ export function PriceFilter({
 
       {/* Preset Chips */}
       <div className="flex flex-wrap gap-1.5 pt-1">
-        {PRESET_RANGES.map((preset) => {
+        {presetRanges.map((preset) => {
           const isActive =
             priceRange[0] === preset.range[0] && priceRange[1] === preset.range[1];
 
@@ -69,47 +74,34 @@ export function PriceFilter({
         })}
       </div>
 
-      {/* Custom Min / Max Inputs */}
-      <form
-        key={`${priceRange[0]}-${priceRange[1]}`}
-        onSubmit={handleApplyInputs}
-        className="flex items-center gap-2 pt-1"
-      >
-        <div className="relative flex-1">
-          <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
-            $
-          </span>
+      {/* Manual Input Range */}
+      <form onSubmit={handleApplyInputs} className="flex items-center gap-2 pt-1">
+        <div className="flex-1">
           <input
+            type="number"
             name="min"
-            type="number"
-            min={0}
-            max={maxLimit}
-            defaultValue={priceRange[0]}
             placeholder="Min"
-            className="h-8 w-full rounded-lg border border-border bg-card pl-6 pr-2 text-xs text-foreground focus:border-primary focus:outline-none"
-          />
-        </div>
-
-        <span className="text-xs text-muted-foreground">-</span>
-
-        <div className="relative flex-1">
-          <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
-            $
-          </span>
-          <input
-            name="max"
-            type="number"
+            defaultValue={priceRange[0]}
             min={0}
             max={maxLimit}
-            defaultValue={priceRange[1]}
-            placeholder="Max"
-            className="h-8 w-full rounded-lg border border-border bg-card pl-6 pr-2 text-xs text-foreground focus:border-primary focus:outline-none"
+            className="w-full rounded-xl border border-border bg-background px-2.5 py-1.5 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
-
+        <span className="text-muted-foreground text-xs">-</span>
+        <div className="flex-1">
+          <input
+            type="number"
+            name="max"
+            placeholder="Max"
+            defaultValue={priceRange[1]}
+            min={0}
+            max={maxLimit}
+            className="w-full rounded-xl border border-border bg-background px-2.5 py-1.5 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </div>
         <button
           type="submit"
-          className="h-8 rounded-lg bg-secondary px-2.5 text-xs font-bold text-secondary-foreground hover:bg-muted transition-colors cursor-pointer"
+          className="rounded-xl bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground shadow-2xs hover:bg-primary-hover transition-colors cursor-pointer"
         >
           Go
         </button>

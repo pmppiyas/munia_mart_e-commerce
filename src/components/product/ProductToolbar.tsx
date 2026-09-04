@@ -4,7 +4,8 @@ import * as React from 'react';
 import { LayoutGrid, List, SlidersHorizontal, X } from 'lucide-react';
 import { ProductFilterState, ProductSortOption, ViewMode } from '@/types/product';
 import { ProductSort } from './ProductSort';
-import { formatPrice, cn } from '@/lib/utils';
+import { useCurrency } from '@/hooks/useCurrency';
+import { cn } from '@/lib/utils';
 
 interface ProductToolbarProps {
   totalCount: number;
@@ -29,6 +30,8 @@ export function ProductToolbar({
   onOpenMobileFilters,
   className,
 }: ProductToolbarProps) {
+  const { formatPrice } = useCurrency();
+
   // Count active filter criteria
   const activeFiltersCount =
     filters.categories.length +
@@ -190,10 +193,10 @@ export function ProductToolbar({
             </span>
           )}
 
-          {/* Rating */}
+          {/* Min Rating */}
           {filters.minRating > 0 && (
-            <span className="inline-flex items-center gap-1 rounded-lg bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 text-xs font-semibold text-amber-600 dark:text-amber-400">
-              <span>{filters.minRating}★ &amp; up</span>
+            <span className="inline-flex items-center gap-1 rounded-lg bg-primary/10 border border-primary/20 px-2 py-0.5 text-xs font-semibold text-primary">
+              <span>{filters.minRating}+ Stars</span>
               <button
                 type="button"
                 onClick={resetRating}
@@ -206,8 +209,8 @@ export function ProductToolbar({
 
           {/* In Stock */}
           {filters.inStockOnly && (
-            <span className="inline-flex items-center gap-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-              <span>In Stock</span>
+            <span className="inline-flex items-center gap-1 rounded-lg bg-primary/10 border border-primary/20 px-2 py-0.5 text-xs font-semibold text-primary">
+              <span>In Stock Only</span>
               <button
                 type="button"
                 onClick={resetStock}
@@ -218,11 +221,11 @@ export function ProductToolbar({
             </span>
           )}
 
-          {/* Clear All */}
+          {/* Reset All */}
           <button
             type="button"
             onClick={onResetFilters}
-            className="text-xs font-bold text-destructive hover:underline ml-1 cursor-pointer"
+            className="text-[11px] font-bold text-destructive hover:underline ml-1 cursor-pointer"
           >
             Clear All
           </button>

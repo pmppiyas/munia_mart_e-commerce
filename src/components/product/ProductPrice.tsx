@@ -1,7 +1,8 @@
 'use client';
 
 import * as React from 'react';
-import { formatPrice, cn } from '@/lib/utils';
+import { useCurrency } from '@/hooks/useCurrency';
+import { cn } from '@/lib/utils';
 
 interface ProductPriceProps {
   price: number;
@@ -20,6 +21,8 @@ export function ProductPrice({
   className,
   size = 'md',
 }: ProductPriceProps) {
+  const { formatPrice } = useCurrency();
+
   const sizeClasses = {
     sm: {
       current: 'text-sm font-bold',

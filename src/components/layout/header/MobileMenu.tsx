@@ -2,12 +2,12 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
 import { Menu, X, Phone, Mail, ChevronRight, LogIn } from 'lucide-react';
 import { siteConfig } from '@/config/site';
 import { useGetAllCategoriesQuery } from '@/services/api/categoryApi';
 import { Logo } from './Logo';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
+import { CurrencySwitcher } from '@/components/common/CurrencySwitcher';
 import { cn } from '@/lib/utils';
 
 interface MobileMenuProps {
@@ -98,16 +98,21 @@ export function MobileMenu({ className }: MobileMenuProps) {
           </button>
         </div>
 
-        {/* Tab Switcher: Categories vs Navigation */}
-        <div className="grid grid-cols-2 border border-border bg-muted p-1 mx-4 my-2.5 rounded-xl text-sm font-semibold">
+        {/* Currency Switcher for Mobile */}
+        <div className="px-4 py-3 border-b border-border bg-muted/20">
+          <CurrencySwitcher variant="mobile" />
+        </div>
+
+        {/* Tab Switcher */}
+        <div className="flex border-b border-border bg-muted/30">
           <button
             type="button"
             onClick={() => setActiveTab('categories')}
             className={cn(
-              'rounded-lg py-2 transition-all cursor-pointer',
+              'flex-1 py-3 text-xs font-bold transition-colors cursor-pointer border-b-2',
               activeTab === 'categories'
-                ? 'bg-card text-primary shadow-xs'
-                : 'text-muted-foreground hover:text-foreground/80'
+                ? 'border-primary text-primary bg-background'
+                : 'border-transparent text-muted-foreground hover:text-foreground'
             )}
           >
             Categories
@@ -116,200 +121,146 @@ export function MobileMenu({ className }: MobileMenuProps) {
             type="button"
             onClick={() => setActiveTab('menu')}
             className={cn(
-              'rounded-lg py-2 transition-all cursor-pointer',
+              'flex-1 py-3 text-xs font-bold transition-colors cursor-pointer border-b-2',
               activeTab === 'menu'
-                ? 'bg-card text-primary shadow-xs'
-                : 'text-muted-foreground hover:text-foreground/80'
+                ? 'border-primary text-primary bg-background'
+                : 'border-transparent text-muted-foreground hover:text-foreground'
             )}
           >
-            Main Menu
+            Navigation
           </button>
         </div>
 
-        {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto px-4 py-2">
+        {/* Drawer Content */}
+        <div className="flex-1 overflow-y-auto px-4 py-3 space-y-4">
           {activeTab === 'categories' ? (
-            <div className="space-y-2">
-              {categoriesList.map((cat) => {
-                const isExpanded = expandedCategory === cat.slug;
-                return (
-                  <div
-                    key={cat.id}
-                    className="rounded-xl border border-border/80 bg-card overflow-hidden"
-                  >
-                    <button
-                      type="button"
-                      onClick={() => toggleCategory(cat.slug)}
-                      className="flex w-full items-center justify-between px-4 py-3.5 text-sm font-medium text-foreground/85 hover:text-primary transition-colors cursor-pointer"
+            <div className="space-y-1">
+              <Link
+                href="/products"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center justify-between rounded-xl px-3 py-2.5 text-xs font-bold text-primary hover:bg-primary/5 transition-colors"
+              >
+                <span>All Products</span>
+                <ChevronRight className="h-4 w-4" />
+              </Link>
+              {categoriesList.map((cat) => (
+                <div key={cat.slug} className="rounded-xl overflow-hidden">
+                  <div className="flex items-center justify-between px-3 py-2.5 text-xs font-semibold text-foreground hover:bg-muted/50 transition-colors">
+                    <Link
+                      href={`/categories/${cat.slug}`}
+                      onClick={() => setIsOpen(false)}
+                      className="flex-1"
                     >
-                      <span>{cat.name}</span>
-                      <ChevronRight
-                        className={cn(
-                          'h-4 w-4 text-muted-foreground transition-transform duration-200',
-                          {
-                            'rotate-90 text-primary': isExpanded,
-                          }
-                        )}
-                      />
-                    </button>
-
-                    {isExpanded && (
-                      <div className="border-t border-border/80 bg-muted/40 p-2 space-y-1">
-                        <Link
-                          href={`/categories/${cat.slug}`}
-                          onClick={() => setIsOpen(false)}
-                          className="block rounded-lg px-3 py-2 text-sm font-medium text-primary hover:bg-accent"
-                        >
-                          View All in {cat.name}
-                        </Link>
-                        {cat.subcategories?.map((sub) => (
+                      {cat.name}
+                    </Link>
+                    {cat.subcategories && cat.subcategories.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => toggleCategory(cat.slug)}
+                        className="p-1 text-muted-foreground hover:text-foreground"
+                      >
+                        <ChevronRight
+                          className={cn(
+                            'h-4 w-4 transition-transform duration-200',
+                            expandedCategory === cat.slug && 'rotate-90'
+                          )}
+                        />
+                      </button>
+                    )}
+                  </div>
+                  {expandedCategory === cat.slug &&
+                    cat.subcategories &&
+                    cat.subcategories.length > 0 && (
+                      <div className="bg-muted/30 px-4 py-2 space-y-1.5 border-l-2 border-primary ml-4">
+                        {cat.subcategories.map((sub: string) => (
                           <Link
                             key={sub}
                             href={`/categories/${cat.slug}?sub=${encodeURIComponent(sub)}`}
                             onClick={() => setIsOpen(false)}
-                            className="block rounded-lg px-3 py-2 text-[13px] text-foreground/75 hover:bg-card hover:text-foreground transition-colors"
+                            className="block text-xs text-muted-foreground hover:text-primary py-1"
                           >
                             {sub}
                           </Link>
                         ))}
                       </div>
                     )}
-                  </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
           ) : (
-            <React.Suspense fallback={<MobileNavLinksFallback onClose={() => setIsOpen(false)} />}>
-              <MobileNavLinks onClose={() => setIsOpen(false)} />
-            </React.Suspense>
+            <div className="space-y-1 text-xs font-semibold">
+              <Link
+                href="/"
+                onClick={() => setIsOpen(false)}
+                className="block rounded-xl px-3 py-2.5 hover:bg-muted transition-colors"
+              >
+                Home
+              </Link>
+              <Link
+                href="/products"
+                onClick={() => setIsOpen(false)}
+                className="block rounded-xl px-3 py-2.5 hover:bg-muted transition-colors"
+              >
+                Shop Catalog
+              </Link>
+              <Link
+                href="/categories"
+                onClick={() => setIsOpen(false)}
+                className="block rounded-xl px-3 py-2.5 hover:bg-muted transition-colors"
+              >
+                Categories
+              </Link>
+              <Link
+                href="/cart"
+                onClick={() => setIsOpen(false)}
+                className="block rounded-xl px-3 py-2.5 hover:bg-muted transition-colors"
+              >
+                Shopping Cart
+              </Link>
+              <Link
+                href="/wishlist"
+                onClick={() => setIsOpen(false)}
+                className="block rounded-xl px-3 py-2.5 hover:bg-muted transition-colors"
+              >
+                My Wishlist
+              </Link>
+              <Link
+                href="/profile"
+                onClick={() => setIsOpen(false)}
+                className="block rounded-xl px-3 py-2.5 hover:bg-muted transition-colors"
+              >
+                My Account
+              </Link>
+              <Link
+                href="/about"
+                onClick={() => setIsOpen(false)}
+                className="block rounded-xl px-3 py-2.5 hover:bg-muted transition-colors"
+              >
+                About Us
+              </Link>
+              <Link
+                href="/contact"
+                onClick={() => setIsOpen(false)}
+                className="block rounded-xl px-3 py-2.5 hover:bg-muted transition-colors"
+              >
+                Contact & Support
+              </Link>
+            </div>
           )}
         </div>
 
-        {/* Drawer Footer: Auth & Contact */}
-        <div className="border-t border-border bg-muted/40 p-4 space-y-3">
-          <Link
-            href="/auth/login"
-            onClick={() => setIsOpen(false)}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary-hover transition-colors"
-          >
-            <LogIn className="h-4 w-4" />
-            Sign In / Register
-          </Link>
-
-          <div className="space-y-1.5 text-xs text-muted-foreground">
-            <a
-              href={`tel:${siteConfig.contact.phone}`}
-              className="flex items-center gap-2.5 hover:text-primary transition-colors"
-            >
-              <Phone className="h-4 w-4" />
-              <span>{siteConfig.contact.phone}</span>
-            </a>
-            <a
-              href={`mailto:${siteConfig.contact.email}`}
-              className="flex items-center gap-2.5 hover:text-primary transition-colors"
-            >
-              <Mail className="h-4 w-4" />
-              <span>{siteConfig.contact.email}</span>
-            </a>
+        {/* Drawer Footer */}
+        <div className="border-t border-border p-4 space-y-2 bg-muted/10 text-xs">
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <Phone className="h-3.5 w-3.5 text-primary" />
+            <span>{siteConfig.contact.phone}</span>
+          </div>
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <Mail className="h-3.5 w-3.5 text-primary" />
+            <span>{siteConfig.contact.email}</span>
           </div>
         </div>
       </aside>
-    </div>
-  );
-}
-
-function MobileNavLinks({ onClose }: { onClose: () => void }) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const isItemActive = (href: string) => {
-    if (href.includes('?')) {
-      const [itemPath, itemQuery] = href.split('?');
-      if (pathname !== itemPath) return false;
-      const targetParams = new URLSearchParams(itemQuery);
-      for (const [key, value] of targetParams.entries()) {
-        if (searchParams.get(key) !== value) {
-          return false;
-        }
-      }
-      return true;
-    }
-
-    if (href === '/products') {
-      if (pathname !== '/products') return false;
-      const isDeals = searchParams.get('deal') === 'true';
-      const isNewest = searchParams.get('sort') === 'newest';
-      return !isDeals && !isNewest;
-    }
-
-    if (href === '/') {
-      return pathname === '/';
-    }
-
-    return pathname === href || pathname.startsWith(`${href}/`);
-  };
-
-  return (
-    <div className="space-y-1.5">
-      {siteConfig.navItems.map((item) => {
-        const isActive = isItemActive(item.href);
-        return (
-          <Link
-            key={item.label}
-            href={item.href}
-            onClick={onClose}
-            className={cn(
-              'flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium transition-colors',
-              isActive
-                ? 'bg-primary/10 text-primary font-semibold'
-                : 'text-foreground/85 hover:bg-muted hover:text-primary'
-            )}
-          >
-            <span>{item.label}</span>
-            {item.badge && (
-              <span
-                className={cn(
-                  'rounded-full px-2 py-0.5 text-xs font-semibold',
-                  item.badge === 'Hot'
-                    ? 'bg-destructive/10 text-destructive'
-                    : 'bg-primary/10 text-primary'
-                )}
-              >
-                {item.badge}
-              </span>
-            )}
-          </Link>
-        );
-      })}
-    </div>
-  );
-}
-
-function MobileNavLinksFallback({ onClose }: { onClose: () => void }) {
-  return (
-    <div className="space-y-1.5">
-      {siteConfig.navItems.map((item) => (
-        <Link
-          key={item.label}
-          href={item.href}
-          onClick={onClose}
-          className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-foreground/85 hover:bg-muted hover:text-primary transition-colors"
-        >
-          <span>{item.label}</span>
-          {item.badge && (
-            <span
-              className={cn(
-                'rounded-full px-2 py-0.5 text-xs font-semibold',
-                item.badge === 'Hot'
-                  ? 'bg-destructive/10 text-destructive'
-                  : 'bg-primary/10 text-primary'
-              )}
-            >
-              {item.badge}
-            </span>
-          )}
-        </Link>
-      ))}
     </div>
   );
 }

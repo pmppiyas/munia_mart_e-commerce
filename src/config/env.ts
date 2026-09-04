@@ -9,4 +9,5 @@ export const env = {
   SITE_URL: (process.env.NEXT_PUBLIC_SITE_URL || '').trim().replace(/\/+$/, ''),
   NODE_ENV: process.env.NODE_ENV || 'development',
   IS_PRODUCTION: process.env.NODE_ENV === 'production',
+  STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '',
 } as const;

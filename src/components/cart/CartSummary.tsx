@@ -12,7 +12,8 @@ import {
   selectFreeShippingRemaining,
   selectCartCoupon,
 } from '@/features/cart/cartSelectors';
-import { formatPrice, cn } from '@/lib/utils';
+import { useCurrency } from '@/hooks/useCurrency';
+import { cn } from '@/lib/utils';
 
 interface CartSummaryProps {
   className?: string;
@@ -26,8 +27,9 @@ export function CartSummary({ className, onCheckout }: CartSummaryProps) {
   const grandTotal = useAppSelector(selectCartGrandTotal);
   const freeShippingRemaining = useAppSelector(selectFreeShippingRemaining);
   const coupon = useAppSelector(selectCartCoupon);
+  const { formatPrice } = useCurrency();
 
-  const freeShippingPercentage = Math.min(100, Math.round((subtotal / 50) * 100));
+  const freeShippingPercentage = Math.min(100, Math.round((subtotal / 500) * 100));
 
   return (
     <div
@@ -58,26 +60,21 @@ export function CartSummary({ className, onCheckout }: CartSummaryProps) {
           </span>
         </div>
 
-        <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+        <div className="h-2 w-full overflow-hidden rounded-full bg-border">
           <div
-            className={cn(
-              'h-full rounded-full transition-all duration-500',
-              freeShippingRemaining === 0 ? 'bg-emerald-500' : 'bg-primary'
-            )}
+            className="h-full bg-primary transition-all duration-500 rounded-full"
             style={{ width: `${freeShippingPercentage}%` }}
           />
         </div>
       </div>
 
-      {/* Calculations Breakdown */}
-      <div className="space-y-3 text-xs border-b border-border pb-4">
-        {/* Subtotal */}
+      {/* Breakdown Calculations */}
+      <div className="space-y-3 border-t border-border pt-4 text-xs">
         <div className="flex justify-between text-muted-foreground">
           <span>Subtotal</span>
-          <span className="font-bold text-foreground">{formatPrice(subtotal)}</span>
+          <span className="font-semibold text-foreground">{formatPrice(subtotal)}</span>
         </div>
 
-        {/* Coupon Discount */}
         {discount > 0 && (
           <div className="flex justify-between text-emerald-600 dark:text-emerald-400 font-semibold">
             <span>Coupon Discount {coupon && `(${coupon.code})`}</span>
@@ -85,68 +82,58 @@ export function CartSummary({ className, onCheckout }: CartSummaryProps) {
           </div>
         )}
 
-        {/* Shipping */}
         <div className="flex justify-between text-muted-foreground">
-          <span>Estimated Delivery</span>
+          <span>Estimated Shipping</span>
           <span>
             {shipping === 0 ? (
-              <span className="font-bold text-emerald-600 dark:text-emerald-400">
-                FREE
-              </span>
+              <span className="font-bold text-emerald-600 dark:text-emerald-400">FREE</span>
             ) : (
-              <span className="font-bold text-foreground">{formatPrice(shipping)}</span>
+              <span className="font-semibold text-foreground">{formatPrice(shipping)}</span>
             )}
           </span>
         </div>
 
-        {/* Taxes */}
         <div className="flex justify-between text-muted-foreground">
-          <span>Estimated Sales Tax</span>
+          <span>Estimated Taxes</span>
           <span className="font-medium text-foreground">Included</span>
         </div>
-      </div>
 
-      {/* Grand Total */}
-      <div className="flex items-baseline justify-between pt-1">
-        <span className="text-sm font-bold text-foreground">Total</span>
-        <div className="text-right">
+        <div className="flex items-baseline justify-between border-t border-border pt-4">
+          <span className="text-sm font-bold text-foreground">Grand Total</span>
           <span className="text-2xl font-black text-foreground">
             {formatPrice(grandTotal)}
           </span>
-          <p className="text-[10px] text-muted-foreground">
-            USD, all customs &amp; taxes calculated
-          </p>
         </div>
       </div>
 
-      {/* Checkout Button */}
+      {/* Checkout Action Button */}
       <div className="pt-2">
         {onCheckout ? (
           <button
             type="button"
             onClick={onCheckout}
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 text-sm font-bold text-primary-foreground shadow-md hover:bg-primary-hover active:scale-98 transition-all cursor-pointer"
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-primary px-6 text-sm font-bold text-primary-foreground shadow-sm hover:bg-primary-hover active:scale-98 transition-all cursor-pointer"
           >
             <Lock className="h-4 w-4" />
             <span>Proceed to Checkout</span>
-            <ArrowRight className="h-4 w-4 ml-1" />
+            <ArrowRight className="h-4 w-4" />
           </button>
         ) : (
           <Link
             href="/checkout"
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 text-sm font-bold text-primary-foreground shadow-md hover:bg-primary-hover active:scale-98 transition-all cursor-pointer"
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-primary px-6 text-sm font-bold text-primary-foreground shadow-sm hover:bg-primary-hover active:scale-98 transition-all cursor-pointer"
           >
             <Lock className="h-4 w-4" />
             <span>Proceed to Checkout</span>
-            <ArrowRight className="h-4 w-4 ml-1" />
+            <ArrowRight className="h-4 w-4" />
           </Link>
         )}
       </div>
 
-      {/* Security and Guarantees */}
+      {/* Trust Badge */}
       <div className="flex items-center justify-center gap-2 text-[11px] text-muted-foreground pt-1">
         <ShieldCheck className="h-4 w-4 text-emerald-500" />
-        <span>256-Bit Bank Level SSL Encrypted Checkout</span>
+        <span>Safe &amp; Encrypted 256-Bit Checkout</span>
       </div>
     </div>
   );

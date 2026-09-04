@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Package, Clock, ShoppingBag, ArrowRight, AlertCircle, RefreshCw } from 'lucide-react';
 import { useGetMyOrdersQuery } from '@/services/api/orderApi';
 import { Order, OrderStatus } from '@/types/order';
+import { useCurrency } from '@/hooks/useCurrency';
 import { cn } from '@/lib/utils';
 
 const STATUS_CONFIG: Record<
@@ -45,6 +46,7 @@ const STATUS_CONFIG: Record<
 
 export function ProfileOrdersTab() {
   const { data: ordersResponse, isLoading, isError, refetch } = useGetMyOrdersQuery();
+  const { formatPrice } = useCurrency();
   const orders: Order[] = (ordersResponse?.data as unknown as Order[]) || [];
 
   if (isLoading) {
@@ -134,8 +136,6 @@ export function ProfileOrdersTab() {
               })
             : 'Recent';
 
-          const totalItemsCount = order.items?.reduce((acc, it) => acc + it.quantity, 0) || 0;
-
           return (
             <div
               key={order.id}
@@ -172,7 +172,7 @@ export function ProfileOrdersTab() {
                     {status.label}
                   </span>
                   <span className="text-sm font-black text-foreground">
-                    ${Number(order.totalAmount || 0).toFixed(2)}
+                    {formatPrice(order.totalAmount || 0)}
                   </span>
                 </div>
               </div>
@@ -193,18 +193,10 @@ export function ProfileOrdersTab() {
                       </span>
                     </div>
                     <span className="font-semibold text-foreground">
-                      ${Number(item.subtotal || item.price * item.quantity).toFixed(2)}
+                      {formatPrice(item.subtotal || item.price * item.quantity)}
                     </span>
                   </div>
                 ))}
-              </div>
-
-              {/* Footer row: Item count */}
-              <div className="mt-3 pt-2 border-t border-border/50 flex items-center justify-between text-[11px] text-muted-foreground">
-                <span>
-                  Total {totalItemsCount} {totalItemsCount === 1 ? 'item' : 'items'}
-                </span>
-                <span className="font-semibold text-primary">Standard Delivery</span>
               </div>
             </div>
           );

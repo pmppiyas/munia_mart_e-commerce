@@ -1,7 +1,8 @@
 'use client';
 
 import * as React from 'react';
-import { formatPrice, cn } from '@/lib/utils';
+import { useCurrency } from '@/hooks/useCurrency';
+import { cn } from '@/lib/utils';
 
 interface CartItemPriceProps {
   price: number;
@@ -16,6 +17,7 @@ export function CartItemPrice({
   originalPrice,
   className,
 }: CartItemPriceProps) {
+  const { formatPrice } = useCurrency();
   const lineTotal = price * quantity;
   const originalLineTotal = originalPrice ? originalPrice * quantity : undefined;
   const hasDiscount = originalLineTotal && originalLineTotal > lineTotal;

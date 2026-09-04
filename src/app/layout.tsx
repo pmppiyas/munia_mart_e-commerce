@@ -45,12 +45,11 @@ export const metadata: Metadata = {
   manifest: '/site.webmanifest',
   icons: {
     icon: [
-      { url: '/icon.svg', type: 'image/svg+xml' },
-      { url: '/og-image.png', type: 'image/png' },
       { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/og-image.png', type: 'image/png' },
     ],
-    shortcut: ['/icon.svg'],
-    apple: [{ url: '/apple-touch-icon.png', sizes: '512x512', type: 'image/png' }],
+    shortcut: ['/favicon.svg'],
+    apple: [{ url: '/og-image.png', sizes: '512x512', type: 'image/png' }],
   },
   openGraph: {
     type: 'website',
@@ -67,21 +66,15 @@ export const metadata: Metadata = {
         alt: `${siteConfig.name} Logo`,
         type: 'image/png',
       },
-      {
-        url: '/opengraph-image',
-        width: 1200,
-        height: 630,
-        alt: `${siteConfig.name} - ${siteConfig.tagline}`,
-      },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
+    card: 'summary',
     title: `${siteConfig.name} - ${siteConfig.tagline}`,
     description: siteConfig.description,
     site: '@muniamart',
     creator: '@muniamart',
-    images: ['/og-image.png', '/twitter-image'],
+    images: ['/og-image.png'],
   },
   robots: {
     index: true,
